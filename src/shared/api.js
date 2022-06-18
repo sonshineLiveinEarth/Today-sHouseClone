@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const token = localStorage.getItem("jwtToken");
+
 const api = axios.create({
   baseURL: "http://3.39.230.66",
   headers: {
@@ -8,28 +10,23 @@ const api = axios.create({
   },
 });
 
+// form data용
 const formApi = axios.create({
   baseURL: "http://3.39.230.66",
   headers: {
     "content-type": "multipart/form-data",
-    accept: "application/json,",
   },
 });
 
 api.interceptors.request.use(function (config) {
-  const token = localStorage.getItem("jwtToken");
   config.headers.common["Authorization"] = `Bearer ${token}`;
   return config;
 });
 
-// api.interceptors.request.use(function (config) {
-// 	const accessToken = document.cookie.split('=')[1];
-// 	config.headers.common['X-AUTH-TOKEN'] = `${accessToken}`;
-// 	return config;
-// });
-
-// 이미지 Api E따로 만들어서
-// "content-type": "multipart/form-data"
+formApi.interceptors.request.use(function (config) {
+  config.headers.common["Authorization"] = `Bearer ${token}`;
+  return config;
+});
 
 export const apis = {
   // post
@@ -57,15 +54,11 @@ export const apis = {
   //     passPassword: userPassword,
   //   }
   //   ),
-  signup: (nick, email, pwd, passwordChek, regGu, regDetail, ProfImage) =>
+  signup: (username, password, userNickname) =>
     api.post("/user/signup", {
-      userNickname: nick,
-      userEmail: email,
-      userPassword: pwd,
-      confirmPassword: passwordChek,
-      regionGu: regGu,
-      regionDetail: regDetail,
-      userProfileImage: ProfImage,
+      username: username,
+      password: password,
+      userNickname: userNickname,
     }),
 
   logout: () => api.post("/"),
