@@ -1,7 +1,7 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import axios from "axios";
-
+import { apis } from "../../shared/api";
 // Action
 const ADD_POST = "ADD_POST";
 
@@ -34,9 +34,8 @@ const initialState = {
 export const addPostDB = (formData) => {
   return async function (dispatch) {
     try {
-      //
-      // axios post
-      //
+      // await apis.addPost(formData);
+
       const postObj = {};
       for (let key of formData.keys()) {
         // console.log({ [key]: formData.get(key) });
