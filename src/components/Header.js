@@ -19,111 +19,47 @@ const Header = () => {
     else setShowModal(false);
   };
 
-  // 모달창 밖 클릭 시 모달 닫기
-  // const modalEl = useRef(); //
-  // const [isOpen, setOpen] = useState(false);
-
-  // const handleClickOutside = ({ target }) => {
-  //   if (isOpen && !modalEl.current.contains(target)) setOpen(false);
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener("click", handleClickOutside);
-  //   return () => {
-  //     window.removeEventListener("click", handleClickOutside);
-  //   };
-  // }, []);
-
-  // 스크롤에 따른 상단헤더 고정
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!scrolled && window.scrollY > 20) {
-        setScrolled(true);
-      } else if (scrolled && window.scrollY <= 20) {
-        setScrolled(false);
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [scrolled]);
-
   return (
     <>
-      {scrolled ? (
-        <HeaderContainerFix>
-          <div>
-            <img
-              src="/images/TextLogo.png"
-              alt="Logo"
-              height="30px"
-              onClick={() => navigate("/")}
-            />
+      <HeaderContainerFix>
+        <div>
+          <img
+            src="/images/TextLogo.png"
+            alt="Logo"
+            height="30px"
+            onClick={() => navigate("/")}
+          />
 
-            <nav>
-              {isLogin ? (
-                <img src="/images/Avatar.png" alt="avatar" height="40px" />
-              ) : (
-                <>
-                  <TextButton onClick={() => setIsLogin(true)}>
-                    로그인
-                  </TextButton>
-                  <TextButton>회원가입</TextButton>
-                </>
-              )}
+          <nav>
+            {isLogin ? (
+              <img src="/images/Avatar.png" alt="avatar" height="40px" />
+            ) : (
+              <>
+                <TextButton onClick={() => setIsLogin(true)}>로그인</TextButton>
+                <TextButton
+                  onClick={() => {
+                    navigate("/signup");
+                  }}
+                >
+                  회원가입
+                </TextButton>
+              </>
+            )}
 
-              <BlueButton onClick={() => navigate("/contents/new")}>
-                글쓰기 <Icon src={Arrow} />
-              </BlueButton>
-            </nav>
-          </div>
-        </HeaderContainerFix>
-      ) : (
-        <HeaderContainer>
-          <div>
-            <img
-              src="/images/TextLogo.png"
-              alt="Logo"
-              height="30px"
-              onClick={() => navigate("/")}
-            />
+            <BlueButton
+              onClick={() => {
+                openModal();
+              }}
+            >
+              글쓰기 <Icon src={Arrow} />
+            </BlueButton>
+          </nav>
+        </div>
+      </HeaderContainerFix>
 
-            <nav>
-              {isLogin ? (
-                <img src="/images/Avatar.png" alt="avatar" height="40px" />
-              ) : (
-                <>
-                  <TextButton onClick={() => setIsLogin(true)}>
-                    로그인
-                  </TextButton>
-                  <TextButton>회원가입</TextButton>
-                  <TextButton
-                    onClick={() => {
-                      navigate("/signup");
-                    }}
-                  >
-                    회원가입
-                  </TextButton>
-                </>
-              )}
-
-              <BlueButton
-                onClick={() => {
-                  openModal();
-                }}
-              >
-                글쓰기 <Icon src={Arrow} />
-              </BlueButton>
-            </nav>
-          </div>
-        </HeaderContainer>
-      )}
       {showModal && (
         <ModalContainer>
-          <WriteWrap>
+          <WriteWrap onClick={navigate("/contents/new")}>
             <ImageIcon src={ImgIcon} />
             <TextWrap>
               <WriteTitle>사진올리기</WriteTitle>
@@ -175,7 +111,6 @@ const Icon = styled.img`
 `;
 
 export const HeaderContainer = styled.header`
-const HeaderContainer = styled.header`
   height: 80px;
   margin: 0px auto;
   padding: 0 30px;
@@ -207,7 +142,7 @@ const ModalContainer = styled.div`
   position: fixed;
   right: 380px;
   padding: 8px;
-  top: 80px;
+  top: 70px;
   /* transform: translate(-50%, -50%); */
   width: 270px;
   background: white;
