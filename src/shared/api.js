@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "http://3.39.226.20",
+  baseURL: "http://3.39.230.66",
   headers: {
     "content-type": "application/json;charset=UTF-8",
     accept: "application/json,",
@@ -51,7 +51,7 @@ export const apis = {
   //   }
   //   ),
   signup: (nick, email, pwd, passwordChek, regGu, regDetail, ProfImage) =>
-    api.post("/api/signup", {
+    api.post("/user/signup", {
       userNickname: nick,
       userEmail: email,
       userPassword: pwd,
