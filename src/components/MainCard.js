@@ -23,7 +23,6 @@ const MainCard = ({ postObj }) => {
 };
 
 const CardWrap = styled.article`
-  /* height: 400px; */
   cursor: pointer;
 `;
 const CardHeader = styled.div`
@@ -37,6 +36,7 @@ const CardHeader = styled.div`
 
 const CardImg = styled.img`
   width: 100%;
+  height: 80%;
   object-fit: cover;
   border-radius: 6px;
 `;

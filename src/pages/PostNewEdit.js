@@ -79,7 +79,12 @@ const PostNewEdit = () => {
               height="30px"
               onClick={() => navigate("/")}
             />
-            <BlueButton type="submit">올리기</BlueButton>
+            <BlueButton
+              style={{ width: "130px", padding: "16px" }}
+              type="submit"
+            >
+              올리기
+            </BlueButton>
           </div>
         </HeaderContainer>
 
