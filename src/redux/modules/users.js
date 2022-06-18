@@ -31,7 +31,7 @@ const navigate = useNavigate;
 // Signup
 export const SignupDB = (username, password, userNickname) => {
   return function (dispatch, getState) {
-    console.log("가랏!");
+    console.log("회원가입 시도");
     apis
       .signup(username, password, userNickname)
       .then((res) => {

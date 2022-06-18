@@ -8,11 +8,11 @@ const api = axios.create({
   },
 });
 
-api.interceptors.request.use(function (config) {
-  const token = localStorage.getItem("jwtToken");
-  config.headers.common["Authorization"] = `Bearer ${token}`;
-  return config;
-});
+// api.interceptors.request.use(function (config) {
+//   const token = localStorage.getItem("jwtToken");
+//   config.headers.common["Authorization"] = `Bearer ${token}`;
+//   return config;
+// });
 
 // api.interceptors.request.use(function (config) {
 // 	const accessToken = document.cookie.split('=')[1];
@@ -50,15 +50,11 @@ export const apis = {
   //     passPassword: userPassword,
   //   }
   //   ),
-  signup: (nick, email, pwd, passwordChek, regGu, regDetail, ProfImage) =>
+  signup: (username, password, userNickname) =>
     api.post("/user/signup", {
-      userNickname: nick,
-      userEmail: email,
-      userPassword: pwd,
-      confirmPassword: passwordChek,
-      regionGu: regGu,
-      regionDetail: regDetail,
-      userProfileImage: ProfImage,
+      username: username,
+      password: password,
+      userNickname: userNickname,
     }),
 
   logout: () => api.post("/"),
