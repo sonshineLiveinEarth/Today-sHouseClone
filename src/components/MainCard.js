@@ -24,6 +24,9 @@ const MainCard = ({ postObj }) => {
 
 const CardWrap = styled.article`
   cursor: pointer;
+  &:hover {
+    opacity: 0.65;
+  }
 `;
 const CardHeader = styled.div`
   display: flex;

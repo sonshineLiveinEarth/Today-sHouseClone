@@ -7,7 +7,7 @@ import { addPostDB } from "../redux/modules/post";
 
 import { size, type, style, area } from "../shared/postOptions";
 import { HeaderContainer } from "../components/Header";
-import { BlueButton } from "../elements/Button";
+import { BigBlueButton } from "../elements/Button";
 import { Select } from "../elements/Select.js";
 import { Textarea } from "../elements/Textarea";
 
@@ -79,12 +79,7 @@ const PostNewEdit = () => {
               height="30px"
               onClick={() => navigate("/")}
             />
-            <BlueButton
-              style={{ width: "130px", padding: "16px" }}
-              type="submit"
-            >
-              올리기
-            </BlueButton>
+            <BigBlueButton type="submit">올리기</BigBlueButton>
           </div>
         </HeaderContainer>
 

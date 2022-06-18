@@ -25,3 +25,8 @@ export const BlueButton = styled.button`
     background-color: #10afea;
   }
 `;
+
+export const BigBlueButton = styled(BlueButton)`
+  width: 130px;
+  padding: 16px;
+`;
