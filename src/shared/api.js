@@ -32,9 +32,9 @@ api.interceptors.request.use(function (config) {
 // "content-type": "multipart/form-data"
 
 export const apis = {
-  // post"
+  // post
   loadPostList: () => api.get("/api/posts"),
-  loadpost: (id) => api.get(`/api/detail/${id}`),
+  loadPost: (id) => api.get(`/api/post/${id}`),
 
   addPost: (post) => formApi.post("/api/post", post),
   editPost: (id, contents) => formApi.post(`api/post/${id}`, contents),
