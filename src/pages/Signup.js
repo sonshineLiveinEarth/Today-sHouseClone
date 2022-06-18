@@ -63,7 +63,11 @@ const Signup = () => {
     <>
       <Background>
         <Wrap>
-          <ImgWrap>
+          <ImgWrap
+            onClick={() => {
+              navigate("/");
+            }}
+          >
             <LogoImg src={Logo} />
             <TLogoImg src={TextLogo} />
           </ImgWrap>
@@ -186,8 +190,9 @@ const ImgWrap = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   align-self: flex-start;
+  cursor: pointer;
 `;
 
 const LogoImg = styled.img`
