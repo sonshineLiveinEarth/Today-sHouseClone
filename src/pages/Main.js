@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import MainCard from "../components/MainCard";
 import Header from "../components/Header";
+import { getPostListDB } from "../redux/modules/post";
 
 const Main = () => {
+  const dispatch = useDispatch();
   const postList = useSelector((state) => state.post.postList);
+
+  // useEffect(() => {
+  //   dispatch(getPostListDB());
+  // }, [dispatch]);
 
   return (
     <>
