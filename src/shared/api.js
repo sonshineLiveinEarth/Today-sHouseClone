@@ -8,6 +8,14 @@ const api = axios.create({
   },
 });
 
+const formApi = axios.create({
+  baseURL: "http://3.39.230.66",
+  headers: {
+    "content-type": "multipart/form-data",
+    accept: "application/json,",
+  },
+});
+
 api.interceptors.request.use(function (config) {
   const token = localStorage.getItem("jwtToken");
   config.headers.common["Authorization"] = `Bearer ${token}`;
@@ -25,13 +33,12 @@ api.interceptors.request.use(function (config) {
 
 export const apis = {
   // post"
-  loadposts: () => api.get("/api/postList"),
+  loadPostList: () => api.get("/api/posts"),
   loadpost: (id) => api.get(`/api/detail/${id}`),
 
-  addpost: (post) => api.post("/api/write", post),
-  // edit: (id, contents) => api.put(`api/articles/${id}`, contents),
-
-  delpost: (id) => api.delete(`/api/post/${id}`),
+  addPost: (post) => formApi.post("/api/post", post),
+  editPost: (id, contents) => formApi.post(`api/post/${id}`, contents),
+  deletePost: (id) => api.delete(`/api/post/${id}`),
 
   // comment
   loadcomments: (id) => api.get(`/api/detail/${id}`),
