@@ -1,9 +1,16 @@
 import React from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const MainCard = ({ postObj }) => {
+  const navigate = useNavigate();
+
   return (
-    <CardWrap>
+    <CardWrap
+      onClick={() => {
+        navigate("/detail");
+      }}
+    >
       <CardHeader>
         <img src="/images/Avatar.png" alt="profile" height="36" />
         <span>{postObj.userNickname}</span>
