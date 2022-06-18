@@ -100,6 +100,13 @@ const Header = () => {
                     로그인
                   </TextButton>
                   <TextButton>회원가입</TextButton>
+                  <TextButton
+                    onClick={() => {
+                      navigate("/signup");
+                    }}
+                  >
+                    회원가입
+                  </TextButton>
                 </>
               )}
 
@@ -164,9 +171,11 @@ const Icon = styled.img`
   height: auto;
   padding-top: 2px;
   margin-left: 6px;
+  margin-left: 8px;
 `;
 
 export const HeaderContainer = styled.header`
+const HeaderContainer = styled.header`
   height: 80px;
   margin: 0px auto;
   padding: 0 30px;
