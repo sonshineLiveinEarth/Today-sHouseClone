@@ -1,11 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import Header from "../Header";
 
 const Detail = () => {
   return (
     <>
-      <Header />
       <Background>
         <Wrap>
           <Category>침실</Category>
