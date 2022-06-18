@@ -59,7 +59,11 @@ const Header = () => {
 
       {showModal && (
         <ModalContainer>
-          <WriteWrap onClick={navigate("/contents/new")}>
+          <WriteWrap
+            onClick={() => {
+              navigate("/contents/new");
+            }}
+          >
             <ImageIcon src={ImgIcon} />
             <TextWrap>
               <WriteTitle>사진올리기</WriteTitle>
