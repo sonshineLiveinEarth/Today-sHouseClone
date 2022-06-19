@@ -58,7 +58,7 @@ const Header = () => {
       </HeaderContainerFix>
 
       {showModal && (
-        <ModalContainer>
+        <ModalContainer showModal={showModal}>
           <WriteWrap
             onClick={() => {
               navigate("/contents/new");
@@ -66,7 +66,7 @@ const Header = () => {
           >
             <ImageIcon src={ImgIcon} />
             <TextWrap>
-              <WriteTitle>사진올리기</WriteTitle>
+              <WriteTitle>사진 올리기</WriteTitle>
               <WriteSub>우리 집의 공간과 나의 일상을 기록해 보세요.</WriteSub>
             </TextWrap>
           </WriteWrap>
@@ -144,7 +144,7 @@ const ModalContainer = styled.div`
   transform: none;
   transition: transform 0.2s ease 0s;
   position: fixed;
-  right: 380px;
+  right: 560px;
   padding: 8px;
   top: 70px;
   /* transform: translate(-50%, -50%); */
@@ -156,6 +156,12 @@ const ModalContainer = styled.div`
   border-radius: 6px;
   box-shadow: rgb(63 71 77 / 20%) 0px 4px 10px 0px;
   visibility: visible;
+  @media only screen and (max-width: 1700px) {
+    right: 440px;
+  }
+  @media only screen and (max-width: 1600px) {
+    right: 400px;
+  }
   @media only screen and (max-width: 1500px) {
     right: 330px;
   }
@@ -180,7 +186,47 @@ const ModalContainer = styled.div`
   @media only screen and (max-width: 800px) {
     width: 20rem;
     position: fixed;
-    right: 20px;
+    right: 10px;
+  }
+  /* 팝업이 열릴때 스르륵 열리는 효과 */
+  animation: ${(props) =>
+    props.showModal ? "modal-bg-show 0.3s" : "modal-bg-close 0.3s"};
+  @keyframes modal-show {
+    from {
+      opacity: 0;
+      margin-top: -50px;
+    }
+    to {
+      opacity: 1;
+      margin-top: 0;
+    }
+  }
+  @keyframes modal-bg-show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes modal-close {
+    from {
+      opacity: 1;
+      margin-top: 0;
+    }
+    to {
+      opacity: 0;
+      margin-top: -50px;
+    }
+  }
+  @keyframes modal-bg-close {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0;
+    }
   }
 `;
 
