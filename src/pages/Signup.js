@@ -54,10 +54,13 @@ const Signup = () => {
     setUserPasswordRe(e.target.value);
   };
 
-  const AddUser = (username, password, userNickname) => {
+  const AddUser = (
+    ) => {
     dispatch(SignupDB(username, password, userNickname));
     // navigate("/");
   };
+
+  console.log(username, password, userNickname);
 
   return (
     <>

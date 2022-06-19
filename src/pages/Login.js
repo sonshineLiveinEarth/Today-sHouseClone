@@ -1,20 +1,37 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { loginDB } from "../redux/modules/users";
+import { Dispatch } from "react";
+import jwt_decode from "jwt-decode";
+import { localStorageGet, localStorageSet } from "../shared/localStorage";
+
 // import "../App.css";
 
 //이미지
 import Logo from "../image/Logo.png";
 import TextLogo from "../image/TextLogo.png";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
   console.log(userEmail);
   console.log(userPassword);
+
+  const _loginUser = (userEmail, userPassword) => {
+    console.log("로그인 시도!");
+    if (userEmail === "" || userPassword === "") {
+      window.alert("빈칸을 다 채워주세요.");
+      return;
+    }
+    console.log(userEmail, userPassword);
+    dispatch(loginDB(userEmail, userPassword));
+  };
 
   return (
     <Background>
@@ -38,7 +55,13 @@ const Login = () => {
           type="password"
           autocomplete="off"
         />
-        <LoginBtn>로그인</LoginBtn>
+        <LoginBtn
+          onClick={() => {
+            _loginUser(userEmail, userPassword);
+          }}
+        >
+          로그인
+        </LoginBtn>
       </Wrap>
       <SignunBtn
         onClick={() => {
@@ -82,7 +105,7 @@ const TLogoImg = styled.img`
   margin-bottom: 30px;
   margin-left: 10px;
 `;
-const Wrap = styled.form``;
+const Wrap = styled.div``;
 
 const InputEM = styled.input`
   width: 270px;

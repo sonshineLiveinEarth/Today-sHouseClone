@@ -3,8 +3,8 @@ import axios from "axios";
 const formApi = axios.create({
   baseURL: "http://3.39.230.66",
   headers: {
-    "content-type": "multipart/form-data",
-    accept: "application/json,",
+    "content-type": "application/json",
+    accept: "application/json",
   },
 });
 
@@ -15,12 +15,10 @@ formApi.interceptors.request.use(function (config) {
 });
 
 // 이미지 Api 따로 만들기
-
 export const apis = {
   // post"
   loadPostList: () => formApi.get("/api/posts"),
   loadpost: (id) => formApi.get(`/api/detail/${id}`),
-
   addPost: (post) => formApi.post("/api/post", post),
   editPost: (id, contents) => formApi.post(`api/post/${id}`, contents),
   deletePost: (id) => formApi.delete(`/api/post/${id}`),
@@ -35,13 +33,8 @@ export const apis = {
 
   // user
   login: (id, pw) =>
-    formApi.post("/api/login", { userEmail: id, userPassword: pw }),
-  // login: (userEmail, userPassword) =>
-  //   api.post("/api/login", {
-  //     userEmail: userEmail,
-  //     passPassword: userPassword,
-  //   }
-  //   ),
+    formApi.post("/user/login", { username: id, password: pw }),
+
   signup: (username, password, userNickname) =>
     formApi.post("/user/signup", {
       username: username,

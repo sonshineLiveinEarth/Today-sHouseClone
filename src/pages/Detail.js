@@ -1,6 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+// js
 import Header from "../components/Header";
+import Comment from "../components/Comment";
+import Banner from "../components/Banner";
+import Footer from "../components/Footer";
 
 const Detail = () => {
   return (
@@ -14,12 +18,20 @@ const Detail = () => {
             여름맞이 침구 🤍 보기만 해도 시원해지는 기분 ➿
           </PostContent>
           <CoWrap>
-            <Label>댓글</Label>
-            <CommentNum>0</CommentNum>
+            <CoWrap>
+              <Label>조회</Label>
+              <ViewNum>342</ViewNum>
+            </CoWrap>
+            <CoWrap>
+              <Label>댓글</Label>
+              <CommentNum>0</CommentNum>
+            </CoWrap>
           </CoWrap>
-          <Hr />
         </Wrap>
+        <Comment />
+        <Banner />
       </Background>
+      <Footer />
     </>
   );
 };
@@ -30,23 +42,31 @@ const Background = styled.div`
   background-color: white;
   font-family: "Noto Sans KR", "Apple SD Gothic Neo", "맑은 고딕",
     "Malgun Gothic", sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  grid-template-columns: 1fr 720px 1fr;
   justify-content: center;
-  text-align: left;
+  flex-flow: wrap;
+  grid-gap: 0px;
+  @media only screen and (max-width: 768px) {
+    grid-template-columns: 1fr;
+  } ;
 `;
 
 const Wrap = styled.div`
-  max-width: 720px;
-  width: 100%;
-  padding: 60px 0px;
-  height: 100vh;
+  padding: 100px 0px 0px 0px;
+  height: auto;
   font-family: "Noto Sans KR", "Apple SD Gothic Neo", "맑은 고딕",
     "Malgun Gothic", sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 10px;
+  grid-column: 2 / 3;
+  grid-row: 1 / 2;
+  @media only screen and (max-width: 768px) {
+    grid-column: 1 / 2;
+    padding: 100px 16px 0px 16px;
+  }
 `;
 
 const Category = styled.span`
@@ -63,10 +83,11 @@ const Category = styled.span`
 //   padding-bottom: 177.778%;
 // `;
 
-// const PostImage = styled.img`
+// const PostImage = styled.div`
 //   max-width: 600px;
 //   width: 100%;
 //   position: absolute;
+//   background-color: #ddd;
 //   top: 50%;
 //   left: 50%;
 //   transform: translate(-50%, -50%);
@@ -80,6 +101,10 @@ const PostImage = styled.div`
   background-image: url(https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/164422528068537909.jpeg?gif=1&w=1080);
   background-position: center 30%;
   background-size: cover;
+  @media only screen and (max-width: 768px) {
+    padding: 16px;
+    padding-bottom: 100%;
+  }
 `;
 
 const PostContent = styled.span`
@@ -109,6 +134,16 @@ const Label = styled.span`
   margin-bottom: 10px;
 `;
 
+const ViewNum = styled.span`
+  font-size: 14px;
+  line-height: 32px;
+  color: #424242;
+  align-self: flex-start;
+  margin-bottom: 10px;
+  margin-left: 4px;
+  margin-right: 10px;
+`;
+
 const CommentNum = styled.span`
   font-size: 14px;
   line-height: 32px;
@@ -116,13 +151,6 @@ const CommentNum = styled.span`
   align-self: flex-start;
   margin-bottom: 10px;
   margin-left: 4px;
-`;
-
-const Hr = styled.hr`
-  width: 100%;
-  height: 1px;
-  border: none;
-  background-color: rgb(234, 237, 239);
 `;
 
 export default Detail;
