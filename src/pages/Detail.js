@@ -14,7 +14,9 @@ import Banner from "../components/Banner";
 import Footer from "../components/Footer";
 
 const Detail = () => {
-  // const post_list = useSelector((state) => state.comment.list);
+  const post_list = useSelector((state) => state.post.postList);
+  const post = post_list?.post?.data?.body;
+  console.log(post);
   // console.log(post_list);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -42,6 +44,7 @@ const Detail = () => {
   React.useEffect(() => {
     dispatch(getPostDB(params.id));
   }, []);
+  console.log(post_list);
 
   return (
     <>
@@ -53,7 +56,22 @@ const Detail = () => {
               openModal();
             }}
           >
-            <Category>침실</Category>
+            <CategoryWrap>
+              {post !== undefined && post.size && (
+                <>
+                  <Category>{post.size}</Category> <HrS />
+                </>
+              )}
+              {post !== undefined && post.style && (
+                <>
+                  <Category>{post.style}</Category> <HrS />
+                </>
+              )}
+              {post !== undefined && post.type && (
+                <Category>{post.type}</Category>
+              )}
+            </CategoryWrap>
+
             <SettingWrap>
               <Setting />
               <Setting />
@@ -67,25 +85,31 @@ const Detail = () => {
             </ModalContainer>
           )}
 
-          <PostImage showModal={showModal} />
-          <PostContent>
-            여름맞이 침구 🤍 보기만 해도 시원해지는 기분 ➿
-          </PostContent>
+          <PostImage url={post?.imageUrl} showModal={showModal} />
+          <PostContent>{post?.content}</PostContent>
           <CoWrap>
             <CoWrap>
               <Label>조회</Label>
-              <ViewNum>342</ViewNum>
+              <ViewNum>{post?.viewCnt}</ViewNum>
             </CoWrap>
             <CoWrap>
               <Label>댓글</Label>
-              <CommentNum>0</CommentNum>
+              <CommentNum>{post?.commentCnt}</CommentNum>
             </CoWrap>
           </CoWrap>
         </Wrap>
         <Comment />
-        <Banner />
+        <Banner
+          commentCnt={post?.commentCnt}
+          bookmarkCnt={post?.bookmarkCnt}
+          heartCnt={post?.bookmarkCnt}
+        />
       </Background>
-      <Footer />
+      <Footer
+        commentCnt={post?.commentCnt}
+        bookmarkCnt={post?.bookmarkCnt}
+        heartCnt={post?.bookmarkCnt}
+      />
     </>
   );
 };
@@ -133,12 +157,26 @@ const TopWrap = styled.div`
   margin-bottom: 10px;
 `;
 
+const CategoryWrap = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
 const Category = styled.span`
   font-size: 14px;
   line-height: 32px;
   color: #bbb;
   align-self: flex-start;
-  margin-bottom: 10px;
+  margin-right: 4px;
+`;
+
+const HrS = styled.hr`
+  width: 0px;
+  height: 14px;
+  border: 1px solid #eee;
+  margin: 2px 6px 0px 4px;
 `;
 
 const SettingWrap = styled.div`
@@ -279,8 +317,8 @@ const PostImage = styled.div`
   max-width: 720px;
   width: 100%;
   padding-bottom: 100%;
-  /* background-image: url(${(props) => props.profileImage}); */
-  background-image: url(https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/164422528068537909.jpeg?gif=1&w=1080);
+  background-image: url(${(props) => props.url});
+  /* background-image: url(https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/164422528068537909.jpeg?gif=1&w=1080); */
   background-position: center 30%;
   background-size: cover;
   position: ${(props) => (props.showModal ? "relative" : "static")};
