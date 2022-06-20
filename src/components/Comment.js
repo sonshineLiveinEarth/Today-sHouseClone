@@ -1,10 +1,81 @@
 import React from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import {
+  getCommentListDB,
+  addCommentDB,
+  deleteCommentDB,
+} from "../redux/modules/comment";
+
 //이미지
 import Profile from "../image/Profile.png";
 import Heart from "../image/Heart.png";
 
 const Comment = () => {
+  // const comment_list = useSelector((state) => state.comment.list);
+  // console.log(comment_list);
+  const dispatch = useDispatch();
+  const params = useParams();
+  console.log(params.id);
+  const commentText = React.useRef("");
+
+  //포스팅 작성한 시간 커스텀하기
+  const now = new Date();
+  const Day = now.getDate();
+  const month = Number(now.getMonth() + 1);
+  const year = now.getFullYear();
+  const yearSub = year.toString().substr(2, 4);
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const postTime = hours + ":" + minutes;
+
+  const postDay = yearSub + "." + month + "." + Day + " " + postTime;
+
+  // 댓글 달린 시간표시
+  const today = new Date();
+  const timeValue = new Date(today);
+  console.log(today, typeof today);
+
+  const betweenTime = Math.floor(
+    (today.getTime() - timeValue.getTime()) / 1000 / 60
+  );
+  if (betweenTime < 1) console.log("방금전");
+  if (betweenTime < 60) {
+    console.log(`${betweenTime}분전`);
+  }
+
+  const betweenTimeHour = Math.floor(betweenTime / 60);
+  if (betweenTimeHour < 24) {
+    console.log(`${betweenTimeHour}시간전`);
+  }
+
+  const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+  if (betweenTimeDay < 365) {
+    console.log(`${betweenTimeDay}일전`);
+  }
+
+  React.useEffect(() => {
+    dispatch(getCommentListDB(params.id));
+  }, []);
+
+  // 댓글 추가
+  const addComment = () => {
+    if (commentText.current.value === "") {
+      window.alert("댓글을 작성해주세요!");
+    } else {
+      // api에 데이터 추가하기!
+      dispatch(
+        addCommentDB({
+          postId: params.id,
+          comment: commentText.current.value,
+        })
+      );
+    }
+  };
+  console.log(commentText.current.value);
+
   return (
     <>
       <Wrap id="1">
@@ -13,8 +84,18 @@ const Comment = () => {
         <CommentNum>1</CommentNum>
         <InputWrap>
           <UserProfile src={Profile} alt="userProfile" />
-          <CommentInput placeholder="칭찬과 격려의 댓글은 작성자에게 큰 힘이 됩니다 :)" />
-          <CommentBtn type="button" value="입력" />
+          <CommentInput
+            ref={commentText}
+            placeholder="칭찬과 격려의 댓글은 작성자에게 큰 힘이 됩니다 :)"
+          />
+          <CommentBtn
+            onClick={() => {
+              addComment();
+              // navigate(0);
+            }}
+            type="button"
+            value="입력"
+          />
         </InputWrap>
         <CommentBox>
           <UserProfile src={Profile} alt="userProfile" />
@@ -27,6 +108,20 @@ const Comment = () => {
               <Like>좋아요</Like>
               <Point />
               <Re>답글 달기</Re>
+              <Point />
+              <Re
+                onClick={() => {
+                  const result = window.confirm(
+                    "댓글을 삭제하시겠습니까? 삭제한 댓글은 되돌릴 수 없습니다."
+                  );
+                  if (result) {
+                    dispatch(deleteCommentDB(params.id));
+                    // navigate("/");
+                  }
+                }}
+              >
+                삭제
+              </Re>
             </Info>
           </CommentInfo>
         </CommentBox>
@@ -101,9 +196,11 @@ const CommentInput = styled.input`
   border-radius: 4px;
   padding: 0px 16px;
   margin-right: 20px;
+  font-size: 16px;
   &::placeholder {
     color: rgb(194, 200, 204);
     display: block;
+    font-size: 16px;
   }
 `;
 

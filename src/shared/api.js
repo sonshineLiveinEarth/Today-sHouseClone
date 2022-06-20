@@ -31,22 +31,22 @@ formApi.interceptors.request.use(function (config) {
 export const apis = {
   // post
   loadPostList: () => api.get("/api/posts"),
-  loadPost: (id) => api.get(`/api/post/${id}`),
+  loadPost: (postId) => api.get(`/api/post/${postId}`),
 
   addPost: (post) => formApi.post("/api/post", post),
   editPost: (id, post) => formApi.post(`api/post/${id}`, post),
   deletePost: (id) => api.delete(`/api/post/${id}`),
 
   // comment
-  loadcomments: (id) => api.get(`/api/detail/${id}`),
+  loadCommentList: (postId) => api.get(`/api/comment/${postId}`),
   createComment: (comment) =>
-    api.post(`/api/detail/${comment.postId}`, { ...comment }),
-  delComment: (id) => api.delete(`/api/comment/${id}`),
-  // editComment: (id, coId, content) =>
-  // 	api.put(`/api/articles/${id}/comments/${coId}`, { content }),
+    api.post(`/api/comment/${comment.postId}`, { comment: comment.comment }),
+  deleteComment: (id) => api.delete(`/api/comment/${id}`),
 
   // user
   login: (id, pw) => api.post("/user/login", { username: id, password: pw }),
+  nicknameCheck: (userNickname) =>
+    api.get(`/api/user/nicknameCheck/${userNickname}`, { userNickname }),
 
   signup: (username, password, userNickname) =>
     api.post("/user/signup", {

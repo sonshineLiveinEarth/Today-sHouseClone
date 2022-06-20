@@ -134,6 +134,7 @@ const ModalContainer = styled.div`
   border-radius: 6px;
   box-shadow: rgb(63 71 77 / 20%) 0px 4px 10px 0px;
   visibility: visible;
+  z-index: 20;
   @media only screen and (max-width: 1700px) {
     right: 440px;
   }
