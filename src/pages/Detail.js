@@ -1,18 +1,20 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+
+import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getPostDB } from "../redux/modules/post";
 
 // js
+import { deletePostDB } from "../redux/modules/post";
 import Header from "../components/Header";
 import Comment from "../components/Comment";
 import Banner from "../components/Banner";
 import Footer from "../components/Footer";
 
 const Detail = () => {
+
   // const post_list = useSelector((state) => state.comment.list);
   // console.log(post_list);
   const dispatch = useDispatch();
@@ -26,9 +28,22 @@ const Detail = () => {
     else setShowModal(false);
   };
 
+  const onClickEdit = () => {
+    navigate("/contents/edit/" + params.id);
+  };
+
+  const onClickDelete = () => {
+    const yes = window.confirm("정말로 삭제하시겠습니까?");
+    if (yes) {
+      dispatch(deletePostDB(id));
+      navigate("/");
+    }
+  };
+
   React.useEffect(() => {
     dispatch(getPostDB(params.id));
   }, []);
+
 
   return (
     <>
@@ -49,8 +64,8 @@ const Detail = () => {
           </TopWrap>
           {showModal && (
             <ModalContainer showModal={showModal}>
-              <WriteTitle>수정하기</WriteTitle>
-              <Delete>삭제하기</Delete>
+              <WriteTitle onClick={onClickEdit}>수정하기</WriteTitle>
+              <Delete onClick={onClickDelete}>삭제하기</Delete>
             </ModalContainer>
           )}
 
