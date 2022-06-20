@@ -9,10 +9,11 @@ import { getPostListDB } from "../redux/modules/post";
 const Main = () => {
   const dispatch = useDispatch();
   const postList = useSelector((state) => state.post.postList);
+  // console.log(postList);
 
-  // useEffect(() => {
-  //   dispatch(getPostListDB());
-  // }, [dispatch]);
+  useEffect(() => {
+    dispatch(getPostListDB());
+  }, [dispatch]);
 
   return (
     <>
