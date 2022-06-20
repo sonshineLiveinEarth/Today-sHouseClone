@@ -38,12 +38,10 @@ export const apis = {
   deletePost: (id) => api.delete(`/api/post/${id}`),
 
   // comment
-  loadcomments: (id) => api.get(`/api/detail/${id}`),
-  createComment: (comment) =>
-    api.post(`/api/detail/${comment.postId}`, { ...comment }),
-  delComment: (id) => api.delete(`/api/comment/${id}`),
-  // editComment: (id, coId, content) =>
-  // 	api.put(`/api/articles/${id}/comments/${coId}`, { content }),
+  loadCommentList: (postId) => api.get(`/api/comment/${postId}`),
+  createComment: (postId, comment) =>
+    api.post(`/api/comment/${postId}`, { ...comment }),
+  deleteComment: (id) => api.delete(`/api/comment/${id}`),
 
   // user
   login: (id, pw) => api.post("/user/login", { username: id, password: pw }),

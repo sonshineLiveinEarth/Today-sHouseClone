@@ -5,6 +5,41 @@ import Profile from "../image/Profile.png";
 import Heart from "../image/Heart.png";
 
 const Comment = () => {
+  //포스팅 작성한 시간 커스텀하기
+  const now = new Date();
+  const Day = now.getDate();
+  const month = Number(now.getMonth() + 1);
+  const year = now.getFullYear();
+  const yearSub = year.toString().substr(2, 4);
+  const hours = now.getHours();
+  const minutes = now.getMinutes();
+  const postTime = hours + ":" + minutes;
+
+  const postDay = yearSub + "." + month + "." + Day + " " + postTime;
+
+  // 댓글 달린 시간표시
+  const today = new Date();
+  const timeValue = new Date(today);
+  console.log(today, typeof today);
+
+  const betweenTime = Math.floor(
+    (today.getTime() - timeValue.getTime()) / 1000 / 60
+  );
+  if (betweenTime < 1) console.log("방금전");
+  if (betweenTime < 60) {
+    console.log(`${betweenTime}분전`);
+  }
+
+  const betweenTimeHour = Math.floor(betweenTime / 60);
+  if (betweenTimeHour < 24) {
+    console.log(`${betweenTimeHour}시간전`);
+  }
+
+  const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+  if (betweenTimeDay < 365) {
+    console.log(`${betweenTimeDay}일전`);
+  }
+
   return (
     <>
       <Wrap id="1">
