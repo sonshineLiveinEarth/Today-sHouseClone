@@ -10,8 +10,13 @@ import Logo from "../image/Logo.png";
 import TextLogo from "../image/TextLogo.png";
 
 const Signup = () => {
+  const Nickname = useSelector((state) => state.users.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  React.useEffect(() => {
+    dispatch(NicknameDB());
+  }, []);
 
   // 회원정보
   const [email, setEmail] = useState("");
@@ -56,18 +61,24 @@ const Signup = () => {
   };
 
   // 닉네임 유효성 체크
+  const [nickNameErr, setNickNameErr] = useState(false);
+
   const NicknameCheck = (e) => {
-    // if (e.target.value === password) setUserNickname(false);
-    //  setUserNickname(true);
-    // setUserNickname(e.target.value);
     dispatch(NicknameDB(e.target.value));
     setUserNickname(e.target.value);
   };
 
+  console.log(nickNameErr);
+  console.log(Nickname);
+
   // 회원가입 요청
   const AddUser = () => {
     dispatch(SignupDB(username, password, userNickname));
-    navigate("/");
+    if (Nickname?.response?.status === 400) {
+      setNickNameErr(true);
+    } else if (Nickname?.response?.data === "닉네임이 중복되었습니다.")
+      setNickNameErr(true);
+    else setNickNameErr(false);
   };
 
   console.log(username, password, userNickname);
@@ -150,20 +161,36 @@ const Signup = () => {
             )}
           </PWWrap>
           <PWWrap>
-            <Label>닉네임</Label>
+            <LabelN nickNameErr={nickNameErr}>닉네임</LabelN>
             <Info>다른 유저와 겹치지 않는 별명을 입력해주세요. (2~15자)</Info>
             <Input
               onChange={(e) => {
                 NicknameCheck(e);
+                // onChangeNickName(e);
               }}
               placeholder="별명 (2~15자)"
+              nickNameErr={nickNameErr}
             />
+            {nickNameErr && (
+              <PasswordErr>
+                이미 사용 중인 별명입니다. 변경 후 다시 시도해주세요.
+              </PasswordErr>
+            )}
           </PWWrap>
           <SignUpBtn
             onClick={() => {
-              // navigate("/");
               AddUser(username, password, userNickname);
+              // navigate("/");
             }}
+            disabled={
+              !username ||
+              !password ||
+              !userPasswordRe ||
+              userIdError ||
+              passwordReErr
+                ? true
+                : false
+            }
           >
             회원가입하기
           </SignUpBtn>
@@ -300,6 +327,19 @@ const Label = styled.label`
   font-size: 15px;
   font-weight: bold;
   color: rgb(41, 41, 41);
+  line-height: 21px;
+  word-break: keep-all;
+  align-self: flex-start;
+`;
+
+const LabelN = styled.label`
+  display: block;
+  margin: 0px 0px 12px;
+  font-size: 15px;
+  font-weight: bold;
+  color: rgb(
+    ${(props) => (props.nickNameErr ? "255, 119, 119" : "41, 41, 41")}
+  );
   line-height: 21px;
   word-break: keep-all;
   align-self: flex-start;
@@ -448,7 +488,9 @@ const Input = styled.input`
   resize: none;
   border-width: 1px;
   border-style: solid;
-  border-color: rgb(219, 219, 219);
+  border-color: rgb(
+    ${(props) => (props.nickNameErr ? "255, 119, 119" : "219, 219, 219")}
+  );
   box-sizing: border-box;
   &::placeholder {
     color: rgb(219, 219, 219);
@@ -457,7 +499,8 @@ const Input = styled.input`
     width: 95%;
   }
   &:focus {
-    border: 2px solid #9fe9ff;
+    border: 2px solid
+      rgb(${(props) => (props.nickNameErr ? "255, 119, 119" : "159, 233, 255")});
     outline: none;
   }
 `;
@@ -525,6 +568,9 @@ const SignUpBtn = styled.button`
     margin-left: -14px;
   }
   &:hover {
+    background-color: #2badd3;
+  }
+  &:disabled {
     background-color: #2badd3;
   }
 `;

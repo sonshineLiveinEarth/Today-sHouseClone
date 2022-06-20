@@ -15,10 +15,14 @@ const LOG_OUT = "LOG_OUT";
 
 // action creators
 const getUser = createAction(GET_USER, (user) => ({ user }));
-const getNickname = createAction(GET_NICKNAME, (user) => ({ user }));
+
 const setUser = createAction(SET_USER, (user) => ({ user }));
 const userInfo = createAction(GET_USER, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
+
+export const getNickname = (data) => {
+  return { type: GET_NICKNAME, data };
+};
 
 // initialState
 const initialState = {
@@ -41,6 +45,7 @@ export const SignupDB = (username, password, userNickname) => {
       })
       .catch((err) => {
         console.log("회원가입 실패", err);
+        dispatch(getNickname(err));
       });
   };
 };
@@ -105,6 +110,7 @@ export const NicknameDB = (nickname) => {
       dispatch(getNickname(data));
     } catch (e) {
       console.log(`닉네임 전달 오류 발생!${e}`);
+      dispatch(getNickname(e));
     }
   };
 };
@@ -142,6 +148,10 @@ export default handleActions(
         console.log("리듀서로 적용 완료", state, action.payload);
       }),
     [GET_USER]: (state, action) => produce(state, (draft) => {}),
+    [GET_NICKNAME]: (state, action) =>
+      produce(state, (draft) => {
+        return { user: action.data };
+      }),
   },
   initialState
 );
