@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 // js
 import Header from "../components/Header";
@@ -8,13 +9,40 @@ import Banner from "../components/Banner";
 import Footer from "../components/Footer";
 
 const Detail = () => {
+  const navigate = useNavigate();
+  // 수정&삭제 모달창 띄우기
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    if (!showModal) setShowModal(true);
+    else setShowModal(false);
+  };
+
   return (
     <>
       <Header />
       <Background>
         <Wrap>
-          <Category>침실</Category>
-          <PostImage />
+          <TopWrap
+            onClick={() => {
+              openModal();
+            }}
+          >
+            <Category>침실</Category>
+            <SettingWrap>
+              <Setting />
+              <Setting />
+              <Setting />
+            </SettingWrap>
+          </TopWrap>
+          {showModal && (
+            <ModalContainer showModal={showModal}>
+              <WriteTitle>수정하기</WriteTitle>
+              <Delete>삭제하기</Delete>
+            </ModalContainer>
+          )}
+
+          <PostImage showModal={showModal} />
           <PostContent>
             여름맞이 침구 🤍 보기만 해도 시원해지는 기분 ➿
           </PostContent>
@@ -64,10 +92,20 @@ const Wrap = styled.div`
   margin-bottom: 10px;
   grid-column: 2 / 3;
   grid-row: 1 / 2;
+
   @media only screen and (max-width: 768px) {
     grid-column: 1 / 2;
     padding: 100px 16px 0px 16px;
   }
+`;
+
+const TopWrap = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
 `;
 
 const Category = styled.span`
@@ -76,6 +114,124 @@ const Category = styled.span`
   color: #bbb;
   align-self: flex-start;
   margin-bottom: 10px;
+`;
+
+const SettingWrap = styled.div`
+  width: auto;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+const Setting = styled.div`
+  width: 4px;
+  height: 4px;
+  background-color: #424242;
+  border: none;
+  border-radius: 100%;
+  margin-right: 4px;
+`;
+
+const ModalContainer = styled.div`
+  z-index: 5;
+  position: absolute;
+  transform: none;
+  transition: transform 0.2s ease 0s;
+  color: #424242;
+  position: absolute;
+  padding: 0px 8px;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(218, 221, 224);
+  border-radius: 6px;
+  box-shadow: rgb(63 71 77 / 20%) 0px 4px 10px 0px;
+  width: 120px;
+  transform: none;
+  transition: transform 0.2s ease 0s;
+  font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
+  margin-left: 32%;
+  cursor: pointer;
+  @media only screen and (max-width: 1700px) {
+    margin-left: 36%;
+  }
+  @media only screen and (max-width: 1600px) {
+    margin-left: 40%;
+  }
+  @media only screen and (max-width: 1500px) {
+    right: 330px;
+  }
+  @media only screen and (max-width: 1400px) {
+    right: 280px;
+  }
+  @media only screen and (max-width: 1300px) {
+    right: 240px;
+  }
+  @media only screen and (max-width: 1200px) {
+    right: 200px;
+  }
+  @media only screen and (max-width: 1100px) {
+    right: 140px;
+  }
+  @media only screen and (max-width: 1000px) {
+    right: 100px;
+  }
+  @media only screen and (max-width: 900px) {
+    right: 60px;
+  }
+  @media only screen and (max-width: 800px) {
+    right: 10px;
+  }
+  /* 팝업이 열릴때 스르륵 열리는 효과 */
+  animation: modal-bg-show 0.3s;
+  @keyframes modal-show {
+    from {
+      opacity: 0;
+      margin-top: -50px;
+    }
+    to {
+      opacity: 1;
+      margin-top: 0;
+    }
+  }
+  @keyframes modal-bg-show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+`;
+
+const WriteTitle = styled.span`
+  padding: 16px;
+  height: 20px;
+  width: 104px;
+  color: rgb(47, 52, 56);
+  line-height: 20px;
+  transition: background-color 0.2s ease-in-out 0s;
+  margin: 0px -8px;
+  cursor: pointer;
+  &:hover {
+    background-color: #f4f4f4;
+  }
+`;
+
+const Delete = styled.span`
+  padding: 16px;
+  height: 20px;
+  width: 104px;
+  color: rgb(255, 119, 119);
+  line-height: 20px;
+  transition: background-color 0.2s ease-in-out 0s;
+  margin: 0px -8px;
+  cursor: pointer;
+  &:hover {
+    background-color: #f4f4f4;
+  }
 `;
 
 // const ImgWrap = styled.div`
@@ -102,6 +258,7 @@ const PostImage = styled.div`
   background-image: url(https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/164422528068537909.jpeg?gif=1&w=1080);
   background-position: center 30%;
   background-size: cover;
+  position: ${(props) => (props.showModal ? "relative" : "static")};
   @media only screen and (max-width: 768px) {
     padding: 16px;
     padding-bottom: 100%;
