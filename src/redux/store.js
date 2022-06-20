@@ -2,6 +2,7 @@ import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
 import post from "./modules/post";
 import users from "./modules/users";
+import comment from "./modules/comment";
 import { createBrowserHistory } from "history";
 
 export const history = createBrowserHistory();
@@ -10,6 +11,7 @@ export const history = createBrowserHistory();
 const rootReducer = combineReducers({
   users: users,
   post,
+  comment,
 });
 
 // 미들웨어들을 모아두는 곳

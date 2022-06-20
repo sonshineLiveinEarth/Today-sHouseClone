@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { getPostDB } from "../redux/modules/post";
 
 // js
 import Header from "../components/Header";
@@ -9,7 +13,11 @@ import Banner from "../components/Banner";
 import Footer from "../components/Footer";
 
 const Detail = () => {
+  // const post_list = useSelector((state) => state.comment.list);
+  // console.log(post_list);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const params = useParams();
   // 수정&삭제 모달창 띄우기
   const [showModal, setShowModal] = useState(false);
 
@@ -17,6 +25,10 @@ const Detail = () => {
     if (!showModal) setShowModal(true);
     else setShowModal(false);
   };
+
+  React.useEffect(() => {
+    dispatch(getPostDB(params.id));
+  }, []);
 
   return (
     <>

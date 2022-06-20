@@ -31,7 +31,7 @@ formApi.interceptors.request.use(function (config) {
 export const apis = {
   // post
   loadPostList: () => api.get("/api/posts"),
-  loadPost: (id) => api.get(`/api/post/${id}`),
+  loadPost: (postId) => api.get(`/api/post/${postId}`),
 
   addPost: (post) => formApi.post("/api/post", post),
   editPost: (id, post) => formApi.post(`api/post/${id}`, post),
@@ -39,12 +39,14 @@ export const apis = {
 
   // comment
   loadCommentList: (postId) => api.get(`/api/comment/${postId}`),
-  createComment: (postId, comment) =>
-    api.post(`/api/comment/${postId}`, { ...comment }),
+  createComment: (comment) =>
+    api.post(`/api/comment/${comment.postId}`, { comment: comment.comment }),
   deleteComment: (id) => api.delete(`/api/comment/${id}`),
 
   // user
   login: (id, pw) => api.post("/user/login", { username: id, password: pw }),
+  nicknameCheck: (userNickname) =>
+    api.get(`/api/user/nicknameCheck/${userNickname}`, { userNickname }),
 
   signup: (username, password, userNickname) =>
     api.post("/user/signup", {
