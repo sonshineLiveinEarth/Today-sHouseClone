@@ -67,7 +67,7 @@ const Signup = () => {
   // 회원가입 요청
   const AddUser = () => {
     dispatch(SignupDB(username, password, userNickname));
-    // navigate("/");
+    navigate("/");
   };
 
   console.log(username, password, userNickname);

@@ -63,6 +63,7 @@ export const addCommentDB = (comment) => async (dispatch) => {
 
 // 게시물 삭제
 export const deleteCommentDB = (id) => {
+  console.log(id);
   return async function (dispatch) {
     try {
       console.log("댓글을 삭제할거야!");
@@ -82,15 +83,36 @@ export default handleActions(
       produce(state, (draft) => {
         draft.list = payload;
       }),
-    [ADD_COMMENT]: (state, { payload }) =>
-      produce(state, (draft) => {
-        console.log(payload);
-        draft.list.unshift(payload.post);
-      }),
-    [DELETE_COMMENT]: (state, { payload }) =>
-      produce(state, (draft) => {
-        draft.list = draft.list.filter((post) => post.id !== payload.id);
-      }),
+    // [ADD_COMMENT]: (state, { payload }) =>
+    //   produce(state, (draft) => {
+    //     console.log(state.list.postList.data);
+    //     console.log(draft);
+    //     draft.list.unshift(state.list.postList.data);
+    //   }),
+
+    [ADD_COMMENT]: (state, action) => {
+      console.log(action);
+      console.log(state.list.postList.data);
+      return {
+        ...state,
+        comments: state.list.postList.data,
+      };
+    },
+
+    [DELETE_COMMENT]: (state, action) => {
+      console.log(state);
+      return {
+        ...state,
+        comments: state.comments.filter(
+          (comment) => comment.id !== action.payload.coId
+        ),
+      };
+    },
+
+    // [DELETE_COMMENT]: (state, { payload }) =>
+    //   produce(state, (draft) => {
+    //     draft.list = draft.list.filter((post) => post.id !== payload.id);
+    //   }),
   },
   initialState
 );

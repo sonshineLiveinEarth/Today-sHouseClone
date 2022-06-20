@@ -9,6 +9,7 @@ import Detail from "./pages/Detail";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import NotFound from "./components/NotFound";
+import Mypage from "./pages/Mypage";
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route path="/detail/:id" element={<Detail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/users" element={<Mypage />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>
     </>

@@ -26,7 +26,7 @@ const initialState = {
 };
 
 // //navigate
-// const navigate = useNavigate;
+const navigate = useNavigate;
 
 //미들웨어
 // Signup
@@ -37,8 +37,7 @@ export const SignupDB = (username, password, userNickname) => {
       .signup(username, password, userNickname)
       .then((res) => {
         console.log(res);
-        alert(res.data.result);
-        console.log(res);
+        navigate("/");
       })
       .catch((err) => {
         console.log("회원가입 실패", err);
@@ -54,10 +53,12 @@ export const loginDB = (username, password) => {
     apis
       .login(username, password)
       .then((res) => {
+        console.log(res);
         const token = res.headers.authorization;
         const DecodedToken = jwt_decode(token);
         console.log(DecodedToken);
         localStorage.setItem("jwtToken", token);
+        navigate("/");
         dispatch(
           setUser({
             username: username,
@@ -103,7 +104,7 @@ export const NicknameDB = (nickname) => {
       console.log(data);
       dispatch(getNickname(data));
     } catch (e) {
-      console.log(`유저정보 조회 오류 발생!${e}`);
+      console.log(`닉네임 전달 오류 발생!${e}`);
     }
   };
 };

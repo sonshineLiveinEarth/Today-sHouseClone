@@ -91,7 +91,7 @@ const Header = () => {
           <Div>
             <MypageTitle
               onClick={() => {
-                // navigate("/");
+                navigate("/users");
               }}
             >
               마이페이지
@@ -253,34 +253,24 @@ const ModalMyPageContainer = styled.div`
   z-index: 20;
   padding: 8px;
   width: 184px;
-  right: 360px;
+  right: 140px;
   @media only screen and (max-width: 1700px) {
     right: 200px;
   }
   @media only screen and (max-width: 1600px) {
-    right: 400px;
+    right: 160px;
   }
-  @media only screen and (max-width: 1500px) {
-    right: 330px;
-  }
-  @media only screen and (max-width: 1400px) {
-    right: 280px;
-  }
+
   @media only screen and (max-width: 1300px) {
-    right: 240px;
+    right: 110px;
   }
   @media only screen and (max-width: 1200px) {
-    right: 200px;
+    right: 300px;
   }
   @media only screen and (max-width: 1100px) {
-    right: 140px;
+    right: 100px;
   }
-  @media only screen and (max-width: 1000px) {
-    right: 130px;
-  }
-  @media only screen and (max-width: 900px) {
-    right: 120px;
-  }
+
   @media only screen and (max-width: 800px) {
     /* width: 20rem; */
     right: 100px;

@@ -14,8 +14,11 @@ import Profile from "../image/Profile.png";
 import Heart from "../image/Heart.png";
 
 const Comment = () => {
-  // const comment_list = useSelector((state) => state.comment.list);
-  // console.log(comment_list);
+  const comment_list = useSelector((state) => state.comment.list);
+
+  const comments = comment_list.postList.data;
+  console.log(comment_list);
+
   const dispatch = useDispatch();
   const params = useParams();
   console.log(params.id);
@@ -97,34 +100,42 @@ const Comment = () => {
             value="입력"
           />
         </InputWrap>
-        <CommentBox>
-          <UserProfile src={Profile} alt="userProfile" />
-          <CommentInfo>
-            <Nickname>이설이</Nickname>
-            <CommentText>블루 톤이 시원해보여요 :)</CommentText>
-            <Info>
-              <Time>6시간 전</Time> <Point />
-              <HeartIcon src={Heart} alt="좋아요아이콘" />
-              <Like>좋아요</Like>
-              <Point />
-              <Re>답글 달기</Re>
-              <Point />
-              <Re
-                onClick={() => {
-                  const result = window.confirm(
-                    "댓글을 삭제하시겠습니까? 삭제한 댓글은 되돌릴 수 없습니다."
-                  );
-                  if (result) {
-                    dispatch(deleteCommentDB(params.id));
-                    // navigate("/");
-                  }
-                }}
-              >
-                삭제
-              </Re>
-            </Info>
-          </CommentInfo>
-        </CommentBox>
+        {comments === undefined ? (
+          <div>로딩중..</div>
+        ) : (
+          comments.map((list, index) => {
+            return (
+              <CommentBox key={index}>
+                <UserProfile src={Profile} alt="userProfile" />
+                <CommentInfo>
+                  <Nickname>이설이</Nickname>
+                  <CommentText>{list.comment}</CommentText>
+                  <Info>
+                    <Time>6시간 전</Time> <Point />
+                    <HeartIcon src={Heart} alt="좋아요아이콘" />
+                    <Like>좋아요</Like>
+                    <Point />
+                    <Re>답글 달기</Re>
+                    <Point />
+                    <Re
+                      onClick={() => {
+                        const result = window.confirm(
+                          "댓글을 삭제하시겠습니까? 삭제한 댓글은 되돌릴 수 없습니다."
+                        );
+                        if (result) {
+                          dispatch(deleteCommentDB(list.id));
+                          // navigate("/");
+                        }
+                      }}
+                    >
+                      삭제
+                    </Re>
+                  </Info>
+                </CommentInfo>
+              </CommentBox>
+            );
+          })
+        )}
       </Wrap>
     </>
   );
