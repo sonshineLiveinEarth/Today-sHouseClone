@@ -46,14 +46,8 @@ export const apis = {
   // 	api.put(`/api/articles/${id}/comments/${coId}`, { content }),
 
   // user
-  login: (id, pw) =>
-    api.post("/api/login", { userEmail: id, userPassword: pw }),
-  // login: (userEmail, userPassword) =>
-  //   api.post("/api/login", {
-  //     userEmail: userEmail,
-  //     passPassword: userPassword,
-  //   }
-  //   ),
+  login: (id, pw) => api.post("/user/login", { username: id, password: pw }),
+
   signup: (username, password, userNickname) =>
     api.post("/user/signup", {
       username: username,

@@ -54,16 +54,23 @@ const Signup = () => {
     setUserPasswordRe(e.target.value);
   };
 
-  const AddUser = (username, password, userNickname) => {
+  const AddUser = (
+    ) => {
     dispatch(SignupDB(username, password, userNickname));
     // navigate("/");
   };
+
+  console.log(username, password, userNickname);
 
   return (
     <>
       <Background>
         <Wrap>
-          <ImgWrap>
+          <ImgWrap
+            onClick={() => {
+              navigate("/");
+            }}
+          >
             <LogoImg src={Logo} />
             <TLogoImg src={TextLogo} />
           </ImgWrap>
@@ -186,8 +193,9 @@ const ImgWrap = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   align-self: flex-start;
+  cursor: pointer;
 `;
 
 const LogoImg = styled.img`

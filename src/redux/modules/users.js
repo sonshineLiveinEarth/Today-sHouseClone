@@ -3,7 +3,6 @@ import { produce } from "immer";
 import { apis } from "../../shared/api";
 import { useNavigate } from "react-router-dom";
 
-import Cookies from "universal-cookie";
 import jwt_decode from "jwt-decode";
 import { localStorageGet, localStorageSet } from "../../shared/localStorage";
 
@@ -24,8 +23,8 @@ const initialState = {
   user: null,
 };
 
-//navigate
-const navigate = useNavigate;
+// //navigate
+// const navigate = useNavigate;
 
 //미들웨어
 // Signup
@@ -38,47 +37,43 @@ export const SignupDB = (username, password, userNickname) => {
         console.log(res);
         alert(res.data.result);
         console.log(res);
-        navigate.replace("/");
       })
       .catch((err) => {
-        window.alert("다시 시도해주세요.");
-        console.log("회원가입 실패");
+        console.log("회원가입 실패", err);
       });
   };
 };
 
 //Login
-const loginDB = (username, password) => {
+export const loginDB = (username, password) => {
   console.log(username, password);
   return function (dispatch, getState) {
+    console.log(username, password);
     apis
       .login(username, password)
-
       .then((res) => {
-        console.log(res.data.token);
-        const cookie = res.data.token;
-        const DecodedToken = jwt_decode(cookie);
+        const token = res.headers.authorization;
+        const DecodedToken = jwt_decode(token);
         console.log(DecodedToken);
-        localStorage.setItem("jwtToken", cookie);
+        localStorage.setItem("jwtToken", token);
         dispatch(
           setUser({
             username: username,
             nickname: DecodedToken.nickname,
           })
         );
-        localStorage.setItem("email", username);
+        // localStorage.setItem("email", username);
         // localStorageSet("token", cookie);
         // console.log(setItem);
         console.log(localStorage);
 
-        //    console.log("토큰을 받았어!", userEmail, _cookie)
-        // cookies.set("userEmail", userEmail, { path: "/" });
+        // console.log("토큰을 받았어!", username, _cookie)
+        // cookies.set("username", username, { path: "/" });
         // cookies.set("token", cookie, `${cookie}`);
       })
 
       .catch((error) => {
         console.log(error);
-        alert("없는 회원정보 입니다! 회원가입을 해주세요!");
       });
     dispatch(setUser({ username: username }));
   };
@@ -86,12 +81,12 @@ const loginDB = (username, password) => {
 
 const loginCheck = () => {
   return function (dispatch, getState) {
-    const userEmail = localStorageGet("useremail");
+    const username = localStorageGet("username");
     const tokenCheck = document.cookie;
     if (tokenCheck) {
       dispatch(
         setUser({
-          userEmail: userEmail,
+          username: username,
         })
       );
     }
@@ -112,11 +107,10 @@ export const userInfoDB = () => {
 };
 
 export const logoutDB = () => {
-  return function (dispatch, getState, { navigate }) {
+  return function (dispatch, getState) {
     dispatch(logOut());
     localStorage.removeItem("email");
     localStorage.removeItem("jwtToken");
-    navigate.replace("/");
   };
 };
 
@@ -127,7 +121,7 @@ export default handleActions(
       produce(state, (draft) => {
         draft.user = action.payload.user;
         draft.is_login = true;
-        console.log(draft.user.userEmail);
+        console.log(draft.user.username);
         draft.uploading = false;
         console.log("리듀서로 적용 완료", state, action.payload);
       }),
