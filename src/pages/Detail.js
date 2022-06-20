@@ -152,12 +152,13 @@ const ModalContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 40px;
+  margin-left: 32%;
   cursor: pointer;
   @media only screen and (max-width: 1700px) {
-    right: 440px;
+    margin-left: 36%;
   }
   @media only screen and (max-width: 1600px) {
-    right: 400px;
+    margin-left: 40%;
   }
   @media only screen and (max-width: 1500px) {
     right: 330px;
@@ -181,8 +182,6 @@ const ModalContainer = styled.div`
     right: 60px;
   }
   @media only screen and (max-width: 800px) {
-    width: 20rem;
-    position: fixed;
     right: 10px;
   }
   /* 팝업이 열릴때 스르륵 열리는 효과 */
