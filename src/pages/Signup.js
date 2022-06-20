@@ -12,7 +12,6 @@ import TextLogo from "../image/TextLogo.png";
 const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  // const nickname_list = useSelector((state) => state.comment.list);
 
   // 회원정보
   const [email, setEmail] = useState("");
@@ -62,11 +61,8 @@ const Signup = () => {
     //  setUserNickname(true);
     // setUserNickname(e.target.value);
     dispatch(NicknameDB(e.target.value));
+    setUserNickname(e.target.value);
   };
-
-  //   useEffect(() => {
-  //   dispatch(NicknameDB());
-  // }, [dispatch]);
 
   // 회원가입 요청
   const AddUser = () => {
