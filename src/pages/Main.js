@@ -18,6 +18,7 @@ const Main = () => {
     <>
       <Header />
       <MainGrid>
+        <Blank />
         {postList.map((postObj, index) => {
           return <MainCard postObj={postObj} key={index} />;
         })}
@@ -25,7 +26,10 @@ const Main = () => {
     </>
   );
 };
-
+const Blank = styled.div`
+  height: 50px;
+  grid-column: 1/-1;
+`;
 const MainGrid = styled.main`
   margin: 30px auto;
   max-width: 1256px;

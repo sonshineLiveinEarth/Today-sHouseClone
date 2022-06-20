@@ -27,6 +27,8 @@ export const BlueButton = styled.button`
 `;
 
 export const BigBlueButton = styled(BlueButton)`
+  text-align: center;
+  font-size: 16px;
   width: 130px;
-  padding: 16px;
+  padding: 17px 16px 16px 16px;
 `;
