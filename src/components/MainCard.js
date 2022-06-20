@@ -19,31 +19,33 @@ const MainCard = ({ postObj }) => {
         <span>{postObj.userNickname}</span>
       </CardHeader>
       <ImageWrap>
-        <CardImage src={postObj.imageFile} alt="card image" />
+        <CardImage src={postObj.imageUrl} alt="card image" />
       </ImageWrap>
       <IconWrap>
         <IconCnt>
           <Icon src={Heart} alt="heart" />
-          <span>{postObj.heartCnt}</span>
+          <span>{postObj.heartCnt === 0 ? "" : postObj.heartCnt}</span>
         </IconCnt>
         <IconCnt>
           <Icon src={Bookmark} alt="Bookmark" />
-          <span>{postObj.bookmarkCnt}</span>
+          <span>{postObj.bookmarkCnt === 0 ? "" : postObj.bookmarkCnt}</span>
         </IconCnt>
         <IconCnt>
           <Icon src={CommentIcon} alt="CommentIcon" />
-          <span>{postObj.commentCnt}</span>
+          <span>{postObj.commentCnt === 0 ? "" : postObj.commentCnt}</span>
         </IconCnt>
       </IconWrap>
       <Text>{postObj.content}</Text>
-      <CommentWrap>
-        <CommentProfile src="/images/Avatar.png" alt="profile" height="24" />
+      {postObj.comment && (
+        <CommentWrap>
+          <CommentProfile src="/images/Avatar.png" alt="profile" height="24" />
 
-        <Text>
-          <span>{"nickname"}</span>
-          {postObj.comment}
-        </Text>
-      </CommentWrap>
+          <Text>
+            <span>{"nickname"}</span>
+            {postObj.comment}
+          </Text>
+        </CommentWrap>
+      )}
     </CardWrap>
   );
 };
@@ -112,6 +114,7 @@ const Text = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  font-size: 15px;
   span {
     font-weight: bold;
     margin: 10px 10px 0 0;
