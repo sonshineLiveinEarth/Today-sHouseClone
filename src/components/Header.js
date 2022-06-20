@@ -13,10 +13,16 @@ const Header = () => {
 
   // 모달창 띄우기
   const [showModal, setShowModal] = useState(false);
+  const [showMypageModal, setShowMypageModal] = useState(false);
 
   const openModal = () => {
     if (!showModal) setShowModal(true);
     else setShowModal(false);
+  };
+
+  const openMypageModal = () => {
+    if (!showMypageModal) setShowMypageModal(true);
+    else setShowMypageModal(false);
   };
 
   return (
@@ -32,7 +38,15 @@ const Header = () => {
 
           <nav>
             {isLogin ? (
-              <img src="/images/Avatar.png" alt="avatar" height="40px" />
+              <>
+                <ProfileIcon
+                  onClick={() => {
+                    openMypageModal();
+                  }}
+                  src="/images/Avatar.png"
+                  alt="avatar"
+                />
+              </>
             ) : (
               <>
                 <TextButton onClick={() => setIsLogin(true)}>로그인</TextButton>
@@ -71,6 +85,19 @@ const Header = () => {
             </TextWrap>
           </WriteWrap>
         </ModalContainer>
+      )}
+      {showMypageModal && (
+        <ModalMyPageContainer showMypageModal={showMypageModal}>
+          <Div>
+            <MypageTitle
+              onClick={() => {
+                // navigate("/");
+              }}
+            >
+              마이페이지
+            </MypageTitle>
+          </Div>
+        </ModalMyPageContainer>
       )}
     </>
   );
@@ -116,6 +143,13 @@ const Icon = styled.img`
   padding-top: 2px;
   margin-left: 6px;
   margin-left: 8px;
+`;
+
+const ProfileIcon = styled.img`
+  height: 40px;
+  margin-left: 6px;
+  margin-left: 8px;
+  position: relative;
 `;
 
 const ModalContainer = styled.div`
@@ -209,8 +243,72 @@ const ModalContainer = styled.div`
   }
 `;
 
+const ModalMyPageContainer = styled.div`
+  position: fixed;
+  top: 60px;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(218, 221, 224);
+  border-radius: 6px;
+  box-shadow: rgb(63 71 77 / 20%) 0px 4px 10px;
+  z-index: 20;
+  padding: 8px;
+  width: 184px;
+  right: 360px;
+  @media only screen and (max-width: 1700px) {
+    right: 200px;
+  }
+  @media only screen and (max-width: 1600px) {
+    right: 400px;
+  }
+  @media only screen and (max-width: 1500px) {
+    right: 330px;
+  }
+  @media only screen and (max-width: 1400px) {
+    right: 280px;
+  }
+  @media only screen and (max-width: 1300px) {
+    right: 240px;
+  }
+  @media only screen and (max-width: 1200px) {
+    right: 200px;
+  }
+  @media only screen and (max-width: 1100px) {
+    right: 140px;
+  }
+  @media only screen and (max-width: 1000px) {
+    right: 130px;
+  }
+  @media only screen and (max-width: 900px) {
+    right: 120px;
+  }
+  @media only screen and (max-width: 800px) {
+    /* width: 20rem; */
+    right: 100px;
+  }
+  /* 팝업이 열릴때 스르륵 열리는 효과 */
+  animation: modal-bg-show 0.3s;
+  @keyframes modal-show {
+    from {
+      opacity: 0;
+      margin-top: -50px;
+    }
+    to {
+      opacity: 1;
+      margin-top: 0;
+    }
+  }
+  @keyframes modal-bg-show {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+`;
+
 const WriteWrap = styled.div`
-  width: 100%;
+  width: 156px;
   height: 60px;
   display: flex;
   flex-direction: row;
@@ -238,13 +336,34 @@ const TextWrap = styled.div`
 const WriteTitle = styled.span`
   font-size: 14px;
   font-weight: bold;
-  color: rgb(47, 52, 56); ;
+  color: rgb(47, 52, 56);
+`;
+
+const Div = styled.div`
+  padding: 10px 14px 11px 14px;
+  border-radius: 2px;
+  &:hover {
+    background-color: #f4f4f4;
+  }
+`;
+
+const MypageTitle = styled.span`
+  width: 156px;
+  height: 22px;
+  font-weight: 400px;
+  color: rgb(47, 52, 56);
+  font-size: 15px;
+  color: rgb(47, 52, 56);
+  cursor: pointer;
+  border-radius: 2px;
+  outline: none;
+  position: relative;
 `;
 
 const WriteSub = styled.span`
   font-size: 10px;
   margin-top: 4px;
-  color: rgb(130, 140, 148); ;
+  color: #424242;
 `;
 
 export default Header;

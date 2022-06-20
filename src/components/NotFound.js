@@ -29,9 +29,9 @@ const NotFound = () => {
             없습니다.
           </ErrMessageSub>
           <br />
-          <ErrMessageSub>
+          <ErrMessageSub2>
             입력하신 주소가 정확한지 다시 한번 확인해 주세요.
-          </ErrMessageSub>
+          </ErrMessageSub2>
         </Wrap>
       </Info>
       ;
@@ -96,6 +96,14 @@ const ErrMessageSub = styled.span`
   font-size: 16px;
   line-height: 24px;
   font-weight: 400;
+`;
+
+const ErrMessageSub2 = styled.span`
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  position: relative;
+  top: -4px;
 `;
 
 export default NotFound;

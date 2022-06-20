@@ -58,6 +58,7 @@ const Login = () => {
         <LoginBtn
           onClick={() => {
             _loginUser(userEmail, userPassword);
+            navigate("/");
           }}
         >
           로그인
