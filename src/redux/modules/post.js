@@ -23,6 +23,10 @@ const initialState = {
       imageFile:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPqHtpcnZPaYKjLm_tKmjVkqVwY3dRSAL2DvsfuLlS85OfLjyN63po5z2WSbO43LSza5s&usqp=CAU",
       content: "content1",
+      heartCnt: 0,
+      bookmarkCnt: 0,
+      commentCnt: 0,
+      comment: "",
     },
     {
       id: "1",
@@ -31,6 +35,11 @@ const initialState = {
         "https://www.instandngs4p.eu/wp-content/themes/fox/images/placeholder.jpg",
       content:
         "비오려고 하루종일 후덥지근 해요. 몸이 찌뿌둥하고 깔아져서 하루종일 침대밖을 못벗어났어요😔 계속 이러고 있어선 안되겠어서 잘 밤에 부지런을 떨어봤는데요. 간만에 구조도 바꾸고 이불도 교체했답니다 :) 하루종일 후덥지근 눅눅했는데 산뜻하고 쾌적해서 모모도 좋아하네요🐱💙 구조바꾸는게 힘들긴 하지만 하고나면 뿌듯하더라고요. 오늘은 분리형 구조로🤍",
+      heartCnt: 11,
+      bookmarkCnt: 22,
+      commentCnt: 33,
+      comment:
+        "비오려고 하루종일 후덥지근 해요. 몸이 찌뿌둥하고 깔아져서 하루종일 침대밖을 못벗어났어요😔 계속 이러고 있어선 안되겠어서 잘 밤에 부지런을 ",
     },
   ],
 };

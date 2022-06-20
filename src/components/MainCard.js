@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import Heart from "../image/Heart.png";
+import Bookmark from "../image/Bookmark.png";
+import CommentIcon from "../image/CommentIcon.png";
 
 const MainCard = ({ postObj }) => {
   const navigate = useNavigate();
@@ -18,7 +21,29 @@ const MainCard = ({ postObj }) => {
       <ImageWrap>
         <CardImage src={postObj.imageFile} alt="card image" />
       </ImageWrap>
+      <IconWrap>
+        <IconCnt>
+          <Icon src={Heart} alt="heart" />
+          <span>{postObj.heartCnt}</span>
+        </IconCnt>
+        <IconCnt>
+          <Icon src={Bookmark} alt="Bookmark" />
+          <span>{postObj.bookmarkCnt}</span>
+        </IconCnt>
+        <IconCnt>
+          <Icon src={CommentIcon} alt="CommentIcon" />
+          <span>{postObj.commentCnt}</span>
+        </IconCnt>
+      </IconWrap>
       <Text>{postObj.content}</Text>
+      <CommentWrap>
+        <CommentProfile src="/images/Avatar.png" alt="profile" height="24" />
+
+        <Text>
+          <span>{"nickname"}</span>
+          {postObj.comment}
+        </Text>
+      </CommentWrap>
     </CardWrap>
   );
 };
@@ -54,6 +79,30 @@ const CardImage = styled.img`
     transform: scale(1.1);
   }
 `;
+const IconWrap = styled.div`
+  max-width: 270px;
+  max-height: 30px;
+  margin: 15px 20px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+`;
+const IconCnt = styled.div`
+  display: flex;
+  align-items: center;
+`;
+const Icon = styled.img`
+  height: 22px;
+  margin-right: 7px;
+`;
+
+const CommentProfile = styled.img`
+  margin: 10px 10px 0 0;
+`;
+const CommentWrap = styled.div`
+  display: flex;
+`;
+
 const Text = styled.div`
   margin-top: 10px;
   width: 100%;
@@ -63,6 +112,10 @@ const Text = styled.div`
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  span {
+    font-weight: bold;
+    margin: 10px 10px 0 0;
+  }
 `;
 
 export default MainCard;
