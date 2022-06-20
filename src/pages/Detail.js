@@ -1,21 +1,38 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 // js
+import { deletePostDB } from "../redux/modules/post";
 import Header from "../components/Header";
 import Comment from "../components/Comment";
 import Banner from "../components/Banner";
 import Footer from "../components/Footer";
 
 const Detail = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
+
   // 수정&삭제 모달창 띄우기
   const [showModal, setShowModal] = useState(false);
 
   const openModal = () => {
     if (!showModal) setShowModal(true);
     else setShowModal(false);
+  };
+
+  const onClickEdit = () => {
+    navigate("/contents/edit/" + id);
+  };
+
+  const onClickDelete = () => {
+    const yes = window.confirm("정말로 삭제하시겠습니까?");
+    if (yes) {
+      dispatch(deletePostDB(id));
+      navigate("/");
+    }
   };
 
   return (
@@ -37,8 +54,8 @@ const Detail = () => {
           </TopWrap>
           {showModal && (
             <ModalContainer showModal={showModal}>
-              <WriteTitle>수정하기</WriteTitle>
-              <Delete>삭제하기</Delete>
+              <WriteTitle onClick={onClickEdit}>수정하기</WriteTitle>
+              <Delete onClick={onClickDelete}>삭제하기</Delete>
             </ModalContainer>
           )}
 
