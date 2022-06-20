@@ -14,7 +14,6 @@ import Banner from "../components/Banner";
 import Footer from "../components/Footer";
 
 const Detail = () => {
-
   // const post_list = useSelector((state) => state.comment.list);
   // console.log(post_list);
   const dispatch = useDispatch();
@@ -35,7 +34,7 @@ const Detail = () => {
   const onClickDelete = () => {
     const yes = window.confirm("정말로 삭제하시겠습니까?");
     if (yes) {
-      dispatch(deletePostDB(id));
+      dispatch(deletePostDB(params.id));
       navigate("/");
     }
   };
@@ -43,7 +42,6 @@ const Detail = () => {
   React.useEffect(() => {
     dispatch(getPostDB(params.id));
   }, []);
-
 
   return (
     <>
