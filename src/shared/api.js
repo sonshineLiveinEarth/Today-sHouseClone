@@ -34,7 +34,7 @@ export const apis = {
   loadPost: (postId) => api.get(`/api/post/${postId}`),
 
   addPost: (post) => formApi.post("/api/post", post),
-  editPost: (id, post) => formApi.post(`api/post/${id}`, post),
+  editPost: (id, post) => formApi.put(`api/post/${id}`, post),
   deletePost: (id) => api.delete(`/api/post/${id}`),
 
   // comment
