@@ -8,29 +8,27 @@ const MainCard = ({ postObj }) => {
   return (
     <CardWrap
       onClick={() => {
-        navigate("/detail");
+        navigate("/detail/" + postObj.id);
       }}
     >
       <CardHeader>
         <img src="/images/Avatar.png" alt="profile" height="36" />
         <span>{postObj.userNickname}</span>
       </CardHeader>
-      <CardImg src={postObj.imageFile} alt="card image" />
-
-      {/* {post.title.substr(0, 20)}
-        {post.title.length > 20 ? "..." : ""} */}
-
-      <div style={{ width: "100%" }}>
-        {postObj.content}
-        {/* {post.content.substr(0, 68)}
-        {post.content.length > 68 ? "..." : ""} */}
-      </div>
+      <ImageWrap>
+        <CardImage src={postObj.imageFile} alt="card image" />
+      </ImageWrap>
+      <Text>{postObj.content}</Text>
     </CardWrap>
   );
 };
 
 const CardWrap = styled.article`
   cursor: pointer;
+  &:hover {
+    opacity: 0.65;
+  }
+  margin-bottom: 30px;
 `;
 const CardHeader = styled.div`
   display: flex;
@@ -40,12 +38,31 @@ const CardHeader = styled.div`
     font-weight: bold;
   }
 `;
-
-const CardImg = styled.img`
+const ImageWrap = styled.div`
+  border-radius: 6px;
+  overflow: hidden;
   width: 100%;
-  height: 80%;
+  height: 270px;
+`;
+const CardImage = styled.img`
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 6px;
+  transition: all 0.1s linear;
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+const Text = styled.div`
+  margin-top: 10px;
+  width: 100%;
+  line-height: 1.5;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 `;
 
 export default MainCard;

@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+
 // js
 import Header from "../components/Header";
 import Comment from "../components/Comment";

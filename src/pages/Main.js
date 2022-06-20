@@ -1,17 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import MainCard from "../components/MainCard";
 import Header from "../components/Header";
+import { getPostListDB } from "../redux/modules/post";
 
 const Main = () => {
+  const dispatch = useDispatch();
   const postList = useSelector((state) => state.post.postList);
+
+  // useEffect(() => {
+  //   dispatch(getPostListDB());
+  // }, [dispatch]);
 
   return (
     <>
       <Header />
       <MainGrid>
+        <Blank />
         {postList.map((postObj, index) => {
           return <MainCard postObj={postObj} key={index} />;
         })}
@@ -19,7 +26,10 @@ const Main = () => {
     </>
   );
 };
-
+const Blank = styled.div`
+  height: 50px;
+  grid-column: 1/-1;
+`;
 const MainGrid = styled.main`
   margin: 30px auto;
   max-width: 1256px;

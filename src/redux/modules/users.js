@@ -30,7 +30,7 @@ const initialState = {
 // Signup
 export const SignupDB = (username, password, userNickname) => {
   return function (dispatch, getState) {
-    console.log("회원가입 시도");
+    console.log("가랏!");
     apis
       .signup(username, password, userNickname)
       .then((res) => {
