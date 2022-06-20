@@ -88,6 +88,7 @@ export const HeaderContainer = styled.header`
   position: fixed;
   left: 0;
   top: 0;
+  z-index: 10;
   div {
     width: 1256px;
     padding: 0 60px;

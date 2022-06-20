@@ -38,10 +38,11 @@ const Detail = () => {
           {showModal && (
             <ModalContainer showModal={showModal}>
               <WriteTitle>수정하기</WriteTitle>
+              <Delete>삭제하기</Delete>
             </ModalContainer>
           )}
 
-          <PostImage />
+          <PostImage showModal={showModal} />
           <PostContent>
             여름맞이 침구 🤍 보기만 해도 시원해지는 기분 ➿
           </PostContent>
@@ -91,6 +92,7 @@ const Wrap = styled.div`
   margin-bottom: 10px;
   grid-column: 2 / 3;
   grid-row: 1 / 2;
+
   @media only screen and (max-width: 768px) {
     grid-column: 1 / 2;
     padding: 100px 16px 0px 16px;
@@ -132,11 +134,13 @@ const Setting = styled.div`
 `;
 
 const ModalContainer = styled.div`
+  z-index: 5;
+  position: absolute;
   transform: none;
   transition: transform 0.2s ease 0s;
   color: #424242;
-  position: relative;
-  padding: 8px;
+  position: absolute;
+  padding: 0px 8px;
   background-color: rgb(255, 255, 255);
   border: 1px solid rgb(218, 221, 224);
   border-radius: 6px;
@@ -145,6 +149,9 @@ const ModalContainer = styled.div`
   transform: none;
   transition: transform 0.2s ease 0s;
   font-size: 15px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 40px;
   cursor: pointer;
   @media only screen and (max-width: 1700px) {
     right: 440px;
@@ -208,8 +215,24 @@ const WriteTitle = styled.span`
   line-height: 20px;
   transition: background-color 0.2s ease-in-out 0s;
   margin: 0px -8px;
-
   cursor: pointer;
+  &:hover {
+    background-color: #f4f4f4;
+  }
+`;
+
+const Delete = styled.span`
+  padding: 16px;
+  height: 20px;
+  width: 104px;
+  color: rgb(255, 119, 119);
+  line-height: 20px;
+  transition: background-color 0.2s ease-in-out 0s;
+  margin: 0px -8px;
+  cursor: pointer;
+  &:hover {
+    background-color: #f4f4f4;
+  }
 `;
 
 // const ImgWrap = styled.div`
@@ -236,6 +259,7 @@ const PostImage = styled.div`
   background-image: url(https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/164422528068537909.jpeg?gif=1&w=1080);
   background-position: center 30%;
   background-size: cover;
+  position: ${(props) => (props.showModal ? "relative" : "static")};
   @media only screen and (max-width: 768px) {
     padding: 16px;
     padding-bottom: 100%;
