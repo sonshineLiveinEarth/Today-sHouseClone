@@ -8,12 +8,14 @@ import { localStorageGet, localStorageSet } from "../../shared/localStorage";
 
 // actions
 const GET_USER = "GET_USER";
+const GET_NICKNAME = "GET_NICKNAME";
 const SET_USER = "SET_USER";
 const LOAD = "user/LOAD";
 const LOG_OUT = "LOG_OUT";
 
 // action creators
 const getUser = createAction(GET_USER, (user) => ({ user }));
+const getNickname = createAction(GET_NICKNAME, (user) => ({ user }));
 const setUser = createAction(SET_USER, (user) => ({ user }));
 const userInfo = createAction(GET_USER, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
@@ -93,6 +95,19 @@ const loginCheck = () => {
   };
 };
 
+export const NicknameDB = (nickname) => {
+  return async function (dispatch) {
+    try {
+      console.log("닉네임 전송");
+      const data = await apis.nicknameCheck(nickname);
+      console.log(data);
+      dispatch(getNickname(data));
+    } catch (e) {
+      console.log(`유저정보 조회 오류 발생!${e}`);
+    }
+  };
+};
+
 export const userInfoDB = () => {
   return async function (dispatch) {
     try {
@@ -134,5 +149,6 @@ const actionCreators = {
   loginDB,
   logoutDB,
   loginCheck,
+  getNickname,
 };
 export { actionCreators };

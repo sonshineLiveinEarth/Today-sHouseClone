@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { SignupDB } from "../redux/modules/users";
+import { SignupDB, NicknameDB } from "../redux/modules/users";
+import { useSelector } from "react-redux";
 
 //이미지
 import Logo from "../image/Logo.png";
@@ -11,6 +12,7 @@ import TextLogo from "../image/TextLogo.png";
 const Signup = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  // const nickname_list = useSelector((state) => state.comment.list);
 
   // 회원정보
   const [email, setEmail] = useState("");
@@ -54,8 +56,20 @@ const Signup = () => {
     setUserPasswordRe(e.target.value);
   };
 
-  const AddUser = (
-    ) => {
+  // 닉네임 유효성 체크
+  const NicknameCheck = (e) => {
+    // if (e.target.value === password) setUserNickname(false);
+    //  setUserNickname(true);
+    // setUserNickname(e.target.value);
+    dispatch(NicknameDB(e.target.value));
+  };
+
+  //   useEffect(() => {
+  //   dispatch(NicknameDB());
+  // }, [dispatch]);
+
+  // 회원가입 요청
+  const AddUser = () => {
     dispatch(SignupDB(username, password, userNickname));
     // navigate("/");
   };
@@ -144,7 +158,7 @@ const Signup = () => {
             <Info>다른 유저와 겹치지 않는 별명을 입력해주세요. (2~15자)</Info>
             <Input
               onChange={(e) => {
-                setUserNickname(e.target.value);
+                NicknameCheck(e);
               }}
               placeholder="별명 (2~15자)"
             />

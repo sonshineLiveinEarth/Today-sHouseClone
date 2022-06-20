@@ -1,15 +1,16 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
-import axios from "axios";
 import { apis } from "../../shared/api";
 // Action
 const GET_POST_LIST = "GET_POST_LIST";
+const GET_POST = "GET_POST";
 const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
 const DELETE_POST = "DELETE_POST";
 
 // Action Creator
 const getPostList = createAction(GET_POST_LIST, (postList) => ({ postList }));
+const getPost = createAction(GET_POST, (post) => ({ post }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
 const editPost = createAction(EDIT_POST, (post) => ({ post }));
 const deletePost = createAction(DELETE_POST, (id) => ({ id }));
@@ -44,6 +45,21 @@ export const getPostListDB = () => {
       .loadPostList()
       .then((response) => {
         dispatch(getPostList(response));
+      })
+      .catch((error) => {
+        window.alert("게시물을 불러오는 중에 오류가 발생했습니다.");
+        console.log(error);
+      });
+  };
+};
+
+// 한 개 게시물 받아오기
+export const getPostDB = (postId) => {
+  return async function (dispatch) {
+    apis
+      .loadPost(postId)
+      .then((response) => {
+        dispatch(getPost(response));
       })
       .catch((error) => {
         window.alert("게시물을 불러오는 중에 오류가 발생했습니다.");
@@ -96,6 +112,10 @@ export const deletePostDB = (id) => {
 export default handleActions(
   {
     [GET_POST_LIST]: (state, { payload }) =>
+      produce(state, (draft) => {
+        draft.postList = payload;
+      }),
+    [GET_POST]: (state, { payload }) =>
       produce(state, (draft) => {
         draft.postList = payload;
       }),

@@ -8,6 +8,7 @@ import PostNewEdit from "./pages/PostNewEdit";
 import Detail from "./pages/Detail";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import NotFound from "./components/NotFound";
 
 function App() {
   return (
@@ -19,11 +20,10 @@ function App() {
         <Route path="contents/edit">
           <Route path=":id" element={<PostNewEdit />} />
         </Route>
-        <Route path="detail">
-          <Route path=":id" element={<Detail />} />
-        </Route>
+        <Route path="/detail/:id" element={<Detail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
+        <Route path="/*" element={<NotFound />} />
       </Routes>
     </>
   );
