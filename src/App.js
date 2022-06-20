@@ -1,7 +1,5 @@
-import { createGlobalStyle } from "styled-components";
-
 import React, { useState, useRef } from "react";
-import styled from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import { Routes, Route } from "react-router-dom";
 
 // js파일
@@ -18,7 +16,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/contents/new" element={<PostNewEdit />} />
-        <Route path="/detail" element={<Detail />} />
+        <Route path="contents/edit">
+          <Route path=":id" element={<PostNewEdit />} />
+        </Route>
+        <Route path="detail">
+          <Route path=":id" element={<Detail />} />
+        </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
       </Routes>
@@ -28,6 +31,9 @@ function App() {
 
 const GlobalStyle = createGlobalStyle`
   html, body {
+    font-family: "Noto Sans KR", "Apple SD Gothic Neo", "맑은 고딕",
+    "Malgun Gothic", sans-serif;
+    color: #424242;
     margin: 0;
     padding: 0;
   }
