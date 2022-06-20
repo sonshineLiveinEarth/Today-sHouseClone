@@ -91,7 +91,7 @@ const Header = () => {
           <Div>
             <MypageTitle
               onClick={() => {
-                navigate("/users");
+                navigate("/");
               }}
             >
               마이페이지
@@ -253,7 +253,7 @@ const ModalMyPageContainer = styled.div`
   z-index: 20;
   padding: 8px;
   width: 184px;
-  right: 140px;
+  right: 340px;
   @media only screen and (max-width: 1700px) {
     right: 200px;
   }
@@ -265,7 +265,7 @@ const ModalMyPageContainer = styled.div`
     right: 110px;
   }
   @media only screen and (max-width: 1200px) {
-    right: 300px;
+    right: 100px;
   }
   @media only screen and (max-width: 1100px) {
     right: 100px;
@@ -298,7 +298,6 @@ const ModalMyPageContainer = styled.div`
 `;
 
 const WriteWrap = styled.div`
-  width: 156px;
   height: 60px;
   display: flex;
   flex-direction: row;
@@ -317,6 +316,7 @@ const ImageIcon = styled.img`
 `;
 
 const TextWrap = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
