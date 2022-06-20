@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import {
@@ -14,10 +14,13 @@ import Profile from "../image/Profile.png";
 import Heart from "../image/Heart.png";
 
 const Comment = () => {
-  const comment_list = useSelector((state) => state.comment.list);
+  const navigate = useNavigate();
 
-  const comments = comment_list.postList.data;
+  const comment_list = useSelector((state) => state.comment.list);
   console.log(comment_list);
+
+  // 댓글 작성 시간
+  const [time, setTime] = useState(comment_list.createdAt);
 
   const dispatch = useDispatch();
   const params = useParams();
@@ -37,31 +40,32 @@ const Comment = () => {
   const postDay = yearSub + "." + month + "." + Day + " " + postTime;
 
   // 댓글 달린 시간표시
-  const today = new Date();
-  const timeValue = new Date(today);
-  console.log(today, typeof today);
+  // const today = new Date();
+  // const timeValue = new Date(comment_list.createdAt);
+  // console.log(today, typeof today);
+  // console.log(...comment_list, typeof comment_list?.createdAt);
 
-  const betweenTime = Math.floor(
-    (today.getTime() - timeValue.getTime()) / 1000 / 60
-  );
-  if (betweenTime < 1) console.log("방금전");
-  if (betweenTime < 60) {
-    console.log(`${betweenTime}분전`);
-  }
+  // const betweenTime = Math.floor(
+  //   (comment_list.createdAt.getTime() - timeValue.getTime()) / 1000 / 60
+  // );
+  // if (betweenTime < 1) console.log("방금전");
+  // if (betweenTime < 60) {
+  //   setTime(`${betweenTime}분전`);
+  // }
 
-  const betweenTimeHour = Math.floor(betweenTime / 60);
-  if (betweenTimeHour < 24) {
-    console.log(`${betweenTimeHour}시간전`);
-  }
+  // const betweenTimeHour = Math.floor(betweenTime / 60);
+  // if (betweenTimeHour < 24) {
+  //   setTime(`${betweenTimeHour}시간전`);
+  // }
 
-  const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-  if (betweenTimeDay < 365) {
-    console.log(`${betweenTimeDay}일전`);
-  }
+  // const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+  // if (betweenTimeDay < 365) {
+  //   setTime(`${betweenTimeDay}일전`);
+  // }
 
   React.useEffect(() => {
     dispatch(getCommentListDB(params.id));
-  }, []);
+  }, [dispatch]);
 
   // 댓글 추가
   const addComment = () => {
@@ -75,6 +79,8 @@ const Comment = () => {
           comment: commentText.current.value,
         })
       );
+      navigate(0);
+      commentText.current.value = "";
     }
   };
   console.log(commentText.current.value);
@@ -84,7 +90,7 @@ const Comment = () => {
       <Wrap id="1">
         <Hr />
         <CommentT>댓글</CommentT>
-        <CommentNum>1</CommentNum>
+        <CommentNum>{comment_list.length}</CommentNum>
         <InputWrap>
           <UserProfile src={Profile} alt="userProfile" />
           <CommentInput
@@ -94,48 +100,77 @@ const Comment = () => {
           <CommentBtn
             onClick={() => {
               addComment();
-              // navigate(0);
             }}
             type="button"
             value="입력"
           />
         </InputWrap>
-        {comments === undefined ? (
-          <div>로딩중..</div>
-        ) : (
-          comments.map((list, index) => {
-            return (
-              <CommentBox key={index}>
-                <UserProfile src={Profile} alt="userProfile" />
-                <CommentInfo>
-                  <Nickname>이설이</Nickname>
-                  <CommentText>{list.comment}</CommentText>
-                  <Info>
-                    <Time>6시간 전</Time> <Point />
-                    <HeartIcon src={Heart} alt="좋아요아이콘" />
-                    <Like>좋아요</Like>
-                    <Point />
-                    <Re>답글 달기</Re>
-                    <Point />
-                    <Re
-                      onClick={() => {
-                        const result = window.confirm(
-                          "댓글을 삭제하시겠습니까? 삭제한 댓글은 되돌릴 수 없습니다."
-                        );
-                        if (result) {
-                          dispatch(deleteCommentDB(list.id));
-                          // navigate("/");
-                        }
-                      }}
-                    >
-                      삭제
-                    </Re>
-                  </Info>
-                </CommentInfo>
-              </CommentBox>
-            );
-          })
-        )}
+        {comment_list !== undefined
+          ? comment_list.map((list, index) => {
+              // 댓글 달린 시간표시
+              const today = new Date();
+              const timeValue = new Date(list.createdAt);
+
+              // console.log(list.createdAt);
+              // console.log(timeValue.getTime());
+              // console.log(today.getTime());
+
+              const betweenTime = Math.floor(
+                (today.getTime() - timeValue.getTime()) / 1000 / 60
+              );
+              const betweenTimeHour = Math.floor(betweenTime / 60);
+              const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+
+              // if (betweenTime < 1) setTime("방금전");
+              // else if (betweenTime < 60) {
+              //   setTime(`${betweenTime}분전`);
+              // } else if (betweenTimeHour < 24) {
+              //   setTime(`${betweenTimeHour}시간전`);
+              // } else if (betweenTimeDay < 365) {
+              //   setTime(`${betweenTimeDay}일전`);
+              // }
+
+              // console.log(list.createdAt);
+              // const time = list.createdAt;
+              // const Month = time.split("-")[1];
+              // const Day = time.split("-")[2].substr(0, 2);
+              // const Time = Day.split(":")[1];
+              // const Min = Day.split(":")[2];
+              // const CommentTime = Month + "/" + Day + " " + Time + ":" + Min;
+              // console.log(time);
+
+              return (
+                <CommentBox key={index}>
+                  <UserProfile src={Profile} alt="userProfile" />
+                  <CommentInfo>
+                    <Nickname>{list.userNickname}</Nickname>
+                    <CommentText>{list.comment}</CommentText>
+                    <Info>
+                      <Time>6시간 전</Time> <Point />
+                      <HeartIcon src={Heart} alt="좋아요아이콘" />
+                      <Like>좋아요</Like>
+                      <Point />
+                      <Re>답글 달기</Re>
+                      <Point />
+                      <Re
+                        onClick={() => {
+                          const result = window.confirm(
+                            "댓글을 삭제하시겠습니까? 삭제한 댓글은 되돌릴 수 없습니다."
+                          );
+                          if (result) {
+                            dispatch(deleteCommentDB(list.id));
+                            navigate(0);
+                          }
+                        }}
+                      >
+                        삭제
+                      </Re>
+                    </Info>
+                  </CommentInfo>
+                </CommentBox>
+              );
+            })
+          : null}
       </Wrap>
     </>
   );

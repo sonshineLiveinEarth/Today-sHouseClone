@@ -1,34 +1,41 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import { apis } from "../../shared/api";
+import { useNavigate } from "react-router-dom";
 
 // Action
-const GET_COMMENT_LIST = "GET_COMMENT_LIST";
-const ADD_COMMENT = "ADD_COMMENT";
-const DELETE_COMMENT = "DELETE_COMMENT";
+// const GET_COMMENT_LIST = "GET_COMMENT_LIST";
+// const ADD_COMMENT = "ADD_COMMENT";
+// const DELETE_COMMENT = "DELETE_COMMENT";
+const GET_COMMENT_LIST = "comment/LOAD";
+const ADD_COMMENT = "comment/ADD";
+const DELETE_COMMENT = "comment/DELETE";
 
 // Action Creator
-const getCommentList = createAction(GET_COMMENT_LIST, (postList) => ({
-  postList,
-}));
-const addComment = createAction(ADD_COMMENT, (post) => ({ post }));
-const deleteComment = createAction(DELETE_COMMENT, (id) => ({ id }));
+// const getCommentList = createAction(GET_COMMENT_LIST, (postList) => ({
+//   postList,
+// }));
+// const addComment = createAction(ADD_COMMENT, (post) => ({ post }));
+// const deleteComment = createAction(DELETE_COMMENT, (id) => ({ id }));
+
+//액션
+export const addComment = (comment_data) => {
+  return { type: ADD_COMMENT, comment_data };
+};
+export const getCommentList = (comment_data) => {
+  return { type: GET_COMMENT_LIST, comment_data };
+};
+export const deleteComment = (comment_data) => {
+  return { type: DELETE_COMMENT, comment_data };
+};
 
 // Initial State
 const initialState = {
-  list: [
-    {
-      id: "1",
-      userNickname: "nickname",
-      comment: "멋지네요!",
-    },
-    {
-      id: "1",
-      userNickname: "nickname",
-      comment: "우와🤍",
-    },
-  ],
+  list: [],
 };
+
+// //navigate
+const navigate = useNavigate;
 
 // Middleware
 
@@ -55,6 +62,7 @@ export const addCommentDB = (comment) => async (dispatch) => {
     const { data } = await apis.createComment(comment);
     console.log(data);
     dispatch(addComment(data));
+    // navigate(0);
   } catch (error) {
     window.alert("댓글 등록 중에 오류가 발생했습니다.");
     console.log(error);
@@ -76,50 +84,20 @@ export const deleteCommentDB = (id) => {
   };
 };
 
-// Reducer
-export default handleActions(
-  {
-    [GET_COMMENT_LIST]: (state, { payload }) =>
-      produce(state, (draft) => {
-        draft.list = payload;
-      }),
-    // [ADD_COMMENT]: (state, { payload }) =>
-    //   produce(state, (draft) => {
-    //     console.log(state.list.postList.data);
-    //     console.log(draft);
-    //     draft.list.unshift(state.list.postList.data);
-    //   }),
+export default function reducer(state = initialState, action = {}) {
+  switch (action.type) {
+    case "comment/LOAD": {
+      console.log("이제 값을 불러올거야");
+      console.log(action.comment_data.data);
+      return { list: action.comment_data.data, is_loaded: true };
+    }
+    case "comment/ADD": {
+      console.log("이제 값을 만들거야");
 
-    [ADD_COMMENT]: (state, action) => {
-      console.log(action);
-      console.log(state.list.postList.data);
-      return {
-        ...state,
-        comments: state.list.postList.data,
-      };
-    },
-
-    [DELETE_COMMENT]: (state, action) => {
-      console.log(state);
-      return {
-        ...state,
-        comments: state.comments.filter(
-          (comment) => comment.id !== action.payload.coId
-        ),
-      };
-    },
-
-    // [DELETE_COMMENT]: (state, { payload }) =>
-    //   produce(state, (draft) => {
-    //     draft.list = draft.list.filter((post) => post.id !== payload.id);
-    //   }),
-  },
-  initialState
-);
-
-const actionCreators = {
-  addComment,
-  addCommentDB,
-};
-
-export { actionCreators };
+      const new_comment_list = [...state.list];
+      return { ...state, list: new_comment_list };
+    }
+    default:
+      return state;
+  }
+}
