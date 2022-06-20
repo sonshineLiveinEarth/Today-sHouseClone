@@ -1,12 +1,12 @@
-import React, { useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { addPostDB } from "../redux/modules/post";
 
 import { size, type, style, area } from "../shared/postOptions";
-import { BigBlueButton, TextButton } from "../elements/Button";
+import { BigBlueButton } from "../elements/Button";
 import { Select } from "../elements/Select.js";
 import { Textarea } from "../elements/Textarea";
 
@@ -15,7 +15,9 @@ const PostNewEdit = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const [preview, setPreview] = useState(null);
+  const post = useSelector((state) => state.post.postOne);
+  const [preview, setPreview] = useState(post.imageUrl ?? "");
+  console.log(post);
 
   const sizeRef = useRef();
   const typeRef = useRef();
@@ -61,18 +63,33 @@ const PostNewEdit = () => {
     }
 
     const formData = new FormData(event.target);
-    if (sizeRef.current.value === "-1") formData.append("size", "");
-    if (typeRef.current.value === "-1") formData.append("type", "");
-    if (styleRef.current.value === "-1") formData.append("style", "");
+    // const formData = new FormData();
+
+    if (sizeRef.current.value === "평수") formData.append("size", "평수");
+    if (typeRef.current.value === "주거형태")
+      formData.append("type", "주거형태");
+    if (styleRef.current.value === "스타일") formData.append("style", "스타일");
+
+    // formData.append("area", "공간");
+    // formData.append("imageUrl", fileRef.current.files[0]);
+    // formData.append("content", "content");
+    // formData.append("size", "size");
+    // formData.append("type", "type");
+    // formData.append("style", "style");
 
     for (let key of formData.keys()) {
-      console.log({ [key]: formData.get(key) });
+      // console.log({ [key]: formData.get(key) });
     }
     // if (id)
-    // dispatch(addPostDB(id, formData));
+    dispatch(addPostDB(id, formData));
     // else dispatch(addPostDB(formData));
     // navigate("/");
   };
+  useEffect(() => {
+    if (id) {
+      // dispatch();
+    }
+  }, []);
 
   return (
     <form onSubmit={onSubmit}>
@@ -89,8 +106,8 @@ const PostNewEdit = () => {
       </Header>
       <FormWrap>
         <SelectContainer>
-          <Select name="size" ref={sizeRef} defaultValue="-1">
-            <option value="-1" disabled>
+          <Select name="size" ref={sizeRef} defaultValue={post.size ?? "평수"}>
+            <option value="평수" disabled>
               평수
             </option>
             {size.map((element, index) => (
@@ -100,8 +117,12 @@ const PostNewEdit = () => {
             ))}
           </Select>
 
-          <Select name="type" ref={typeRef} defaultValue="-1">
-            <option value="-1" disabled>
+          <Select
+            name="type"
+            ref={typeRef}
+            defaultValue={post.type ?? "주거형태"}
+          >
+            <option value="주거형태" disabled>
               주거형태
             </option>
             {type.map((element, index) => (
@@ -111,8 +132,12 @@ const PostNewEdit = () => {
             ))}
           </Select>
 
-          <Select name="style" ref={styleRef} defaultValue="-1">
-            <option value="-1" disabled>
+          <Select
+            name="style"
+            ref={styleRef}
+            defaultValue={post.style ?? "스타일"}
+          >
+            <option value="스타일" disabled>
               스타일
             </option>
             {style.map((element, index) => (
@@ -138,7 +163,7 @@ const PostNewEdit = () => {
             type="file"
             id="upload"
             style={{ display: "none" }}
-            name="imageFile"
+            name="imageUrl"
             accept="image/*"
             ref={fileRef}
             onChange={onChangeFile}
@@ -150,7 +175,7 @@ const PostNewEdit = () => {
             </UploadBox>
           </label>
           <ImgDescription>
-            <Select name="area" ref={areaRef} defaultValue="-1">
+            <Select name="area" ref={areaRef} defaultValue={post.area ?? "-1"}>
               <option value="-1" disabled>
                 공간 (필수)
               </option>
@@ -164,6 +189,7 @@ const PostNewEdit = () => {
               name="content"
               ref={contentRef}
               placeholder="사진에 대해 설명해주세요."
+              defaultValue={post.content ?? ""}
             />
           </ImgDescription>
         </div>
