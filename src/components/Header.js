@@ -21,7 +21,7 @@ const Header = () => {
 
   return (
     <>
-      <HeaderContainerFix>
+      <HeaderContainer>
         <div>
           <img
             src="/images/TextLogo.png"
@@ -55,7 +55,7 @@ const Header = () => {
             </BlueButton>
           </nav>
         </div>
-      </HeaderContainerFix>
+      </HeaderContainer>
 
       {showModal && (
         <ModalContainer showModal={showModal}>
@@ -76,7 +76,7 @@ const Header = () => {
   );
 };
 
-const HeaderContainerFix = styled.header`
+export const HeaderContainer = styled.header`
   width: 100vw;
   height: 80px;
   margin: 0px auto;
@@ -89,13 +89,16 @@ const HeaderContainerFix = styled.header`
   left: 0;
   top: 0;
   div {
-    width: 720px;
+    width: 1256px;
+    padding: 0 60px;
     margin: 0 auto;
     display: flex;
     align-items: center;
-    max-width: 1256px;
     flex-direction: row;
     justify-content: space-between;
+    @media only screen and (max-width: 800px) {
+      padding: 0 40px;
+    }
   }
   nav {
     display: flex;
@@ -112,32 +115,6 @@ const Icon = styled.img`
   padding-top: 2px;
   margin-left: 6px;
   margin-left: 8px;
-`;
-
-export const HeaderContainer = styled.header`
-  height: 80px;
-  margin: 0px auto;
-  padding: 0 30px;
-  background-color: white;
-  box-sizing: border-box;
-  border-bottom: 1px solid rgb(219, 219, 219);
-  display: flex;
-  div {
-    width: 720px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    max-width: 1256px;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-  nav {
-    display: flex;
-  }
-  img {
-    cursor: pointer;
-    margin-right: 10px;
-  }
 `;
 
 const ModalContainer = styled.div`
