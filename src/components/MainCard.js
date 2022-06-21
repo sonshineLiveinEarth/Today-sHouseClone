@@ -1,6 +1,6 @@
 import React from "react";
-import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import styled, { css } from "styled-components";
+import { useNavigate, Link } from "react-router-dom";
 import Heart from "../image/Heart.png";
 import Bookmark from "../image/Bookmark.png";
 import CommentIcon from "../image/CommentIcon.png";
@@ -9,16 +9,16 @@ const MainCard = ({ postObj }) => {
   const navigate = useNavigate();
 
   return (
-    <CardWrap
-      onClick={() => {
-        navigate("/detail/" + postObj.id);
-      }}
-    >
+    <CardWrap>
       <CardHeader>
         <img src="/images/Avatar.png" alt="profile" height="36" />
         <span>{postObj.userNickname}</span>
       </CardHeader>
-      <ImageWrap>
+      <ImageWrap
+        onClick={() => {
+          navigate("/detail/" + postObj.id);
+        }}
+      >
         <CardImage src={postObj.imageUrl} alt="card image" />
       </ImageWrap>
       <IconWrap>
@@ -30,12 +30,22 @@ const MainCard = ({ postObj }) => {
           <Icon src={Bookmark} alt="Bookmark" />
           <span>{postObj.bookmarkCnt === 0 ? "" : postObj.bookmarkCnt}</span>
         </IconCnt>
-        <IconCnt>
+        <IconCnt
+          onClick={() => {
+            navigate("/detail/" + postObj.id);
+          }}
+        >
           <Icon src={CommentIcon} alt="CommentIcon" />
           <span>{postObj.commentCnt === 0 ? "" : postObj.commentCnt}</span>
         </IconCnt>
       </IconWrap>
-      <Text>{postObj.content}</Text>
+      <Text
+        onClick={() => {
+          navigate("/detail/" + postObj.id);
+        }}
+      >
+        {postObj.content}
+      </Text>
       {postObj.comment && (
         <CommentWrap>
           <CommentProfile src="/images/Avatar.png" alt="profile" height="24" />
@@ -52,12 +62,15 @@ const MainCard = ({ postObj }) => {
 
 const CardWrap = styled.article`
   cursor: pointer;
+  margin-bottom: 30px;
+`;
+const Hover = css`
   &:hover {
     opacity: 0.65;
   }
-  margin-bottom: 30px;
 `;
 const CardHeader = styled.div`
+  ${Hover}
   display: flex;
   margin: 10px 0;
   span {
@@ -78,7 +91,7 @@ const CardImage = styled.img`
   border-radius: 6px;
   transition: all 0.1s linear;
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
   }
 `;
 const IconWrap = styled.div`
@@ -94,6 +107,7 @@ const IconCnt = styled.div`
   align-items: center;
 `;
 const Icon = styled.img`
+  ${Hover}
   height: 22px;
   margin-right: 7px;
 `;
@@ -106,6 +120,7 @@ const CommentWrap = styled.div`
 `;
 
 const Text = styled.div`
+  ${Hover}
   margin-top: 10px;
   width: 100%;
   line-height: 1.5;

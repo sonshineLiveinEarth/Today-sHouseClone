@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { addPostDB } from "../redux/modules/post";
+import { addPostDB, getPostDB } from "../redux/modules/post";
 
 import { size, type, style, area } from "../shared/postOptions";
 import { BigBlueButton } from "../elements/Button";
@@ -17,14 +17,13 @@ const PostNewEdit = () => {
 
   const post = useSelector((state) => state.post.postOne);
   const [preview, setPreview] = useState(post.imageUrl ?? "");
-  console.log(post);
 
-  const sizeRef = useRef();
-  const typeRef = useRef();
-  const styleRef = useRef();
-  const areaRef = useRef();
+  const sizeRef = useRef(post.size ?? null);
+  const typeRef = useRef(post.type ?? null);
+  const styleRef = useRef(post.style ?? null);
+  const areaRef = useRef(post.area ?? null);
   const fileRef = useRef();
-  const contentRef = useRef();
+  const contentRef = useRef(post.content ?? null);
 
   // 이미지 미리보기
   const onChangeFile = (event) => {
@@ -57,39 +56,25 @@ const PostNewEdit = () => {
   // 올리기 클릭
   const onSubmit = (event) => {
     event.preventDefault();
-    if (!fileRef.current.files[0] || areaRef.current.value === "-1") {
+
+    if (!preview || areaRef.current.value === "-1") {
       window.alert("사진과 공간은 필수 항목입니다.");
       return false;
     }
 
     const formData = new FormData(event.target);
-    // const formData = new FormData();
 
+    if (id && !fileRef.current.value) {
+      formData.set("imageUrl", preview);
+    }
     if (sizeRef.current.value === "평수") formData.append("size", "평수");
     if (typeRef.current.value === "주거형태")
       formData.append("type", "주거형태");
     if (styleRef.current.value === "스타일") formData.append("style", "스타일");
 
-    // formData.append("area", "공간");
-    // formData.append("imageUrl", fileRef.current.files[0]);
-    // formData.append("content", "content");
-    // formData.append("size", "size");
-    // formData.append("type", "type");
-    // formData.append("style", "style");
-
-    for (let key of formData.keys()) {
-      // console.log({ [key]: formData.get(key) });
-    }
-    // if (id)
     dispatch(addPostDB(id, formData));
-    // else dispatch(addPostDB(formData));
-    // navigate("/");
+    navigate("/");
   };
-  useEffect(() => {
-    if (id) {
-      // dispatch();
-    }
-  }, []);
 
   return (
     <form onSubmit={onSubmit}>
