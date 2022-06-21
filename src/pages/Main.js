@@ -33,6 +33,10 @@ const Main = () => {
     <>
       <Header />
       <Blank />
+      <TitleWrap>
+        <Title>오늘의 인기 사진</Title>
+      </TitleWrap>
+
       <RankGrid>
         {postRank.map((postObj, index) => {
           return <MainRank postObj={postObj} key={index} rank={index} />;
@@ -49,6 +53,21 @@ const Main = () => {
     </>
   );
 };
+
+const TitleWrap = styled.div`
+  max-width: 1256px;
+  width: 90%;
+  height: auto;
+  margin: auto;
+`;
+
+const Title = styled.div`
+  font-size: 20px;
+  color: #000;
+  font-weight: 700;
+  margin-bottom: 20px;
+`;
+
 const Blank = styled.div`
   height: 100px;
   grid-column: 1/-1;

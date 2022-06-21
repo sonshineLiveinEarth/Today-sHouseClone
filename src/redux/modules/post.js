@@ -50,7 +50,7 @@ export const getPostDB = (postId) => {
     apis
       .loadPost(postId)
       .then((response) => {
-        dispatch(getPost(response.data.body));
+        dispatch(getPost(response.data));
       })
       .catch((error) => {
         window.alert("게시물을 불러오는 중에 오류가 발생했습니다.");

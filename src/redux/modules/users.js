@@ -41,7 +41,7 @@ export const SignupDB = (username, password, userNickname) => {
       .then((res) => {
         console.log(res);
         window.alert("환영합니다!");
-        window.location.assign("/login");
+        window.location.assign("/");
       })
       .catch((err) => {
         console.log("회원가입 실패", err);
@@ -115,6 +115,7 @@ export const logoutDB = () => {
     dispatch(logOut());
     localStorage.removeItem("email");
     localStorage.removeItem("jwtToken");
+    window.location.assign("/");
   };
 };
 
