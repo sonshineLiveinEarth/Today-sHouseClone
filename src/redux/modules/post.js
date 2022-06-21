@@ -133,15 +133,17 @@ export default handleActions(
       }),
     [DELETE_POST]: (state, { payload }) =>
       produce(state, (draft) => {
-        draft.postList = draft.postList.filter((post) => post.id != payload.id);
+        draft.postList = draft.postList.filter(
+          (post) => Number(post.id) !== Number(payload.id)
+        );
       }),
   },
   initialState
 );
 
-const actionCreators = {
-  addPost,
-  addPostDB,
-};
+// const actionCreators = {
+//   addPost,
+//   addPostDB,
+// };
 
-export { actionCreators };
+// export { actionCreators };
