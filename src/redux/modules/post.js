@@ -21,19 +21,7 @@ const deletePost = createAction(DELETE_POST, (id) => ({ id }));
 // Initial State
 const initialState = {
   postOne: {},
-  postList: [
-    {
-      id: "0",
-      userNickname: "nickname",
-      imageFile:
-        "https://www.instandngs4p.eu/wp-content/themes/fox/images/placeholder.jpg",
-      content: "content",
-      heartCnt: 0,
-      bookmarkCnt: 0,
-      commentCnt: 0,
-      comment: "",
-    },
-  ],
+  postList: [{}],
   ranking: [{}],
 };
 
@@ -45,7 +33,7 @@ export const getPostListDB = () => {
     try {
       const response = await apis.loadPostList();
       dispatch(getPostList(response.data));
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       alert("게시물을 불러오는 중에 오류가 발생했습니다.");
       console.log(error);
@@ -130,7 +118,6 @@ export default handleActions(
       }),
     [GET_RANKING]: (state, { payload }) =>
       produce(state, (draft) => {
-        console.log(payload.post);
         draft.ranking = payload.post;
       }),
     [ADD_POST]: (state, { payload }) =>
