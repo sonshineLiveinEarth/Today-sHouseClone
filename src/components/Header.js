@@ -156,7 +156,7 @@ const ModalContainer = styled.div`
   transform: none;
   transition: transform 0.2s ease 0s;
   position: fixed;
-  right: 560px;
+  right: 300px;
   padding: 8px;
   top: 70px;
   /* transform: translate(-50%, -50%); */
@@ -169,29 +169,17 @@ const ModalContainer = styled.div`
   box-shadow: rgb(63 71 77 / 20%) 0px 4px 10px 0px;
   visibility: visible;
   z-index: 20;
+  @media only screen and (max-width: 1800px) {
+    right: 180px;
+  }
   @media only screen and (max-width: 1700px) {
-    right: 440px;
+    right: 130px;
   }
   @media only screen and (max-width: 1600px) {
-    right: 400px;
+    right: 100px;
   }
   @media only screen and (max-width: 1500px) {
-    right: 330px;
-  }
-  @media only screen and (max-width: 1400px) {
-    right: 280px;
-  }
-  @media only screen and (max-width: 1300px) {
-    right: 240px;
-  }
-  @media only screen and (max-width: 1200px) {
-    right: 200px;
-  }
-  @media only screen and (max-width: 1100px) {
-    right: 140px;
-  }
-  @media only screen and (max-width: 1000px) {
-    right: 100px;
+    right: 80px;
   }
   @media only screen and (max-width: 900px) {
     right: 60px;
