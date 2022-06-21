@@ -20,9 +20,11 @@ const Main = () => {
       <Header />
       <MainGrid>
         <Blank />
-        {postList.map((postObj, index) => {
-          return <MainCard postObj={postObj} key={index} />;
-        })}
+        {postList !== undefined
+          ? postList.map((postObj, index) => {
+              return <MainCard postObj={postObj} key={index} />;
+            })
+          : null}
       </MainGrid>
     </>
   );

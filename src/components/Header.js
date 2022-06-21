@@ -91,7 +91,7 @@ const Header = () => {
           <Div>
             <MypageTitle
               onClick={() => {
-                // navigate("/");
+                navigate("/");
               }}
             >
               마이페이지
@@ -156,7 +156,7 @@ const ModalContainer = styled.div`
   transform: none;
   transition: transform 0.2s ease 0s;
   position: fixed;
-  right: 560px;
+  right: 300px;
   padding: 8px;
   top: 70px;
   /* transform: translate(-50%, -50%); */
@@ -169,29 +169,17 @@ const ModalContainer = styled.div`
   box-shadow: rgb(63 71 77 / 20%) 0px 4px 10px 0px;
   visibility: visible;
   z-index: 20;
+  @media only screen and (max-width: 1800px) {
+    right: 180px;
+  }
   @media only screen and (max-width: 1700px) {
-    right: 440px;
+    right: 130px;
   }
   @media only screen and (max-width: 1600px) {
-    right: 400px;
+    right: 100px;
   }
   @media only screen and (max-width: 1500px) {
-    right: 330px;
-  }
-  @media only screen and (max-width: 1400px) {
-    right: 280px;
-  }
-  @media only screen and (max-width: 1300px) {
-    right: 240px;
-  }
-  @media only screen and (max-width: 1200px) {
-    right: 200px;
-  }
-  @media only screen and (max-width: 1100px) {
-    right: 140px;
-  }
-  @media only screen and (max-width: 1000px) {
-    right: 100px;
+    right: 80px;
   }
   @media only screen and (max-width: 900px) {
     right: 60px;
@@ -253,34 +241,24 @@ const ModalMyPageContainer = styled.div`
   z-index: 20;
   padding: 8px;
   width: 184px;
-  right: 360px;
+  right: 340px;
   @media only screen and (max-width: 1700px) {
     right: 200px;
   }
   @media only screen and (max-width: 1600px) {
-    right: 400px;
+    right: 160px;
   }
-  @media only screen and (max-width: 1500px) {
-    right: 330px;
-  }
-  @media only screen and (max-width: 1400px) {
-    right: 280px;
-  }
+
   @media only screen and (max-width: 1300px) {
-    right: 240px;
+    right: 110px;
   }
   @media only screen and (max-width: 1200px) {
-    right: 200px;
+    right: 100px;
   }
   @media only screen and (max-width: 1100px) {
-    right: 140px;
+    right: 100px;
   }
-  @media only screen and (max-width: 1000px) {
-    right: 130px;
-  }
-  @media only screen and (max-width: 900px) {
-    right: 120px;
-  }
+
   @media only screen and (max-width: 800px) {
     /* width: 20rem; */
     right: 100px;
@@ -308,7 +286,6 @@ const ModalMyPageContainer = styled.div`
 `;
 
 const WriteWrap = styled.div`
-  width: 156px;
   height: 60px;
   display: flex;
   flex-direction: row;
@@ -327,6 +304,7 @@ const ImageIcon = styled.img`
 `;
 
 const TextWrap = styled.div`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;

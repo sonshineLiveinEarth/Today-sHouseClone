@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import {
@@ -14,51 +14,19 @@ import Profile from "../image/Profile.png";
 import Heart from "../image/Heart.png";
 
 const Comment = () => {
-  // const comment_list = useSelector((state) => state.comment.list);
-  // console.log(comment_list);
+  const navigate = useNavigate();
+
+  const comment_list = useSelector((state) => state.comment.commentList);
+  console.log(comment_list);
+
   const dispatch = useDispatch();
   const params = useParams();
   console.log(params.id);
   const commentText = React.useRef("");
 
-  //포스팅 작성한 시간 커스텀하기
-  const now = new Date();
-  const Day = now.getDate();
-  const month = Number(now.getMonth() + 1);
-  const year = now.getFullYear();
-  const yearSub = year.toString().substr(2, 4);
-  const hours = now.getHours();
-  const minutes = now.getMinutes();
-  const postTime = hours + ":" + minutes;
-
-  const postDay = yearSub + "." + month + "." + Day + " " + postTime;
-
-  // 댓글 달린 시간표시
-  const today = new Date();
-  const timeValue = new Date(today);
-  console.log(today, typeof today);
-
-  const betweenTime = Math.floor(
-    (today.getTime() - timeValue.getTime()) / 1000 / 60
-  );
-  if (betweenTime < 1) console.log("방금전");
-  if (betweenTime < 60) {
-    console.log(`${betweenTime}분전`);
-  }
-
-  const betweenTimeHour = Math.floor(betweenTime / 60);
-  if (betweenTimeHour < 24) {
-    console.log(`${betweenTimeHour}시간전`);
-  }
-
-  const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-  if (betweenTimeDay < 365) {
-    console.log(`${betweenTimeDay}일전`);
-  }
-
   React.useEffect(() => {
     dispatch(getCommentListDB(params.id));
-  }, []);
+  }, [dispatch]);
 
   // 댓글 추가
   const addComment = () => {
@@ -72,6 +40,8 @@ const Comment = () => {
           comment: commentText.current.value,
         })
       );
+      navigate(0);
+      commentText.current.value = "";
     }
   };
   console.log(commentText.current.value);
@@ -81,7 +51,7 @@ const Comment = () => {
       <Wrap id="1">
         <Hr />
         <CommentT>댓글</CommentT>
-        <CommentNum>1</CommentNum>
+        <CommentNum>{comment_list?.length}</CommentNum>
         <InputWrap>
           <UserProfile src={Profile} alt="userProfile" />
           <CommentInput
@@ -91,40 +61,85 @@ const Comment = () => {
           <CommentBtn
             onClick={() => {
               addComment();
-              // navigate(0);
             }}
             type="button"
             value="입력"
           />
         </InputWrap>
-        <CommentBox>
-          <UserProfile src={Profile} alt="userProfile" />
-          <CommentInfo>
-            <Nickname>이설이</Nickname>
-            <CommentText>블루 톤이 시원해보여요 :)</CommentText>
-            <Info>
-              <Time>6시간 전</Time> <Point />
-              <HeartIcon src={Heart} alt="좋아요아이콘" />
-              <Like>좋아요</Like>
-              <Point />
-              <Re>답글 달기</Re>
-              <Point />
-              <Re
-                onClick={() => {
-                  const result = window.confirm(
-                    "댓글을 삭제하시겠습니까? 삭제한 댓글은 되돌릴 수 없습니다."
-                  );
-                  if (result) {
-                    dispatch(deleteCommentDB(params.id));
-                    // navigate("/");
-                  }
-                }}
-              >
-                삭제
-              </Re>
-            </Info>
-          </CommentInfo>
-        </CommentBox>
+        {comment_list !== undefined
+          ? comment_list.map((list, index) => {
+              // 댓글 달린 시간표시
+              const today = new Date();
+              const timeValue = new Date(list.createdAt);
+
+              // console.log(list.createdAt);
+              // console.log(timeValue.getTime());
+              // console.log(today.getTime());
+
+              const betweenTime = Math.floor(
+                (today.getTime() - timeValue.getTime()) / 1000 / 60
+              );
+              const betweenTimeHour = Math.floor(betweenTime / 60);
+              const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
+
+              // console.log(list.createdAt);
+              // const time = list.createdAt;
+              // const Month = time.split("-")[1];
+              // const Day = time.split("-")[2].substr(0, 2);
+              // const Time = Day.split(":")[1];
+              // const Min = Day.split(":")[2];
+              // const CommentTime = Month + "/" + Day + " " + Time + ":" + Min;
+              // console.log(time);
+              console.log(today);
+              console.log(timeValue);
+              console.log(betweenTime);
+              console.log(betweenTimeHour);
+              console.log(betweenTimeDay);
+
+              return (
+                <CommentBox key={index}>
+                  <UserProfile src={Profile} alt="userProfile" />
+                  <CommentInfo>
+                    <Nickname>{list.userNickname}</Nickname>
+                    <CommentText>{list.comment}</CommentText>
+                    <Info>
+                      <Time>
+                        {betweenTime < 1 ? "방금 전" : null}
+                        {betweenTime >= 1 && betweenTime < 60
+                          ? `${betweenTime}분 전`
+                          : null}
+                        {betweenTime >= 60 && betweenTimeHour < 24
+                          ? `${betweenTimeHour}시간 전`
+                          : null}
+                        {betweenTimeHour >= 24 && betweenTimeDay < 365
+                          ? `${betweenTimeDay}일 전`
+                          : null}
+                        {betweenTimeDay > 365 ? "1년 전" : null}
+                      </Time>
+                      <Point />
+                      <HeartIcon src={Heart} alt="좋아요아이콘" />
+                      <Like>좋아요</Like>
+                      <Point />
+                      <Re>답글 달기</Re>
+                      <Point />
+                      <Re
+                        onClick={() => {
+                          const result = window.confirm(
+                            "댓글을 삭제하시겠습니까? 삭제한 댓글은 되돌릴 수 없습니다."
+                          );
+                          if (result) {
+                            dispatch(deleteCommentDB(list.id));
+                          }
+                        }}
+                      >
+                        삭제
+                      </Re>
+                    </Info>
+                  </CommentInfo>
+                </CommentBox>
+              );
+            })
+          : null}
       </Wrap>
     </>
   );

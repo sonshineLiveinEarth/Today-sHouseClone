@@ -6,18 +6,18 @@ import { Link } from "react-scroll";
 import HeartB from "../image/HeartB.png";
 import CommentIcon from "../image/CommentIcon.png";
 
-const Banner = () => {
+const Banner = (props) => {
   return (
     <Wrap>
       <Div>
         <HeartIcon src={HeartB} alt="좋아요 버튼" />
-        <Count>26</Count>
+        <Count>{props.heartCnt}</Count>
       </Div>
       <Div>
         <Link to="1" spy={true} smooth={true}>
           <CoIcon src={CommentIcon} alt="댓글 탭 이동" />
         </Link>
-        <Count>2</Count>
+        <Count>{props.commentCnt}</Count>
       </Div>
     </Wrap>
   );

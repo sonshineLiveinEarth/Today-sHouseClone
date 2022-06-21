@@ -1,37 +1,24 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import { apis } from "../../shared/api";
-
 // Action
-const GET_COMMENT_LIST = "GET_COMMENT_LIST";
-const ADD_COMMENT = "ADD_COMMENT";
-const DELETE_COMMENT = "DELETE_COMMENT";
+const GET_COMMENT_LIST = "comment/LOAD";
+const ADD_COMMENT = "comment/ADD";
+const DELETE_COMMENT = "comment/DELETE";
 
 // Action Creator
-const getCommentList = createAction(GET_COMMENT_LIST, (postList) => ({
-  postList,
+const getCommentList = createAction(GET_COMMENT_LIST, (commentList) => ({
+  commentList,
 }));
-const addComment = createAction(ADD_COMMENT, (post) => ({ post }));
+const addComment = createAction(ADD_COMMENT, (comment) => ({ comment }));
 const deleteComment = createAction(DELETE_COMMENT, (id) => ({ id }));
 
 // Initial State
 const initialState = {
-  list: [
-    {
-      id: "1",
-      userNickname: "nickname",
-      comment: "멋지네요!",
-    },
-    {
-      id: "1",
-      userNickname: "nickname",
-      comment: "우와🤍",
-    },
-  ],
+  commentList: [],
 };
 
 // Middleware
-
 // 전체 게시물 받아오기
 export const getCommentListDB = (postId) => {
   return async function (dispatch) {
@@ -55,6 +42,7 @@ export const addCommentDB = (comment) => async (dispatch) => {
     const { data } = await apis.createComment(comment);
     console.log(data);
     dispatch(addComment(data));
+    // navigate(0);
   } catch (error) {
     window.alert("댓글 등록 중에 오류가 발생했습니다.");
     console.log(error);
@@ -63,6 +51,7 @@ export const addCommentDB = (comment) => async (dispatch) => {
 
 // 게시물 삭제
 export const deleteCommentDB = (id) => {
+  console.log(id);
   return async function (dispatch) {
     try {
       console.log("댓글을 삭제할거야!");
@@ -80,24 +69,22 @@ export default handleActions(
   {
     [GET_COMMENT_LIST]: (state, { payload }) =>
       produce(state, (draft) => {
-        draft.list = payload;
+        draft.commentList = payload.commentList.data;
       }),
+
     [ADD_COMMENT]: (state, { payload }) =>
       produce(state, (draft) => {
         console.log(payload);
-        draft.list.unshift(payload.post);
+        draft.commentList.unshift(payload.post);
       }),
+
     [DELETE_COMMENT]: (state, { payload }) =>
       produce(state, (draft) => {
-        draft.list = draft.list.filter((post) => post.id !== payload.id);
+        draft.commentList = draft.commentList.filter(
+          (post) => post.id !== payload.id
+        );
+        console.log(draft.commentList);
       }),
   },
   initialState
 );
-
-const actionCreators = {
-  addComment,
-  addCommentDB,
-};
-
-export { actionCreators };

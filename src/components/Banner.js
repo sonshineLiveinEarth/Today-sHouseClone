@@ -7,17 +7,18 @@ import HeartB from "../image/HeartB.png";
 import CommentIcon from "../image/CommentIcon.png";
 import BookMark from "../image/Bookmark.png";
 
-const Banner = () => {
+const Banner = (props) => {
+  console.log(props);
   return (
     <Wrap>
       <Box>
         <HeartIcon src={HeartB} alt="좋아요 버튼" />
       </Box>
-      <Count>26</Count>
+      <Count>{props.heartCnt}</Count>
       <Box>
         <MarkIcon src={BookMark} alt="포스팅 저장하기" />
       </Box>
-      <Count>26</Count>
+      <Count>{props.bookmarkCnt}</Count>
       <Hr />
       <Link to="1" spy={true} smooth={true}>
         <Box2>
@@ -25,7 +26,7 @@ const Banner = () => {
         </Box2>
       </Link>
 
-      <Count>2</Count>
+      <Count>{props.commentCnt}</Count>
     </Wrap>
   );
 };
