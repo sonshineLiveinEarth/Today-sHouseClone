@@ -127,7 +127,7 @@ export default handleActions(
       }),
     [GET_POST]: (state, { payload }) =>
       produce(state, (draft) => {
-        draft.postList = payload;
+        draft.postOne = payload;
       }),
     [ADD_POST]: (state, { payload }) =>
       produce(state, (draft) => {

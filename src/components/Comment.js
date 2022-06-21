@@ -16,52 +16,13 @@ import Heart from "../image/Heart.png";
 const Comment = () => {
   const navigate = useNavigate();
 
-  const comment_list = useSelector((state) => state.comment.list);
+  const comment_list = useSelector((state) => state.comment.commentList);
   console.log(comment_list);
-
-  // 댓글 작성 시간
-  const [time, setTime] = useState(comment_list.createdAt);
 
   const dispatch = useDispatch();
   const params = useParams();
   console.log(params.id);
   const commentText = React.useRef("");
-
-  //포스팅 작성한 시간 커스텀하기
-  const now = new Date();
-  const Day = now.getDate();
-  const month = Number(now.getMonth() + 1);
-  const year = now.getFullYear();
-  const yearSub = year.toString().substr(2, 4);
-  const hours = now.getHours();
-  const minutes = now.getMinutes();
-  const postTime = hours + ":" + minutes;
-
-  const postDay = yearSub + "." + month + "." + Day + " " + postTime;
-
-  // 댓글 달린 시간표시
-  // const today = new Date();
-  // const timeValue = new Date(comment_list.createdAt);
-  // console.log(today, typeof today);
-  // console.log(...comment_list, typeof comment_list?.createdAt);
-
-  // const betweenTime = Math.floor(
-  //   (comment_list.createdAt.getTime() - timeValue.getTime()) / 1000 / 60
-  // );
-  // if (betweenTime < 1) console.log("방금전");
-  // if (betweenTime < 60) {
-  //   setTime(`${betweenTime}분전`);
-  // }
-
-  // const betweenTimeHour = Math.floor(betweenTime / 60);
-  // if (betweenTimeHour < 24) {
-  //   setTime(`${betweenTimeHour}시간전`);
-  // }
-
-  // const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-  // if (betweenTimeDay < 365) {
-  //   setTime(`${betweenTimeDay}일전`);
-  // }
 
   React.useEffect(() => {
     dispatch(getCommentListDB(params.id));
@@ -90,7 +51,7 @@ const Comment = () => {
       <Wrap id="1">
         <Hr />
         <CommentT>댓글</CommentT>
-        <CommentNum>{comment_list.length}</CommentNum>
+        <CommentNum>{comment_list?.length}</CommentNum>
         <InputWrap>
           <UserProfile src={Profile} alt="userProfile" />
           <CommentInput
@@ -121,15 +82,6 @@ const Comment = () => {
               const betweenTimeHour = Math.floor(betweenTime / 60);
               const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
 
-              // if (betweenTime < 1) setTime("방금전");
-              // else if (betweenTime < 60) {
-              //   setTime(`${betweenTime}분전`);
-              // } else if (betweenTimeHour < 24) {
-              //   setTime(`${betweenTimeHour}시간전`);
-              // } else if (betweenTimeDay < 365) {
-              //   setTime(`${betweenTimeDay}일전`);
-              // }
-
               // console.log(list.createdAt);
               // const time = list.createdAt;
               // const Month = time.split("-")[1];
@@ -138,6 +90,11 @@ const Comment = () => {
               // const Min = Day.split(":")[2];
               // const CommentTime = Month + "/" + Day + " " + Time + ":" + Min;
               // console.log(time);
+              console.log(today);
+              console.log(timeValue);
+              console.log(betweenTime);
+              console.log(betweenTimeHour);
+              console.log(betweenTimeDay);
 
               return (
                 <CommentBox key={index}>
@@ -146,7 +103,20 @@ const Comment = () => {
                     <Nickname>{list.userNickname}</Nickname>
                     <CommentText>{list.comment}</CommentText>
                     <Info>
-                      <Time>6시간 전</Time> <Point />
+                      <Time>
+                        {betweenTime < 1 ? "방금 전" : null}
+                        {betweenTime >= 1 && betweenTime < 60
+                          ? `${betweenTime}분 전`
+                          : null}
+                        {betweenTime >= 60 && betweenTimeHour < 24
+                          ? `${betweenTimeHour}시간 전`
+                          : null}
+                        {betweenTimeHour >= 24 && betweenTimeDay < 365
+                          ? `${betweenTimeDay}일 전`
+                          : null}
+                        {betweenTimeDay > 365 ? "1년 전" : null}
+                      </Time>
+                      <Point />
                       <HeartIcon src={Heart} alt="좋아요아이콘" />
                       <Like>좋아요</Like>
                       <Point />
@@ -159,7 +129,6 @@ const Comment = () => {
                           );
                           if (result) {
                             dispatch(deleteCommentDB(list.id));
-                            navigate(0);
                           }
                         }}
                       >

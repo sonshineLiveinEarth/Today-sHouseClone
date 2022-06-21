@@ -14,7 +14,7 @@ import Banner from "../components/Banner";
 import Footer from "../components/Footer";
 
 const Detail = () => {
-  const post_list = useSelector((state) => state.post.postList);
+  const post_list = useSelector((state) => state.post.postOne);
   const post = post_list?.post?.data?.body;
   console.log(post);
   // console.log(post_list);

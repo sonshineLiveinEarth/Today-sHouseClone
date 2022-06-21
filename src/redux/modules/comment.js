@@ -1,44 +1,24 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import { apis } from "../../shared/api";
-import { useNavigate } from "react-router-dom";
-
 // Action
-// const GET_COMMENT_LIST = "GET_COMMENT_LIST";
-// const ADD_COMMENT = "ADD_COMMENT";
-// const DELETE_COMMENT = "DELETE_COMMENT";
 const GET_COMMENT_LIST = "comment/LOAD";
 const ADD_COMMENT = "comment/ADD";
 const DELETE_COMMENT = "comment/DELETE";
 
 // Action Creator
-// const getCommentList = createAction(GET_COMMENT_LIST, (postList) => ({
-//   postList,
-// }));
-// const addComment = createAction(ADD_COMMENT, (post) => ({ post }));
-// const deleteComment = createAction(DELETE_COMMENT, (id) => ({ id }));
-
-//액션
-export const addComment = (comment_data) => {
-  return { type: ADD_COMMENT, comment_data };
-};
-export const getCommentList = (comment_data) => {
-  return { type: GET_COMMENT_LIST, comment_data };
-};
-export const deleteComment = (comment_data) => {
-  return { type: DELETE_COMMENT, comment_data };
-};
+const getCommentList = createAction(GET_COMMENT_LIST, (commentList) => ({
+  commentList,
+}));
+const addComment = createAction(ADD_COMMENT, (comment) => ({ comment }));
+const deleteComment = createAction(DELETE_COMMENT, (id) => ({ id }));
 
 // Initial State
 const initialState = {
-  list: [],
+  commentList: [],
 };
 
-// //navigate
-const navigate = useNavigate;
-
 // Middleware
-
 // 전체 게시물 받아오기
 export const getCommentListDB = (postId) => {
   return async function (dispatch) {
@@ -84,20 +64,27 @@ export const deleteCommentDB = (id) => {
   };
 };
 
-export default function reducer(state = initialState, action = {}) {
-  switch (action.type) {
-    case "comment/LOAD": {
-      console.log("이제 값을 불러올거야");
-      console.log(action.comment_data.data);
-      return { list: action.comment_data.data, is_loaded: true };
-    }
-    case "comment/ADD": {
-      console.log("이제 값을 만들거야");
+// Reducer
+export default handleActions(
+  {
+    [GET_COMMENT_LIST]: (state, { payload }) =>
+      produce(state, (draft) => {
+        draft.commentList = payload.commentList.data;
+      }),
 
-      const new_comment_list = [...state.list];
-      return { ...state, list: new_comment_list };
-    }
-    default:
-      return state;
-  }
-}
+    [ADD_COMMENT]: (state, { payload }) =>
+      produce(state, (draft) => {
+        console.log(payload);
+        draft.commentList.unshift(payload.post);
+      }),
+
+    [DELETE_COMMENT]: (state, { payload }) =>
+      produce(state, (draft) => {
+        draft.commentList = draft.commentList.filter(
+          (post) => post.id !== payload.id
+        );
+        console.log(draft.commentList);
+      }),
+  },
+  initialState
+);
