@@ -5,6 +5,7 @@ import { apis } from "../../shared/api";
 // Action
 const GET_POST_LIST = "GET_POST_LIST";
 const GET_POST = "GET_POST";
+const GET_RANKING = "GET_RANKING";
 const ADD_POST = "ADD_POST";
 const EDIT_POST = "EDIT_POST";
 const DELETE_POST = "DELETE_POST";
@@ -12,6 +13,7 @@ const DELETE_POST = "DELETE_POST";
 // Action Creator
 const getPostList = createAction(GET_POST_LIST, (postList) => ({ postList }));
 const getPost = createAction(GET_POST, (post) => ({ post }));
+const getRanking = createAction(GET_RANKING, (post) => ({ post }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
 const editPost = createAction(EDIT_POST, (post) => ({ post }));
 const deletePost = createAction(DELETE_POST, (id) => ({ id }));
@@ -32,6 +34,7 @@ const initialState = {
       comment: "",
     },
   ],
+  ranking: [{}],
 };
 
 // Middleware
@@ -42,6 +45,7 @@ export const getPostListDB = () => {
     try {
       const response = await apis.loadPostList();
       dispatch(getPostList(response.data));
+      console.log(response.data);
     } catch (error) {
       alert("게시물을 불러오는 중에 오류가 발생했습니다.");
       console.log(error);
@@ -61,6 +65,19 @@ export const getPostDB = (postId) => {
         window.alert("게시물을 불러오는 중에 오류가 발생했습니다.");
         console.log(error);
       });
+  };
+};
+
+// 게시물 랭킹 받아오기
+export const getRankingDB = () => {
+  return async function (dispatch) {
+    try {
+      const response = await apis.loadRanking();
+      dispatch(getRanking(response.data));
+    } catch (error) {
+      alert("랭킹을 불러오는 중에 오류가 발생했습니다.");
+      console.log(error);
+    }
   };
 };
 
@@ -111,6 +128,11 @@ export default handleActions(
       produce(state, (draft) => {
         draft.postOne = payload.post;
       }),
+    [GET_RANKING]: (state, { payload }) =>
+      produce(state, (draft) => {
+        console.log(payload.post);
+        draft.ranking = payload.post;
+      }),
     [ADD_POST]: (state, { payload }) =>
       produce(state, (draft) => {
         console.log(payload);
@@ -140,10 +162,3 @@ export default handleActions(
   },
   initialState
 );
-
-// const actionCreators = {
-//   addPost,
-//   addPostDB,
-// };
-
-// export { actionCreators };
