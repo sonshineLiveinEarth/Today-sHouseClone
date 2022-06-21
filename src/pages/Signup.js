@@ -76,9 +76,11 @@ const Signup = () => {
     dispatch(SignupDB(username, password, userNickname));
     if (Nickname?.response?.status === 400) {
       setNickNameErr(true);
-    } else if (Nickname?.response?.data === "닉네임이 중복되었습니다.")
+      window.alert(Nickname?.response?.data);
+    } else if (Nickname?.response?.data === "닉네임이 중복되었습니다.") {
       setNickNameErr(true);
-    else setNickNameErr(false);
+    } else setNickNameErr(false);
+    navigate("/login");
   };
 
   console.log(username, password, userNickname);

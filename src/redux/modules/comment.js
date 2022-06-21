@@ -4,6 +4,7 @@ import { apis } from "../../shared/api";
 // Action
 const GET_COMMENT_LIST = "comment/LOAD";
 const ADD_COMMENT = "comment/ADD";
+const LIKE_COMMENT = "comment/MODIFI";
 const DELETE_COMMENT = "comment/DELETE";
 
 // Action Creator
@@ -11,10 +12,12 @@ const getCommentList = createAction(GET_COMMENT_LIST, (commentList) => ({
   commentList,
 }));
 const addComment = createAction(ADD_COMMENT, (comment) => ({ comment }));
+const likeComment = createAction(LIKE_COMMENT, (id) => ({ id }));
 const deleteComment = createAction(DELETE_COMMENT, (id) => ({ id }));
 
 // Initial State
 const initialState = {
+  commentLike: false,
   commentList: [],
 };
 
@@ -42,6 +45,19 @@ export const addCommentDB = (comment) => async (dispatch) => {
     const { data } = await apis.createComment(comment);
     console.log(data);
     dispatch(addComment(data));
+    // navigate(0);
+  } catch (error) {
+    window.alert("댓글 등록 중에 오류가 발생했습니다.");
+    console.log(error);
+  }
+};
+
+export const modifiCommentDB = (postId) => async (dispatch) => {
+  try {
+    console.log("댓글에 하트 추가할 준비", postId);
+    const { data } = await apis.addHeart(postId);
+    console.log(data);
+    dispatch(likeComment(postId));
     // navigate(0);
   } catch (error) {
     window.alert("댓글 등록 중에 오류가 발생했습니다.");
