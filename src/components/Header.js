@@ -137,7 +137,7 @@ export const HeaderContainer = styled.header`
   z-index: 10;
   div {
     width: 1256px;
-    padding: 0 60px;
+    padding-right: 12px;
     margin: 0 auto;
     display: flex;
     align-items: center;
