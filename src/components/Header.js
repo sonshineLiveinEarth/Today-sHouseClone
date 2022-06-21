@@ -28,9 +28,9 @@ const Header = () => {
   };
 
   const isLogin = localStorage.getItem("jwtToken");
-  const Email = localStorage.getItem("email");
-  console.log(isLogin);
-  console.log(Email);
+  // const Email = localStorage.getItem("username");
+  // console.log(isLogin);
+  // console.log(Email);
 
   return (
     <>
