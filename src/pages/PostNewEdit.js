@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 
-import { addPostDB, getPostDB } from "../redux/modules/post";
+import { addPostDB } from "../redux/modules/post";
 
 import { size, type, style, area } from "../shared/postOptions";
 import { BigBlueButton } from "../elements/Button";
@@ -15,15 +15,16 @@ const PostNewEdit = () => {
   const navigate = useNavigate();
   const { id } = useParams();
 
-  const post = useSelector((state) => state.post.postOne);
-  const [preview, setPreview] = useState(post.imageUrl ?? "");
+  let post = useSelector((state) => state.post.postOne);
+  if (!id) post = null;
+  const [preview, setPreview] = useState(post?.imageUrl);
 
-  const sizeRef = useRef(post.size ?? null);
-  const typeRef = useRef(post.type ?? null);
-  const styleRef = useRef(post.style ?? null);
-  const areaRef = useRef(post.area ?? null);
+  const sizeRef = useRef(post?.size);
+  const typeRef = useRef(post?.type);
+  const styleRef = useRef(post?.style);
+  const areaRef = useRef(post?.area);
   const fileRef = useRef();
-  const contentRef = useRef(post.content ?? null);
+  const contentRef = useRef(post?.content);
 
   // 이미지 미리보기
   const onChangeFile = (event) => {
@@ -91,7 +92,7 @@ const PostNewEdit = () => {
       </Header>
       <FormWrap>
         <SelectContainer>
-          <Select name="size" ref={sizeRef} defaultValue={post.size ?? "평수"}>
+          <Select name="size" ref={sizeRef} defaultValue={post?.size ?? "평수"}>
             <option value="평수" disabled>
               평수
             </option>
@@ -105,7 +106,7 @@ const PostNewEdit = () => {
           <Select
             name="type"
             ref={typeRef}
-            defaultValue={post.type ?? "주거형태"}
+            defaultValue={post?.type ?? "주거형태"}
           >
             <option value="주거형태" disabled>
               주거형태
@@ -120,7 +121,7 @@ const PostNewEdit = () => {
           <Select
             name="style"
             ref={styleRef}
-            defaultValue={post.style ?? "스타일"}
+            defaultValue={post?.style ?? "스타일"}
           >
             <option value="스타일" disabled>
               스타일
@@ -160,7 +161,7 @@ const PostNewEdit = () => {
             </UploadBox>
           </label>
           <ImgDescription>
-            <Select name="area" ref={areaRef} defaultValue={post.area ?? "-1"}>
+            <Select name="area" ref={areaRef} defaultValue={post?.area ?? "-1"}>
               <option value="-1" disabled>
                 공간 (필수)
               </option>
@@ -174,7 +175,7 @@ const PostNewEdit = () => {
               name="content"
               ref={contentRef}
               placeholder="사진에 대해 설명해주세요."
-              defaultValue={post.content ?? ""}
+              defaultValue={post?.content ?? ""}
             />
           </ImgDescription>
         </div>
