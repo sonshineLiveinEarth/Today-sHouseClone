@@ -80,7 +80,6 @@ const Signup = () => {
     } else if (Nickname?.response?.data === "닉네임이 중복되었습니다.") {
       setNickNameErr(true);
     } else setNickNameErr(false);
-    navigate("/login");
   };
 
   console.log(username, password, userNickname);
@@ -182,7 +181,6 @@ const Signup = () => {
           <SignUpBtn
             onClick={() => {
               AddUser(username, password, userNickname);
-              // navigate("/");
             }}
             disabled={
               !username ||

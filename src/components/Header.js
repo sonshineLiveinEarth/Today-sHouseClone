@@ -8,6 +8,7 @@ import { logoutDB } from "../redux/modules/users";
 //이미지
 import Arrow from "../image/Arrow.png";
 import ImgIcon from "../image/ImgIcon.png";
+import Profile from "../image/Profile.png";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -50,7 +51,7 @@ const Header = () => {
                   onClick={() => {
                     openMypageModal();
                   }}
-                  src="/images/Avatar.png"
+                  src={Profile}
                   alt="avatar"
                 />
               </>
@@ -110,7 +111,6 @@ const Header = () => {
             <MypageTitle
               onClick={() => {
                 dispatch(logoutDB());
-                navigate("/");
               }}
             >
               로그아웃
