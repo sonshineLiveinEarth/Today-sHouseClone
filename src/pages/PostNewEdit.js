@@ -239,7 +239,7 @@ const PreviewWrap = styled.div`
   position: relative;
 `;
 const Preview = styled.img`
-  max-width: 460px;
+  width: 460px;
   border-radius: 6px;
 `;
 const ImageGradient = styled.div`
