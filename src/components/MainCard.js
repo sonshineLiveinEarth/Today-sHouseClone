@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Heart from "../image/Heart.png";
 import Bookmark from "../image/Bookmark.png";
 import CommentIcon from "../image/CommentIcon.png";
@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 
 const MainCard = ({ postObj }) => {
   const navigate = useNavigate();
+
   const postLike = useSelector((state) => state.post.postlike);
   console.log(postLike);
 
@@ -49,13 +50,13 @@ const MainCard = ({ postObj }) => {
       >
         {postObj.content}
       </Text>
-      {postObj.comment && (
+      {postObj.commentOne && (
         <CommentWrap>
           <CommentProfile src="/images/Avatar.png" alt="profile" height="24" />
 
           <Text>
-            <span>{"nickname"}</span>
-            {postObj.comment}
+            {/* <span>{postObj.commentOne[0].user.userNickname}</span> */}
+            {postObj.commentOne[0].comment}
           </Text>
         </CommentWrap>
       )}
