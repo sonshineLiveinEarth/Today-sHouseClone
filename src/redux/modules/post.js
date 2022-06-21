@@ -7,6 +7,7 @@ const GET_POST_LIST = "GET_POST_LIST";
 const GET_POST = "GET_POST";
 const GET_RANKING = "GET_RANKING";
 const ADD_POST = "ADD_POST";
+const LIKE_POST = "LIKE_POST";
 const EDIT_POST = "EDIT_POST";
 const DELETE_POST = "DELETE_POST";
 
@@ -15,11 +16,13 @@ const getPostList = createAction(GET_POST_LIST, (postList) => ({ postList }));
 const getPost = createAction(GET_POST, (post) => ({ post }));
 const getRanking = createAction(GET_RANKING, (post) => ({ post }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
+const likePost = createAction(LIKE_POST, (id) => ({ id }));
 const editPost = createAction(EDIT_POST, (post) => ({ post }));
 const deletePost = createAction(DELETE_POST, (id) => ({ id }));
 
 // Initial State
 const initialState = {
+  postlike: false,
   postOne: {},
   postList: [{}],
   ranking: [{}],
@@ -90,6 +93,19 @@ export const addPostDB = (id, formData) => {
       console.log(error);
     }
   };
+};
+
+export const addHeartDB = (postId) => async (dispatch) => {
+  try {
+    console.log("게시글에 하트 추가할 준비", postId);
+    const { data } = await apis.addHeart(postId);
+    console.log(data);
+    dispatch(likePost(postId));
+    // navigate(0);
+  } catch (error) {
+    window.alert("댓글 등록 중에 오류가 발생했습니다.");
+    console.log(error);
+  }
 };
 
 // 게시물 삭제
