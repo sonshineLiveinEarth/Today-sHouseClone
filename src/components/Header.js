@@ -9,7 +9,6 @@ import ImgIcon from "../image/ImgIcon.png";
 
 const Header = () => {
   const navigate = useNavigate();
-  const [isLogin, setIsLogin] = useState(false);
 
   // 모달창 띄우기
   const [showModal, setShowModal] = useState(false);
@@ -24,6 +23,8 @@ const Header = () => {
     if (!showMypageModal) setShowMypageModal(true);
     else setShowMypageModal(false);
   };
+
+  const isLogin = localStorage.getItem("jwtToken");
 
   return (
     <>
@@ -49,7 +50,9 @@ const Header = () => {
               </>
             ) : (
               <>
-                <TextButton onClick={() => setIsLogin(true)}>로그인</TextButton>
+                <TextButton onClick={() => navigate("/login")}>
+                  로그인
+                </TextButton>
                 <TextButton
                   onClick={() => {
                     navigate("/signup");
@@ -91,7 +94,7 @@ const Header = () => {
           <Div>
             <MypageTitle
               onClick={() => {
-                navigate("/");
+                navigate("/users");
               }}
             >
               마이페이지
@@ -233,7 +236,7 @@ const ModalContainer = styled.div`
 
 const ModalMyPageContainer = styled.div`
   position: fixed;
-  top: 60px;
+  top: 66px;
   background-color: rgb(255, 255, 255);
   border: 1px solid rgb(218, 221, 224);
   border-radius: 6px;

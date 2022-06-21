@@ -14,8 +14,8 @@ import Banner from "../components/Banner";
 import Footer from "../components/Footer";
 
 const Detail = () => {
-  const post_list = useSelector((state) => state.post.postOne);
-  const post = post_list?.post?.data?.body;
+  const post = useSelector((state) => state.post.postOne);
+  // const post = post_list?.post?.data?.body;
   console.log(post);
   // console.log(post_list);
   const dispatch = useDispatch();
@@ -44,7 +44,6 @@ const Detail = () => {
   React.useEffect(() => {
     dispatch(getPostDB(params.id));
   }, []);
-  console.log(post_list);
 
   return (
     <>

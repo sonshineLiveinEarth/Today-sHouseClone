@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -70,9 +70,15 @@ const Comment = () => {
           ? comment_list.map((list, index) => {
               // 댓글 달린 시간표시
               const today = new Date();
-              const timeValue = new Date(list.createdAt);
+              // const timeValue = new Date(list.createdAt);
+              const timeValue = new Date("1997-01-03 02:23:54");
+              console.log(list.createdAt);
+              const One = list.createdAt.split("T");
+              console.log(timeValue);
+              // const Time = One[1].split(".")[0];
+              // console.log(Time);
 
-              // console.log(list.createdAt);
+              console.log(list.createdAt);
               // console.log(timeValue.getTime());
               // console.log(today.getTime());
 
@@ -81,20 +87,7 @@ const Comment = () => {
               );
               const betweenTimeHour = Math.floor(betweenTime / 60);
               const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
-
-              // console.log(list.createdAt);
-              // const time = list.createdAt;
-              // const Month = time.split("-")[1];
-              // const Day = time.split("-")[2].substr(0, 2);
-              // const Time = Day.split(":")[1];
-              // const Min = Day.split(":")[2];
-              // const CommentTime = Month + "/" + Day + " " + Time + ":" + Min;
-              // console.log(time);
-              console.log(today);
-              console.log(timeValue);
-              console.log(betweenTime);
-              console.log(betweenTimeHour);
-              console.log(betweenTimeDay);
+              const betweenTimeYear = Math.floor(betweenTime / 60 / 24 / 365);
 
               return (
                 <CommentBox key={index}>
@@ -114,7 +107,9 @@ const Comment = () => {
                         {betweenTimeHour >= 24 && betweenTimeDay < 365
                           ? `${betweenTimeDay}일 전`
                           : null}
-                        {betweenTimeDay > 365 ? "1년 전" : null}
+                        {betweenTimeDay >= 365
+                          ? `${betweenTimeYear}년 전`
+                          : null}
                       </Time>
                       <Point />
                       <HeartIcon src={Heart} alt="좋아요아이콘" />
