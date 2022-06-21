@@ -32,6 +32,7 @@ export const apis = {
   // post
   loadPostList: () => api.get("/api/posts"),
   loadPost: (postId) => api.get(`/api/post/${postId}`),
+  loadRanking: () => api.get("/api/post/ranking"),
 
   addPost: (post) => formApi.post("/api/post", post),
   editPost: (id, post) => formApi.put(`api/post/${id}`, post),
