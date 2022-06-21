@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { loginDB } from "../redux/modules/users";
-import { Dispatch } from "react";
-import { SignupDB, NicknameDB } from "../redux/modules/users";
-import { useSelector } from "react-redux";
 
 // import "../App.css";
 
@@ -20,9 +17,6 @@ const Login = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
-  const isLogin = localStorage.getItem("jwtToken");
-  // if (isLogin) navigate("/");
-
   const _loginUser = (userEmail, userPassword) => {
     console.log("로그인 시도!");
     if (userEmail === "" || userPassword === "") {
@@ -31,8 +25,6 @@ const Login = () => {
     }
     console.log(userEmail, userPassword);
     dispatch(loginDB(userEmail, userPassword));
-
-    if (isLogin) navigate("/");
   };
 
   return (

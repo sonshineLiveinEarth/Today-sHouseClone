@@ -41,6 +41,7 @@ export const SignupDB = (username, password, userNickname) => {
       .then((res) => {
         console.log(res);
         window.alert("환영합니다!");
+        window.location.assign("/login");
       })
       .catch((err) => {
         console.log("회원가입 실패", err);
@@ -52,7 +53,7 @@ export const SignupDB = (username, password, userNickname) => {
 //Login
 export const loginDB = (username, password) => {
   console.log(username, password);
-  return function (dispatch, getState) {
+  return function (dispatch, getState, history) {
     console.log(username, password);
     apis
       .login(username, password)
@@ -62,7 +63,9 @@ export const loginDB = (username, password) => {
         const DecodedToken = jwt_decode(token);
         console.log(DecodedToken);
         localStorage.setItem("jwtToken", token);
-        navigate("/");
+        window.alert("환영합니다!");
+        window.location.assign("/");
+
         dispatch(
           setUser({
             username: username,

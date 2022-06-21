@@ -1,37 +1,54 @@
-import React from "react";
+import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { useNavigate, Link } from "react-router-dom";
-import Heart from "../image/Heart.png";
 import Bookmark from "../image/Bookmark.png";
 import CommentIcon from "../image/CommentIcon.png";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { addHeartDB } from "../redux/modules/post";
+
+//이미지
+import HeartFull from "../image/HeartFull.png";
+import Heart from "../image/HeartB.png";
 
 const MainCard = ({ postObj }) => {
   const navigate = useNavigate();
-  const postLike = useSelector((state) => state.post.postlike);
-  console.log(postLike);
+  const dispatch = useDispatch();
 
+  const postLike = useSelector((state) => state.post.postlike);
+  const [Like, setLike] = useState(false);
+
+  const id = postObj?.id;
+  // console.log(postObj);
   return (
     <CardWrap>
       <CardHeader>
         <img src="/images/Avatar.png" alt="profile" height="36" />
-        <span>{postObj.userNickname}</span>
+        <span>{postObj?.userNickname}</span>
       </CardHeader>
       <ImageWrap
         onClick={() => {
           navigate("/detail/" + postObj.id);
         }}
       >
-        <CardImage src={postObj.imageUrl} alt="card image" />
+        <CardImage src={postObj?.imageUrl} alt="card image" />
       </ImageWrap>
       <IconWrap>
         <IconCnt>
-          <Icon src={Heart} alt="heart" />
-          <span>{postObj.heartCnt === 0 ? "" : postObj.heartCnt}</span>
+          <Icon
+            onClick={() => {
+              dispatch(addHeartDB(id));
+              // if (!Like) setLike(true);
+              // else setLike(false);
+            }}
+            src={postLike ? HeartFull : Heart}
+            alt="heart"
+          />
+          <span>{postObj?.heartCnt === 0 ? "" : postObj?.heartCnt}</span>
         </IconCnt>
         <IconCnt>
           <Icon src={Bookmark} alt="Bookmark" />
-          <span>{postObj.bookmarkCnt === 0 ? "" : postObj.bookmarkCnt}</span>
+          <span>{postObj?.bookmarkCnt === 0 ? "" : postObj?.bookmarkCnt}</span>
         </IconCnt>
         <IconCnt
           onClick={() => {
@@ -39,7 +56,7 @@ const MainCard = ({ postObj }) => {
           }}
         >
           <Icon src={CommentIcon} alt="CommentIcon" />
-          <span>{postObj.commentCnt === 0 ? "" : postObj.commentCnt}</span>
+          <span>{postObj?.commentCnt === 0 ? "" : postObj?.commentCnt}</span>
         </IconCnt>
       </IconWrap>
       <Text
@@ -47,15 +64,15 @@ const MainCard = ({ postObj }) => {
           navigate("/detail/" + postObj.id);
         }}
       >
-        {postObj.content}
+        {postObj?.content}
       </Text>
-      {postObj.comment && (
+      {postObj?.comment && (
         <CommentWrap>
           <CommentProfile src="/images/Avatar.png" alt="profile" height="24" />
 
           <Text>
             <span>{"nickname"}</span>
-            {postObj.comment}
+            {postObj?.comment}
           </Text>
         </CommentWrap>
       )}
