@@ -1,14 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import { TextButton, BlueButton } from "../elements/Button";
+import { logoutDB } from "../redux/modules/users";
 //이미지
 import Arrow from "../image/Arrow.png";
 import ImgIcon from "../image/ImgIcon.png";
 
 const Header = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   // 모달창 띄우기
   const [showModal, setShowModal] = useState(false);
@@ -25,6 +28,9 @@ const Header = () => {
   };
 
   const isLogin = localStorage.getItem("jwtToken");
+  const Email = localStorage.getItem("email");
+  console.log(isLogin);
+  console.log(Email);
 
   return (
     <>
@@ -98,6 +104,16 @@ const Header = () => {
               }}
             >
               마이페이지
+            </MypageTitle>
+          </Div>
+          <Div>
+            <MypageTitle
+              onClick={() => {
+                dispatch(logoutDB());
+                navigate("/");
+              }}
+            >
+              로그아웃
             </MypageTitle>
           </Div>
         </ModalMyPageContainer>
@@ -324,7 +340,7 @@ const Div = styled.div`
   padding: 10px 14px 11px 14px;
   border-radius: 2px;
   &:hover {
-    background-color: #f4f4f4;
+    background-color: #f6f6f6;
   }
 `;
 

@@ -104,11 +104,11 @@ const Detail = () => {
           heartCnt={post?.bookmarkCnt}
         />
       </Background>
-      <Footer
+      {/* <Footer
         commentCnt={post?.commentCnt}
         bookmarkCnt={post?.bookmarkCnt}
         heartCnt={post?.bookmarkCnt}
-      />
+      /> */}
     </>
   );
 };

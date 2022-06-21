@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -7,17 +7,25 @@ import {
   getCommentListDB,
   addCommentDB,
   deleteCommentDB,
+  modifiCommentDB,
 } from "../redux/modules/comment";
 
 //이미지
 import Profile from "../image/Profile.png";
 import Heart from "../image/Heart.png";
+import HeartFull from "../image/HeartFull.png";
+//js
+import Pagination from "./Pagination";
 
 const Comment = () => {
   const navigate = useNavigate();
+  // 페이지네이션
+  const [page, setPage] = useState(1);
 
   const comment_list = useSelector((state) => state.comment.commentList);
+  const comment_like = useSelector((state) => state.comment.commentLike);
   console.log(comment_list);
+  console.log(comment_like);
 
   const dispatch = useDispatch();
   const params = useParams();
@@ -68,19 +76,16 @@ const Comment = () => {
         </InputWrap>
         {comment_list !== undefined
           ? comment_list.map((list, index) => {
-              // 댓글 달린 시간표시
+              // 받아온 시간 데이터 가공
+              const One = list.createdAt.toString();
+              console.log(One);
+              const Two = One.split("T");
+              const Four = Two[1].split(".");
+              const Three = Two[0] + " " + Four[0];
+              // // 댓글 달린 시간표시
               const today = new Date();
-              // const timeValue = new Date(list.createdAt);
-              const timeValue = new Date("1997-01-03 02:23:54");
-              console.log(list.createdAt);
-              const One = list.createdAt.split("T");
-              console.log(timeValue);
-              // const Time = One[1].split(".")[0];
-              // console.log(Time);
-
-              console.log(list.createdAt);
-              // console.log(timeValue.getTime());
-              // console.log(today.getTime());
+              console.log(today);
+              const timeValue = new Date(Three);
 
               const betweenTime = Math.floor(
                 (today.getTime() - timeValue.getTime()) / 1000 / 60
@@ -90,51 +95,67 @@ const Comment = () => {
               const betweenTimeYear = Math.floor(betweenTime / 60 / 24 / 365);
 
               return (
-                <CommentBox key={index}>
-                  <UserProfile src={Profile} alt="userProfile" />
-                  <CommentInfo>
-                    <Nickname>{list.userNickname}</Nickname>
-                    <CommentText>{list.comment}</CommentText>
-                    <Info>
-                      <Time>
-                        {betweenTime < 1 ? "방금 전" : null}
-                        {betweenTime >= 1 && betweenTime < 60
-                          ? `${betweenTime}분 전`
-                          : null}
-                        {betweenTime >= 60 && betweenTimeHour < 24
-                          ? `${betweenTimeHour}시간 전`
-                          : null}
-                        {betweenTimeHour >= 24 && betweenTimeDay < 365
-                          ? `${betweenTimeDay}일 전`
-                          : null}
-                        {betweenTimeDay >= 365
-                          ? `${betweenTimeYear}년 전`
-                          : null}
-                      </Time>
-                      <Point />
-                      <HeartIcon src={Heart} alt="좋아요아이콘" />
-                      <Like>좋아요</Like>
-                      <Point />
-                      <Re>답글 달기</Re>
-                      <Point />
-                      <Re
-                        onClick={() => {
-                          const result = window.confirm(
-                            "댓글을 삭제하시겠습니까? 삭제한 댓글은 되돌릴 수 없습니다."
-                          );
-                          if (result) {
-                            dispatch(deleteCommentDB(list.id));
-                          }
-                        }}
-                      >
-                        삭제
-                      </Re>
-                    </Info>
-                  </CommentInfo>
-                </CommentBox>
+                <>
+                  <CommentBox key={list.id}>
+                    <UserProfile src={Profile} alt="userProfile" />
+                    <CommentInfo>
+                      <Nickname>{list.userNickname}</Nickname>
+                      <CommentText>{list.comment}</CommentText>
+                      <Info>
+                        <Time>
+                          {betweenTime < 1 ? "방금 전" : null}
+                          {betweenTime >= 1 && betweenTime < 60
+                            ? `${betweenTime}분 전`
+                            : null}
+                          {betweenTime >= 60 && betweenTimeHour < 24
+                            ? `${betweenTimeHour}시간 전`
+                            : null}
+                          {betweenTimeHour >= 24 && betweenTimeDay < 365
+                            ? `${betweenTimeDay}일 전`
+                            : null}
+                          {betweenTimeDay >= 365
+                            ? `${betweenTimeYear}년 전`
+                            : null}
+                        </Time>
+                        <Point />
+                        <HeartIcon
+                          src={comment_like ? HeartFull : Heart}
+                          alt="좋아요아이콘"
+                        />
+                        <Like
+                          onClick={() => {
+                            dispatch(modifiCommentDB(list.id));
+                          }}
+                        >
+                          좋아요
+                        </Like>
+                        <Point />
+                        <Re>답글 달기</Re>
+                        <Point />
+                        <Re
+                          onClick={() => {
+                            const result = window.confirm(
+                              "댓글을 삭제하시겠습니까? 삭제한 댓글은 되돌릴 수 없습니다."
+                            );
+                            if (result) {
+                              dispatch(deleteCommentDB(list.id));
+                            }
+                          }}
+                        >
+                          삭제
+                        </Re>
+                      </Info>
+                    </CommentInfo>
+                  </CommentBox>
+                </>
               );
             })
           : null}
+        {/* <Pagination
+          page={page}
+          setPage={setPage}
+          total={comment_list?.length}
+        /> */}
       </Wrap>
     </>
   );

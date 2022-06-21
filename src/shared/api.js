@@ -37,6 +37,9 @@ export const apis = {
   editPost: (id, post) => formApi.put(`api/post/${id}`, post),
   deletePost: (id) => api.delete(`/api/post/${id}`),
 
+  // 좋아요
+  addHeart: (postId) => api.post(`/api/heart/${postId}`),
+
   // comment
   loadCommentList: (postId) => api.get(`/api/comment/${postId}`),
   createComment: (comment) =>
@@ -56,9 +59,6 @@ export const apis = {
     }),
 
   logout: () => api.post("/"),
-  // userInfo: () => api.get(`/myinfo`),
-  // userPassword: (pw) => api.post(`/myinfo`, pw),
-  // userNewPassword: (pw) => api.put(`/myinfo`, pw),
 
   userInfo: () => api.get(`/api/userData`),
 };

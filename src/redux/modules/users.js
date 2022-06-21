@@ -15,9 +15,7 @@ const LOG_OUT = "LOG_OUT";
 
 // action creators
 const getUser = createAction(GET_USER, (user) => ({ user }));
-
 const setUser = createAction(SET_USER, (user) => ({ user }));
-const userInfo = createAction(GET_USER, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
 
 export const getNickname = (data) => {
@@ -26,6 +24,7 @@ export const getNickname = (data) => {
 
 // initialState
 const initialState = {
+  message: null,
   user: null,
 };
 
@@ -41,7 +40,7 @@ export const SignupDB = (username, password, userNickname) => {
       .signup(username, password, userNickname)
       .then((res) => {
         console.log(res);
-        navigate("/");
+        window.alert("환영합니다!");
       })
       .catch((err) => {
         console.log("회원가입 실패", err);
@@ -70,18 +69,11 @@ export const loginDB = (username, password) => {
             nickname: DecodedToken.nickname,
           })
         );
-        // localStorage.setItem("email", username);
-        // localStorageSet("token", cookie);
-        // console.log(setItem);
-        console.log(localStorage);
-
-        // console.log("토큰을 받았어!", username, _cookie)
-        // cookies.set("username", username, { path: "/" });
-        // cookies.set("token", cookie, `${cookie}`);
       })
 
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        console.log(err);
+        // window.alert("잘못된 회원정보입니다.");
       });
     dispatch(setUser({ username: username }));
   };
@@ -115,19 +107,6 @@ export const NicknameDB = (nickname) => {
   };
 };
 
-export const userInfoDB = () => {
-  return async function (dispatch) {
-    try {
-      console.log("얍");
-      const data = await apis.userInfo();
-      console.log(data);
-      dispatch(userInfo(data));
-    } catch (e) {
-      console.log(`유저정보 조회 오류 발생!${e}`);
-    }
-  };
-};
-
 export const logoutDB = () => {
   return function (dispatch, getState) {
     dispatch(logOut());
@@ -147,7 +126,10 @@ export default handleActions(
         draft.uploading = false;
         console.log("리듀서로 적용 완료", state, action.payload);
       }),
-    [GET_USER]: (state, action) => produce(state, (draft) => {}),
+    [GET_USER]: (state, action) =>
+      produce(state, (draft) => {
+        return { message: action.data };
+      }),
     [GET_NICKNAME]: (state, action) =>
       produce(state, (draft) => {
         return { user: action.data };
@@ -161,5 +143,6 @@ const actionCreators = {
   logoutDB,
   loginCheck,
   getNickname,
+  getUser,
 };
 export { actionCreators };

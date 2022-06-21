@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { loginDB } from "../redux/modules/users";
 import { Dispatch } from "react";
-import jwt_decode from "jwt-decode";
-import { localStorageGet, localStorageSet } from "../shared/localStorage";
+import { SignupDB, NicknameDB } from "../redux/modules/users";
+import { useSelector } from "react-redux";
 
 // import "../App.css";
 
@@ -20,8 +20,8 @@ const Login = () => {
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
 
-  console.log(userEmail);
-  console.log(userPassword);
+  const isLogin = localStorage.getItem("jwtToken");
+  // if (isLogin) navigate("/");
 
   const _loginUser = (userEmail, userPassword) => {
     console.log("로그인 시도!");
@@ -31,6 +31,8 @@ const Login = () => {
     }
     console.log(userEmail, userPassword);
     dispatch(loginDB(userEmail, userPassword));
+
+    if (isLogin) navigate("/");
   };
 
   return (
@@ -58,7 +60,6 @@ const Login = () => {
         <LoginBtn
           onClick={() => {
             _loginUser(userEmail, userPassword);
-            navigate("/");
           }}
         >
           로그인
