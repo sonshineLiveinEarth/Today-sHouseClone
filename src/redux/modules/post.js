@@ -24,7 +24,7 @@ const deletePost = createAction(DELETE_POST, (id) => ({ id }));
 
 const bookmark = createAction(BOOKMARK, (postId) => ({ postId }));
 
-// Initial State
+// InitialState
 const initialState = {
   postlike: false,
   postOne: {},
@@ -98,7 +98,7 @@ export const addPostDB = (id, formData) => {
     }
   };
 };
-
+// 좋아요
 export const addHeartDB = (postId) => async (dispatch) => {
   try {
     console.log("게시글에 하트 추가할 준비", postId);
@@ -107,7 +107,7 @@ export const addHeartDB = (postId) => async (dispatch) => {
     dispatch(likePost(postId));
     // navigate(0);
   } catch (error) {
-    window.alert("댓글 등록 중에 오류가 발생했습니다.");
+    window.alert("하트 등록 중에 오류가 발생했습니다.");
     console.log(error);
   }
 };
@@ -157,6 +157,7 @@ export default handleActions(
         console.log(payload);
         draft.postList.unshift(payload.post);
       }),
+
     [EDIT_POST]: (state, { payload }) =>
       produce(state, (draft) => {
         draft.postList = draft.postList.map((post) => {
@@ -172,6 +173,15 @@ export default handleActions(
           }
         });
       }),
+
+    [LIKE_POST]: (state, { payload }) =>
+      produce(state, (draft) => {
+        draft.postList = state.postList.map((post) => {
+          console.log(post, post.id, payload.id, draft.postlike);
+          if (post.id === payload.id) return !draft.postlike;
+        });
+      }),
+
     [DELETE_POST]: (state, { payload }) =>
       produce(state, (draft) => {
         draft.postList = draft.postList.filter(
