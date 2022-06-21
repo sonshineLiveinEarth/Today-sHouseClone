@@ -11,6 +11,8 @@ const LIKE_POST = "LIKE_POST";
 const EDIT_POST = "EDIT_POST";
 const DELETE_POST = "DELETE_POST";
 
+const BOOKMARK = "BOOKMARK";
+
 // Action Creator
 const getPostList = createAction(GET_POST_LIST, (postList) => ({ postList }));
 const getPost = createAction(GET_POST, (post) => ({ post }));
@@ -19,6 +21,8 @@ const addPost = createAction(ADD_POST, (post) => ({ post }));
 const likePost = createAction(LIKE_POST, (id) => ({ id }));
 const editPost = createAction(EDIT_POST, (post) => ({ post }));
 const deletePost = createAction(DELETE_POST, (id) => ({ id }));
+
+const bookmark = createAction(BOOKMARK, (postId) => ({ postId }));
 
 // InitialState
 const initialState = {
@@ -76,7 +80,7 @@ export const getRankingDB = () => {
 export const addPostDB = (id, formData) => {
   const post = {};
   for (let key of formData.keys()) {
-    console.log("request :", { [key]: formData.get(key) });
+    // console.log("request :", { [key]: formData.get(key) });
     post[key] = formData.get(key);
   }
   return async function (dispatch) {
@@ -121,6 +125,18 @@ export const deletePostDB = (id) => {
   };
 };
 
+// 북마크
+export const bookmarkDB = (postId) => {
+  return async function (dispatch) {
+    try {
+      await apis.bookmark(postId);
+    } catch (error) {
+      alert("북마크 시도 중에 오류가 발생했습니다.");
+      console.log(error);
+    }
+  };
+};
+
 // Reducer
 export default handleActions(
   {
@@ -144,7 +160,7 @@ export default handleActions(
 
     [EDIT_POST]: (state, { payload }) =>
       produce(state, (draft) => {
-        draft.postList = state.postList.map((post) => {
+        draft.postList = draft.postList.map((post) => {
           // console.log(post.id, payload.id, payload);
           if (post.id === payload.id) {
             return {
@@ -171,6 +187,13 @@ export default handleActions(
         draft.postList = draft.postList.filter(
           (post) => Number(post.id) !== Number(payload.id)
         );
+      }),
+    [BOOKMARK]: (state, { payload }) =>
+      produce(state, (draft) => {
+        draft.postList = draft.postList.map((post) => {
+          if (Number(post.id) === Number(payload.postId)) return !post.bookmark;
+          else return post.bookmark;
+        });
       }),
   },
   initialState

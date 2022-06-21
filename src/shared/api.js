@@ -41,6 +41,9 @@ export const apis = {
   // 좋아요
   addHeart: (postId) => api.post(`/api/heart/${postId}`),
 
+  // 북마크
+  bookmark: (postId) => api.post(`/api/bookmark/${postId}`),
+
   // comment
   loadCommentList: (postId) => api.get(`/api/comment/${postId}`),
   createComment: (comment) =>
