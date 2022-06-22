@@ -15,6 +15,7 @@ import Footer from "../components/Footer";
 
 const Detail = () => {
   const post = useSelector((state) => state.post.postOne);
+  const comment_list = useSelector((state) => state.comment.commentList);
   // const post = post_list?.post?.data?.body;
   console.log(post);
 
@@ -97,19 +98,19 @@ const Detail = () => {
             </CoWrap>
             <CoWrap>
               <Label>댓글</Label>
-              <CommentNum>{post?.commentCnt}</CommentNum>
+              <CommentNum>{comment_list?.length}</CommentNum>
             </CoWrap>
           </CoWrap>
         </Wrap>
         <Comment />
         <Banner
-          commentCnt={post?.commentCnt}
+          commentCnt={comment_list?.length}
           bookmarkCnt={post?.bookmarkCnt}
           heartCnt={post?.bookmarkCnt}
         />
       </Background>
       <Footer
-        commentCnt={post?.commentCnt}
+        commentCnt={comment_list?.length}
         bookmarkCnt={post?.bookmarkCnt}
         heartCnt={post?.bookmarkCnt}
       />

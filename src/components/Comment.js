@@ -69,15 +69,6 @@ const Comment = () => {
     await dispatch(modifiCommentDB(id));
   };
 
-  // const LikeIconChange = () => {
-  //   comment_list.map((comment) => {
-  //     if (comment.commentHeartCheck) setLikeCo(true);
-  //     else {
-  //       return LikeCo;
-  //     }
-  //   });
-  // };
-
   return (
     <React.Fragment>
       <Wrap id="1">
@@ -103,25 +94,35 @@ const Comment = () => {
               // 받아온 시간 데이터 가공
               console.log(list);
               const One = list?.createdAt?.toString();
-              console.log(One);
+
               const Two = One.split("T");
               const Four = Two[1]?.split(".");
-
+              console.log(Two[0]);
+              const YYMMDD = Two[0].split("-");
+              const YY = Two[0].split("-")[0];
+              const MM = Two[0].split("-")[1];
+              let DD = Number(Two[0].split("-")[2]);
               const time = Number(Four[0].split(":")[0]);
-              const realTime = time + 9;
-              if (realTime >= 24) return realTime - 24;
+              let realTime = time + 9;
+
+              if (realTime >= 24) {
+                realTime = "0" + (realTime - 24);
+                DD = DD + 1;
+              }
               const minnsecond = Four[0].substring(2, 8);
               console.log(Four, typeof Four);
               console.log(time, typeof time);
               console.log(realTime, typeof realTime);
 
-              const Three = Two[0] + " " + realTime + minnsecond;
+              const Three =
+                YY + "-" + MM + "-" + DD + " " + realTime + minnsecond;
               console.log(Three, typeof Three);
 
               // // 댓글 달린 시간표시
               const today = new Date();
               console.log(today);
               const timeValue = new Date(Three);
+              console.log(timeValue);
 
               const betweenTime = Math.floor(
                 (today.getTime() - timeValue.getTime()) / 1000 / 60
@@ -202,12 +203,14 @@ const Comment = () => {
               );
             })
           : null}
-        <Pagination
-          page={page}
-          setPage={setPage}
-          total={comment_list?.length}
-          limit={limit}
-        />
+        {comment_list?.length > 5 ? (
+          <Pagination
+            page={page}
+            setPage={setPage}
+            total={comment_list?.length}
+            limit={limit}
+          />
+        ) : null}
       </Wrap>
     </React.Fragment>
   );
