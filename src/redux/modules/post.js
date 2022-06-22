@@ -22,7 +22,7 @@ const likePost = createAction(LIKE_POST, (id) => ({ id }));
 const editPost = createAction(EDIT_POST, (post) => ({ post }));
 const deletePost = createAction(DELETE_POST, (id) => ({ id }));
 
-const bookmark = createAction(BOOKMARK, (postId) => ({ postId }));
+const bookmark = createAction(BOOKMARK, (postId, data) => ({ postId, data }));
 
 // InitialState
 const initialState = {
@@ -80,7 +80,7 @@ export const getRankingDB = () => {
 export const addPostDB = (id, formData) => {
   const post = {};
   for (let key of formData.keys()) {
-    // console.log("request :", { [key]: formData.get(key) });
+    console.log("request :", { [key]: formData.get(key) });
     post[key] = formData.get(key);
   }
   return async function (dispatch) {
@@ -129,7 +129,8 @@ export const deletePostDB = (id) => {
 export const bookmarkDB = (postId) => {
   return async function (dispatch) {
     try {
-      await apis.bookmark(postId);
+      const { data } = await apis.bookmark(postId);
+      dispatch(bookmark(postId, data));
     } catch (error) {
       alert("북마크 시도 중에 오류가 발생했습니다.");
       console.log(error);
@@ -191,8 +192,13 @@ export default handleActions(
     [BOOKMARK]: (state, { payload }) =>
       produce(state, (draft) => {
         draft.postList = draft.postList.map((post) => {
-          if (Number(post.id) === Number(payload.postId)) return !post.bookmark;
-          else return post.bookmark;
+          if (Number(post.id) === Number(payload.postId)) {
+            if (payload.data)
+              return { ...post, bookmarkCnt: post.bookmarkCnt + 1 };
+            else return { ...post, bookmarkCnt: post.bookmarkCnt - 1 };
+          } else {
+            return post;
+          }
         });
       }),
   },
