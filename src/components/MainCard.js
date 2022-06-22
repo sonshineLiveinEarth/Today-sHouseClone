@@ -10,6 +10,7 @@ import { addHeartDB } from "../redux/modules/post";
 //이미지
 import HeartFull from "../image/HeartFull.png";
 import Heart from "../image/HeartB.png";
+import Profile from "../image/Profile.png";
 
 const MainCard = ({ postObj }) => {
   const navigate = useNavigate();
@@ -23,7 +24,7 @@ const MainCard = ({ postObj }) => {
   return (
     <CardWrap>
       <CardHeader>
-        <img src="/images/Avatar.png" alt="profile" height="36" />
+        <img src={Profile} alt="profile" height="36" />
         <span>{postObj?.userNickname}</span>
       </CardHeader>
       <ImageWrap
@@ -37,11 +38,11 @@ const MainCard = ({ postObj }) => {
         <IconCnt>
           <Icon
             onClick={() => {
-              dispatch(addHeartDB(id));
-              // if (!Like) setLike(true);
-              // else setLike(false);
+              // dispatch(addHeartDB(id));
+              if (!Like) setLike(true);
+              else setLike(false);
             }}
-            src={postLike ? HeartFull : Heart}
+            src={Like ? HeartFull : Heart}
             alt="heart"
           />
           <span>{postObj?.heartCnt === 0 ? "" : postObj?.heartCnt}</span>

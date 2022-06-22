@@ -14,6 +14,7 @@ import {
 import Profile from "../image/Profile.png";
 import Heart from "../image/Heart.png";
 import HeartFull from "../image/HeartFull.png";
+
 //js
 import Pagination from "./Pagination";
 
@@ -21,11 +22,18 @@ const Comment = () => {
   const navigate = useNavigate();
   // 페이지네이션
   const [page, setPage] = useState(1);
+  // 좋아요
+  const postLike = useSelector((state) => state.post.postlike);
+  const [LikeCo, setLikeCo] = useState(false);
+  console.log(postLike);
 
-  const comment_list = useSelector((state) => state.comment.commentList);
-  const comment_like = useSelector((state) => state.comment.commentLike);
+  const isLogin = localStorage.getItem("jwtToken");
+
+  const comment_list = useSelector(
+    (state) => state.comment.commentList.content
+  );
+  // const comment_like = useSelector((state) => state.comment.commentLike);
   console.log(comment_list);
-  console.log(comment_like);
 
   const dispatch = useDispatch();
   const params = useParams();
@@ -40,6 +48,8 @@ const Comment = () => {
   const addComment = () => {
     if (commentText.current.value === "") {
       window.alert("댓글을 작성해주세요!");
+    } else if (!isLogin) {
+      window.alert("로그인 후 댓글을 남기실 수 있습니다.");
     } else {
       // api에 데이터 추가하기!
       dispatch(
@@ -48,14 +58,17 @@ const Comment = () => {
           comment: commentText.current.value,
         })
       );
-      navigate(0);
       commentText.current.value = "";
     }
   };
   console.log(commentText.current.value);
 
+  const LikeComment = async (id) => {
+    await dispatch(modifiCommentDB(id)).then();
+  };
+
   return (
-    <>
+    <React.Fragment>
       <Wrap id="1">
         <Hr />
         <CommentT>댓글</CommentT>
@@ -77,10 +90,11 @@ const Comment = () => {
         {comment_list !== undefined
           ? comment_list.map((list, index) => {
               // 받아온 시간 데이터 가공
-              const One = list.createdAt.toString();
+              // console.log(list);
+              const One = list?.createdAt?.toString();
               console.log(One);
               const Two = One.split("T");
-              const Four = Two[1].split(".");
+              const Four = Two[1]?.split(".");
               const Three = Two[0] + " " + Four[0];
               // // 댓글 달린 시간표시
               const today = new Date();
@@ -118,20 +132,24 @@ const Comment = () => {
                             : null}
                         </Time>
                         <Point />
-                        <HeartIcon
-                          src={comment_like ? HeartFull : Heart}
-                          alt="좋아요아이콘"
-                        />
+                        {postLike || list.commentHeartCheck ? (
+                          <HeartIcon src={HeartFull} alt="좋아요아이콘" />
+                        ) : (
+                          <HeartIcon src={Heart} alt="좋아요아이콘" />
+                        )}
+
                         <Like
                           onClick={() => {
-                            dispatch(modifiCommentDB(list.id));
+                            LikeComment(list.id);
+                            // if (!list.commentHeartCheck) setLikeCo(true);
+                            // else setLikeCo(false);
                           }}
                         >
                           좋아요
                         </Like>
                         <Point />
-                        <Re>답글 달기</Re>
-                        <Point />
+                        {/* <Re>답글 달기</Re>
+                        <Point /> */}
                         <Re
                           onClick={() => {
                             const result = window.confirm(
@@ -151,13 +169,14 @@ const Comment = () => {
               );
             })
           : null}
-        {/* <Pagination
+        <Pagination
           page={page}
           setPage={setPage}
           total={comment_list?.length}
-        /> */}
+          limit={5}
+        />
       </Wrap>
-    </>
+    </React.Fragment>
   );
 };
 
