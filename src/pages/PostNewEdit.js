@@ -64,17 +64,6 @@ const PostNewEdit = () => {
     }
 
     const formData = new FormData(event.target);
-    // const emptyImage = new File([], "", { type: "text/plane" });
-    // const emptyImage = new File(new Uint8Array(11), "e.jpeg", {
-    //   type: "image/jpeg",
-    // });
-    // console.log(emptyImage);
-    // formData.get("imageUrl").type = "img";
-    // console.log(formData.get("imageUrl").type);
-    // // console.log(fileRef.current.files[0]);
-    // if (id && !fileRef.current.value) {
-    //   formData.set("imageUrl", null);
-    // }
     if (sizeRef.current.value === "평수") formData.append("size", "평수");
     if (typeRef.current.value === "주거형태")
       formData.append("type", "주거형태");
