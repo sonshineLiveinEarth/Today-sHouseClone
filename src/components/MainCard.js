@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { addHeartDB } from "../redux/modules/post";
+import { addHeartDB, bookmarkDB } from "../redux/modules/post";
 
 //이미지
 import HeartFull from "../image/HeartFull.png";
@@ -49,7 +49,14 @@ const MainCard = ({ postObj }) => {
           <span>{postObj?.heartCnt === 0 ? "" : postObj?.heartCnt}</span>
         </IconCnt>
         <IconCnt>
-          <Icon src={bookmark ? BookmarkFull : Bookmark} alt="Bookmark" />
+          <Icon
+            src={bookmark ? BookmarkFull : Bookmark}
+            alt="Bookmark"
+            onClick={() => {
+              dispatch(bookmarkDB(id));
+              // setBookmark((prev) => !prev);
+            }}
+          />
           <span>{postObj?.bookmarkCnt === 0 ? "" : postObj?.bookmarkCnt}</span>
         </IconCnt>
         <IconCnt
@@ -68,13 +75,17 @@ const MainCard = ({ postObj }) => {
       >
         {postObj?.content}
       </Text>
-      {postObj?.comment && (
-        <CommentWrap>
+      {postObj?.commentOne && (
+        <CommentWrap
+          onClick={() => {
+            navigate("/detail/" + id);
+          }}
+        >
           <CommentProfile src="/images/Avatar.png" alt="profile" height="24" />
 
           <Text>
-            <span>{"nickname"}</span>
-            {postObj?.comment}
+            <span>{postObj?.commentOne.user.userNickname}</span>
+            {postObj?.commentOne.comment}
           </Text>
         </CommentWrap>
       )}
@@ -101,12 +112,17 @@ const CardHeader = styled.div`
   }
 `;
 const ImageWrap = styled.div`
+  position: relative;
   border-radius: 6px;
   overflow: hidden;
   width: 100%;
-  height: 270px;
+  height: 0;
+  padding-bottom: 100%;
 `;
 const CardImage = styled.img`
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -135,7 +151,7 @@ const Icon = styled.img`
 `;
 
 const CommentProfile = styled.img`
-  margin: 10px 10px 0 0;
+  margin: 7px 10px 0 0;
 `;
 const CommentWrap = styled.div`
   display: flex;
