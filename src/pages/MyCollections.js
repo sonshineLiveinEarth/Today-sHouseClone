@@ -4,19 +4,21 @@ import Header from "../components/Header";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getUserPostsDB } from "../redux/modules/post";
+import { getUserPostsDB, getUserInfoDB } from "../redux/modules/post";
 
 // 이미지
 import Profile from "../image/Profile.png";
 import BookMark from "../image/Bookmark.png";
 import Heart from "../image/HeartB.png";
 import coupon from "../image/coupon.png";
+import Comment from "../image/CommentIcon.png";
 
 const MyCollections = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const post = useSelector((state) => state.post.userPosts);
+  const userInfo = useSelector((state) => state.post.userInfo);
   console.log(post);
 
   const isLogin = localStorage.getItem("jwtToken");
@@ -35,6 +37,7 @@ const MyCollections = () => {
 
   React.useEffect(() => {
     dispatch(getUserPostsDB());
+    dispatch(getUserInfoDB());
     loginCheck();
   }, [dispatch]);
 
@@ -44,7 +47,7 @@ const MyCollections = () => {
       <Wrap>
         <ProfileWrap>
           <ProfileImage src={Profile} alt="프로필 이미지" />
-          <Nickname>yunjooo</Nickname>
+          <Nickname>{userInfo.userNickname}</Nickname>
           <ProfileBtn
             onClick={() => {
               navigate("/users/edit");
@@ -56,12 +59,12 @@ const MyCollections = () => {
             <MiniDiv>
               <Book src={BookMark} alt="스크랩북" />
               <Span>스크랩북</Span>
-              <Num>0</Num>
+              <Num>{userInfo.bookmarkCnt}</Num>
             </MiniDiv>
             <MiniDiv>
               <HeartIcon src={Heart} alt="좋아요" />
               <Span>좋아요</Span>
-              <Num>0</Num>
+              <Num>{userInfo.heartCnt}</Num>
             </MiniDiv>
             <MiniDiv>
               <CouponIcon src={coupon} alt="쿠폰" />
@@ -71,29 +74,46 @@ const MyCollections = () => {
           </BottomWrap>
         </ProfileWrap>
         <Div />
+
         <PhotoWrap>
-          <PhotoTitle>
-            <div>
-              <Title>사진</Title>
-              <PNum>{post?.length}</PNum>
-            </div>
-            <ViewBtn
-              onClick={() => {
-                navigate("/users/collections");
-              }}
-            >
-              전체보기
-            </ViewBtn>
-          </PhotoTitle>
-          <PhotoBoxs>
-            {post.map((list, index) => {
-              return (
-                <>
-                  <Photo key={index} imageUrl={list.imageUrl} />
-                </>
-              );
-            })}
-          </PhotoBoxs>
+          {post.map((list, index) => {
+            return (
+              <>
+                <PhotoBox>
+                  <PhotoTitle>
+                    <Propfile src={Profile} alt="프로필 사진" />
+                    <MiniNickname>yunjoooo</MiniNickname>
+                  </PhotoTitle>
+                  <Photo
+                    onClick={() => {
+                      navigate(`/detail/${list.id}`);
+                    }}
+                    key={index}
+                    imageUrl={list.imageUrl}
+                  />
+                  <PhotoBottomWrap>
+                    <IconBox>
+                      <HeartIconMin src={Heart} alt="좋아요" />
+                      <CNum> {list?.heartCnt > 1 ? list?.heartCnt : null}</CNum>
+                    </IconBox>
+                    <IconBox>
+                      <BookIconMin src={BookMark} alt="북마크" />
+                      <CNum>
+                        {list?.bookmarkCnt > 1 ? list?.bookmarkCnt : null}
+                      </CNum>
+                    </IconBox>
+                    <IconBox>
+                      <CommentIconMin src={Comment} alt="댓글" />
+                      <CNum>
+                        {list?.commentCnt > 1 ? list?.commentCnt : null}
+                      </CNum>
+                    </IconBox>
+                  </PhotoBottomWrap>
+                  <CommentT> {list?.content ? list?.content : null}</CommentT>
+                </PhotoBox>
+              </>
+            );
+          })}
         </PhotoWrap>
       </Wrap>
     </React.Fragment>
@@ -115,6 +135,7 @@ const Wrap = styled.div`
   @media only screen and (max-width: 1024px) {
     display: flex;
     flex-direction: column;
+    width: 90%;
   }
 `;
 
@@ -144,6 +165,10 @@ const Nickname = styled.span`
   font-size: 26px;
   color: rgb(41, 41, 41);
   font-weight: bold;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const Div = styled.div`
@@ -157,15 +182,34 @@ const Div = styled.div`
 
 const PhotoWrap = styled.div`
   width: 66.6667%;
-  height: 673px;
+  height: 1000px;
   display: flex;
   flex-direction: column;
-  margin: auto;
-  @media only screen and (max-width: 1024px) {
-    width: 90%;
-  }
+  flex-wrap: wrap;
+  /* margin: auto; */
+  /* margin-bottom: 20px; */
   @media only screen and (max-width: 770px) {
-    width: 95%;
+    width: 30%;
+    height: 1200px;
+
+    flex-wrap: wrap;
+  }
+`;
+
+const IconBox = styled.div`
+  cursor: pointer;
+`;
+
+const PhotoBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  /* margin: 0px 0px 20px 0px; */
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+  margin-top: 8px;
+
+  @media only screen and (max-width: 770px) {
+    flex-wrap: wrap;
   }
 `;
 
@@ -202,6 +246,20 @@ const BottomWrap = styled.div`
   align-items: center;
 `;
 
+const CommentT = styled.span`
+  max-width: 260px;
+  max-width: 200px;
+  height: 40px;
+  font-size: 14px;
+  color: #424242;
+  margin-top: 8px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+`;
+
 const MiniDiv = styled.div`
   display: flex;
   flex-direction: column;
@@ -227,6 +285,14 @@ const CouponIcon = styled.img`
   opacity: 0.8;
 `;
 
+const CNum = styled.span`
+  font-size: 12px;
+  font-weight: 500;
+  margin: 0px 0px 0px 6px;
+  position: relative;
+  top: -6px;
+`;
+
 const Span = styled.span`
   font-size: 14px;
   margin: 8px 0px 4px 0px;
@@ -240,51 +306,28 @@ const Num = styled.span`
 const PhotoTitle = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
   align-items: center;
 `;
 
-const Title = styled.span`
-  font-weight: bold;
-  font-size: 20px;
+const Propfile = styled.img`
+  width: 36px;
+  height: 36px;
 `;
 
-const PNum = styled.span`
-  font-weight: bold;
-  font-size: 20px;
-  color: #35c5f0;
-  margin-left: 6px;
-`;
-
-const ViewBtn = styled.span`
+const MiniNickname = styled.span`
+  color: #424242;
   font-weight: 500;
-  font-size: 14px;
-  color: #35c5f0;
-  margin-left: 6px;
-  cursor: pointer;
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const PhotoBoxs = styled.div`
-  display: flex;
-  flex-direction: row;
-  /* justify-content: space-between; */
-  align-items: center;
-  flex-wrap: wrap;
-  @media only screen and (max-width: 770px) {
-    width: 100%;
-  }
+  font-size: 15px;
+  margin-left: 10px;
+  margin-bottom: 6px;
 `;
 
 const Photo = styled.div`
   /* max-width: 200px; */
-  width: 23%;
+  width: 88%;
   min-width: 200px;
-  padding-bottom: 200px;
-  height: 200px;
-  margin: 10px 10px 0px 0px;
+  height: 240px;
+  margin: 10px 20px 0px 0px;
   box-sizing: border-box;
   border-radius: 6px;
   background-color: #aaa;
@@ -292,40 +335,50 @@ const Photo = styled.div`
   background-image: url(${(props) => props.imageUrl});
   background-position: center 30%;
   background-size: cover;
+  overflow: hidden;
+  display: inline-block;
+  cursor: pointer;
   @media only screen and (max-width: 770px) {
     display: flex;
     flex-wrap: wrap;
+    width: 25%;
+    height: 200px;
+    margin: 14px 14px 0px 0px;
+  }
+  &:hover {
+    transform: scale(1.02);
   }
 `;
 
-const TextBoxs = styled.button`
-  width: 100%;
-  border-radius: 4px;
-  height: 50px;
-  cursor: pointer;
+const PhotoBottomWrap = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin-top: 30px;
-  border: 1px solid #dbdbdb;
-  background-color: white;
-  &:hover {
-    background-color: #f2f2f2;
+  justify-content: space-around;
+  width: 88%;
+  min-width: 200px;
+  height: auto;
+  margin: 10px 16px 0px 0px;
+  @media only screen and (max-width: 770px) {
+    display: flex;
+    flex-wrap: wrap;
+    width: 25%;
+    margin: 14px 14px 0px 0px;
   }
 `;
 
-const Plus = styled.span`
-  font-weight: 500;
-  font-size: 26px;
-  color: #757575;
+const HeartIconMin = styled.img`
+  width: 24px;
+  height: auto;
 `;
 
-const PlusText = styled.span`
-  font-weight: 500;
-  font-size: 14px;
-  color: #757575;
-  margin-left: 4px;
+const BookIconMin = styled.img`
+  width: 20px;
+  height: auto;
+`;
+
+const CommentIconMin = styled.img`
+  width: 22px;
+  height: auto;
 `;
 
 export default MyCollections;
