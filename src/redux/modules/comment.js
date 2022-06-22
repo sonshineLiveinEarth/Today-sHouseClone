@@ -4,7 +4,7 @@ import { apis } from "../../shared/api";
 // Action
 const GET_COMMENT_LIST = "comment/LOAD";
 const ADD_COMMENT = "comment/ADD";
-const LIKE_COMMENT = "comment/MODIFI";
+const LIKE_COMMENT = "comment/UPDATE";
 const DELETE_COMMENT = "comment/DELETE";
 
 // Action Creator
@@ -12,7 +12,7 @@ const getCommentList = createAction(GET_COMMENT_LIST, (commentList) => ({
   commentList,
 }));
 const addComment = createAction(ADD_COMMENT, (comment) => ({ comment }));
-const likeComment = createAction(LIKE_COMMENT, (id) => ({ id }));
+const likeComment = createAction(LIKE_COMMENT, (id, like) => ({ id, like }));
 const deleteComment = createAction(DELETE_COMMENT, (id) => ({ id }));
 
 // Initial State
@@ -45,7 +45,7 @@ export const addCommentDB = (comment) => async (dispatch) => {
     const { data } = await apis.createComment(comment);
     console.log(data);
     dispatch(addComment(data));
-    // navigate(0);
+    // window.location.assign(`/detail/${comment.postId}`);
   } catch (error) {
     window.alert("댓글 등록 중에 오류가 발생했습니다.");
     console.log(error);
@@ -54,13 +54,13 @@ export const addCommentDB = (comment) => async (dispatch) => {
 
 export const modifiCommentDB = (postId) => async (dispatch) => {
   try {
-    console.log("댓글에 하트 추가할 준비", postId);
-    const { data } = await apis.addHeart(postId);
+    console.log("댓글에 좋아요 추가할 준비", postId);
+    const { data } = await apis.addHeartComment(postId);
     console.log(data);
-    dispatch(likeComment(postId));
+    dispatch(likeComment(postId, data));
     // navigate(0);
   } catch (error) {
-    window.alert("댓글 등록 중에 오류가 발생했습니다.");
+    window.alert("좋아요 등록 중에 오류가 발생했습니다.");
     console.log(error);
   }
 };
@@ -90,8 +90,30 @@ export default handleActions(
 
     [ADD_COMMENT]: (state, { payload }) =>
       produce(state, (draft) => {
+        console.log(draft);
+        draft.commentList.unshift(payload.comment);
+      }),
+
+    [LIKE_COMMENT]: (state, { payload }) =>
+      produce(state, (draft) => {
         console.log(payload);
-        draft.commentList.unshift(payload.post);
+        // console.log(state.commentList.commentHeartCheck);
+        // draft.commentList.findIndex((m) => {
+        //   return (m.commentHeartCheck = payload.like);
+        // });
+        console.log(draft.commentList);
+        const new_comment_list = draft.commentList.map((l, idx) => {
+          if (payload.id === idx && payload.like) {
+            return l.commentHeartCheck;
+          } else if (payload.id === idx && !payload.like) {
+            return !l.commentHeartCheck;
+          } else {
+            return l;
+          }
+        });
+        console.log({ commentList: new_comment_list });
+        return { ...state, commentList: new_comment_list };
+        // draft.commentList[payload.id] = payload.like;
       }),
 
     [DELETE_COMMENT]: (state, { payload }) =>

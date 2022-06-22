@@ -15,10 +15,9 @@ import Footer from "../components/Footer";
 
 const Detail = () => {
   const post = useSelector((state) => state.post.postOne);
-  const postlike = useSelector((state) => state.post.postlike);
   // const post = post_list?.post?.data?.body;
   console.log(post);
-  console.log(postlike);
+
   // console.log(post_list);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -106,11 +105,11 @@ const Detail = () => {
           heartCnt={post?.bookmarkCnt}
         />
       </Background>
-      {/* <Footer
+      <Footer
         commentCnt={post?.commentCnt}
         bookmarkCnt={post?.bookmarkCnt}
         heartCnt={post?.bookmarkCnt}
-      /> */}
+      />
     </>
   );
 };

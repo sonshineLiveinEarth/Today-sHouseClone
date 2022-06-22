@@ -38,8 +38,10 @@ export const apis = {
   editPost: (id, post) => formApi.put(`api/post/${id}`, post),
   deletePost: (id) => api.delete(`/api/post/${id}`),
 
-  // 좋아요
-  addHeart: (postId) => api.post(`/api/heart/${postId}`),
+  // 게시글 좋아요
+  addHeart: (postId) => api.post(`/api/postHeart/${postId}`),
+  //댓글 좋아요
+  addHeartComment: (postId) => api.post(`/api/commentHeart/${postId}`),
 
   // 북마크
   bookmark: (postId) => api.post(`/api/bookmark/${postId}`),

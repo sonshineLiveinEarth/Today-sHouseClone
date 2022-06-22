@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
+// 이미지
+import Profile from "../image/ProfileNemo.png";
 
 const ProfileModifi = () => {
   return (
@@ -31,10 +33,96 @@ const ProfileModifi = () => {
                   <option value="직접입력">직접입력</option>
                 </SelectEM>
               </EmailWrap>
-              <EmailErr>이메일 형식이 올바르지 않습니다.</EmailErr>
+              <EmailErr>
+                이메일을 변경하시려면 운영자에게 이메일을 보내주세요.
+              </EmailErr>
             </EWrap>
           </EBoxWrap>
         </TitleWrap>
+
+        <TitleWrap>
+          <EBoxWrap>
+            <LabelWrap>
+              <Label>별명</Label>
+              <Labelsub>*필수항목</Labelsub>
+            </LabelWrap>
+            <EWrap>
+              <EmailWrap>
+                <Input placeholder="별명" />
+              </EmailWrap>
+            </EWrap>
+          </EBoxWrap>
+        </TitleWrap>
+
+        <TitleWrap>
+          <EBoxWrap>
+            <LabelWrap>
+              <Label>홈페이지</Label>
+            </LabelWrap>
+            <EWrap>
+              <EmailWrap>
+                <Input placeholder="http://ohou.se" />
+              </EmailWrap>
+            </EWrap>
+          </EBoxWrap>
+        </TitleWrap>
+
+        <TitleWrap>
+          <EBoxWrap>
+            <LabelWrap>
+              <Label>성별</Label>
+            </LabelWrap>
+            <EWrap>
+              <RadioWrap>
+                <RInput type="radio" name="gender" value="남성" />
+                <Lab>남성</Lab>
+                <RInput type="radio" name="gender" value="여성" />
+                <Lab>여성</Lab>
+              </RadioWrap>
+            </EWrap>
+          </EBoxWrap>
+        </TitleWrap>
+
+        <TitleWrap>
+          <EBoxWrap>
+            <LabelWrap>
+              <Label>생년월일</Label>
+            </LabelWrap>
+            <EWrap>
+              <EmailWrap>
+                <Input placeholder="YYYY-MM-DD" />
+              </EmailWrap>
+            </EWrap>
+          </EBoxWrap>
+        </TitleWrap>
+
+        <TitleWrap>
+          <EBoxWrap>
+            <LabelWrap>
+              <Label>프로필 이미지</Label>
+            </LabelWrap>
+            <EWrap>
+              <EmailWrap>
+                <ProfileImage src={Profile} alt="프로필 사진" />
+                <DeleteBtn>삭제</DeleteBtn>
+              </EmailWrap>
+            </EWrap>
+          </EBoxWrap>
+        </TitleWrap>
+
+        <TitleWrap>
+          <EBoxWrap>
+            <LabelWrap>
+              <Label>한줄 소개</Label>
+            </LabelWrap>
+            <EWrap>
+              <EmailWrap>
+                <Input />
+              </EmailWrap>
+            </EWrap>
+          </EBoxWrap>
+        </TitleWrap>
+        <DoneBtn>회원정보 수정</DoneBtn>
       </Wrap>
     </>
   );
@@ -51,6 +139,9 @@ const Wrap = styled.span`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  @media only screen and (max-width: 760px) {
+    width: 100%;
+  }
 `;
 
 const TitleWrap = styled.div`
@@ -65,6 +156,7 @@ const Title = styled.div`
   color: #000;
   font-weight: 700;
   margin-bottom: 60px;
+  margin-top: 30px;
 `;
 
 const LabelWrap = styled.div`
@@ -77,6 +169,9 @@ const Label = styled.span`
   margin-top: 4px;
   font-size: 14px;
   color: #757575;
+  @media only screen and (max-width: 760px) {
+    font-size: 12px;
+  }
 `;
 
 const Labelsub = styled.span`
@@ -89,7 +184,10 @@ const EBoxWrap = styled.div`
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  @media only screen and (max-width: 1000px) {
+    justify-content: space-between;
+  }
 `;
 
 const EWrap = styled.div`
@@ -99,7 +197,8 @@ const EWrap = styled.div`
     width: 500px;
   }
   @media only screen and (max-width: 760px) {
-    width: 320px;
+    /* width: 320px; */
+    width: 80%;
   }
 `;
 
@@ -116,11 +215,26 @@ const EmailWrap = styled.div`
   }
 `;
 
+const RadioWrap = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  /* justify-content: center; */
+  margin-bottom: 10px;
+  margin-left: 60px;
+  @media only screen and (max-width: 760px) {
+    width: 100%;
+    margin-left: -10px;
+  }
+`;
+
 const EmailErr = styled.span`
   display: block;
-  margin: 10px 0px 20px 0px;
+  margin: 10px 0px 20px 10px;
   font-size: 13px;
   color: #9e9e9e;
+  font-weight: 500;
   line-height: 21px;
   word-break: keep-all;
   @media only screen and (max-width: 760px) {
@@ -158,6 +272,36 @@ const InputE = styled.input`
   }
 `;
 
+const Input = styled.input`
+  width: 368px;
+  position: relative;
+  display: block;
+  border-radius: 4px;
+  margin-top: -1px;
+  font-size: 15px;
+  line-height: 21px;
+  resize: none;
+  padding: 8px 15px 9px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(
+    ${(props) => (props.userIdError ? "255, 119, 119" : "219, 219, 219")}
+  );
+  margin-left: -2px;
+  &::placeholder {
+    color: rgb(219, 219, 219);
+  }
+  &:focus {
+    border: 2px solid
+      rgb(${(props) => (props.userIdError ? "255, 119, 119" : "159, 233, 255")});
+    outline: none;
+  }
+  @media only screen and (max-width: 760px) {
+    width: 90%;
+    margin-left: -8px;
+  }
+`;
+
 const Gol = styled.span`
   margin: 0px 4px;
   font-size: 15px;
@@ -181,6 +325,59 @@ const SelectEM = styled.select`
   );
   &::placeholder {
     color: #424242;
+  }
+`;
+
+const RInput = styled.input`
+  margin-left: 10px;
+`;
+
+const Lab = styled.span`
+  margin-left: 4px;
+`;
+
+const ProfileImage = styled.img`
+  width: 198px;
+  height: 198px;
+  margin-left: -150px;
+  position: relative;
+  &:hover {
+    opacity: 0.5;
+  }
+`;
+
+const DeleteBtn = styled.button`
+  width: 50px;
+  height: 30px;
+  margin-left: -160px;
+  position: absolute;
+  margin-left: -40px;
+  margin-top: -140px;
+  background-color: #35c5f0;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  font-weight: bold;
+`;
+
+const DoneBtn = styled.button`
+  margin: 50px 0;
+  width: 268px;
+  padding: 11px 10px;
+  font-size: 17px;
+  line-height: 26px;
+  background-color: #35c5f0;
+  border-color: #35c5f0;
+  color: #fff;
+  text-align: center;
+  transition: color 0.1s, background-color 0.1s, border-color 0.1s;
+  border-radius: 4px;
+  cursor: pointer;
+  border: none;
+  margin-left: 15%;
+  @media only screen and (max-width: 760px) {
+    width: 90%;
+    margin: auto;
   }
 `;
 
