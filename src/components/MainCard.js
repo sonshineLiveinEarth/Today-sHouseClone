@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { useNavigate, Link } from "react-router-dom";
-import Bookmark from "../image/Bookmark.png";
-import CommentIcon from "../image/CommentIcon.png";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addHeartDB } from "../redux/modules/post";
@@ -10,7 +8,11 @@ import { addHeartDB } from "../redux/modules/post";
 //이미지
 import HeartFull from "../image/HeartFull.png";
 import Heart from "../image/HeartB.png";
+
 import Profile from "../image/Profile.png";
+import Bookmark from "../image/Bookmark.png";
+import BookmarkFull from "../image/BookmarkFull.png";
+import CommentIcon from "../image/CommentIcon.png";
 
 const MainCard = ({ postObj }) => {
   const navigate = useNavigate();
@@ -18,6 +20,7 @@ const MainCard = ({ postObj }) => {
 
   const postLike = useSelector((state) => state.post.postlike);
   const [Like, setLike] = useState(false);
+  const [bookmark, setBookmark] = useState(false);
 
   const id = postObj?.id;
   // console.log(postObj);
@@ -29,7 +32,7 @@ const MainCard = ({ postObj }) => {
       </CardHeader>
       <ImageWrap
         onClick={() => {
-          navigate("/detail/" + postObj.id);
+          navigate("/detail/" + id);
         }}
       >
         <CardImage src={postObj?.imageUrl} alt="card image" />
@@ -48,12 +51,12 @@ const MainCard = ({ postObj }) => {
           <span>{postObj?.heartCnt === 0 ? "" : postObj?.heartCnt}</span>
         </IconCnt>
         <IconCnt>
-          <Icon src={Bookmark} alt="Bookmark" />
+          <Icon src={bookmark ? BookmarkFull : Bookmark} alt="Bookmark" />
           <span>{postObj?.bookmarkCnt === 0 ? "" : postObj?.bookmarkCnt}</span>
         </IconCnt>
         <IconCnt
           onClick={() => {
-            navigate("/detail/" + postObj.id);
+            navigate("/detail/" + id);
           }}
         >
           <Icon src={CommentIcon} alt="CommentIcon" />
@@ -62,7 +65,7 @@ const MainCard = ({ postObj }) => {
       </IconWrap>
       <Text
         onClick={() => {
-          navigate("/detail/" + postObj.id);
+          navigate("/detail/" + id);
         }}
       >
         {postObj?.content}

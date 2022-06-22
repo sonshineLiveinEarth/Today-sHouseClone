@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
 
@@ -12,7 +12,7 @@ const Main = () => {
   const dispatch = useDispatch();
   const postList = useSelector((state) => state.post.postList);
   const postRank = useSelector((state) => state.post.ranking);
-  // console.log(postList);
+  console.log(postList);
   const [inViewRef, inView] = useInView();
   const [page, setPage] = useState(1);
 
@@ -49,7 +49,7 @@ const Main = () => {
             })
           : null}
       </MainGrid>
-      <div ref={inViewRef} />
+      {/* <div ref={inViewRef} /> */}
     </>
   );
 };
@@ -72,21 +72,23 @@ const Blank = styled.div`
   height: 100px;
   grid-column: 1/-1;
 `;
-const RankGrid = styled.div`
+const Grid = css`
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 20px;
   padding: 0 30px;
+  max-width: 1256px;
+`;
+const RankGrid = styled.div`
+  ${Grid}
+  margin: 0 auto;
+  grid-template-columns: 1fr 1fr 1fr;
   @media screen and (max-width: 700px) {
     grid-template-columns: none;
   }
 `;
 const MainGrid = styled.main`
-  margin: 30px auto;
-  max-width: 1256px;
-  padding: 0 30px;
-  display: grid;
+  ${Grid}
   grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
-  grid-gap: 20px;
+  margin: 30px auto;
 `;
 export default Main;
