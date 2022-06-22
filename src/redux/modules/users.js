@@ -72,6 +72,8 @@ export const loginDB = (username, password) => {
             nickname: DecodedToken.nickname,
           })
         );
+        localStorage.setItem("username", username);
+        localStorage.setItem("nickname", DecodedToken.nickname);
       })
 
       .catch((err) => {
@@ -84,7 +86,7 @@ export const loginDB = (username, password) => {
 
 const loginCheck = () => {
   return function (dispatch, getState) {
-    const username = localStorageGet("username");
+    const username = localStorageGet(" ");
     const tokenCheck = document.cookie;
     if (tokenCheck) {
       dispatch(
@@ -113,7 +115,8 @@ export const NicknameDB = (nickname) => {
 export const logoutDB = () => {
   return function (dispatch, getState) {
     dispatch(logOut());
-    localStorage.removeItem("email");
+    localStorage.removeItem("username");
+    localStorage.removeItem("nickname");
     localStorage.removeItem("jwtToken");
     window.location.assign("/");
   };

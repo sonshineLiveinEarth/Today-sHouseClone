@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import Profile from "../image/Profile.png";
 
 const MainRank = ({ postObj, rank }) => {
   const navigate = useNavigate();
@@ -15,7 +16,7 @@ const MainRank = ({ postObj, rank }) => {
       </Rank>
       <Nickname>
         <img
-          src="/images/Avatar.png"
+          src={Profile}
           alt="profile"
           height="22"
           style={{ verticalAlign: "bottom" }}

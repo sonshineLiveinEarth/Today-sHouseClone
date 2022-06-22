@@ -10,7 +10,7 @@ import MainRank from "../components/MainRank";
 
 const Main = () => {
   const dispatch = useDispatch();
-  const postList = useSelector((state) => state.post.postList);
+  const postList = useSelector((state) => state.post.postList.content);
   const postRank = useSelector((state) => state.post.ranking);
   console.log(postList);
   const [inViewRef, inView] = useInView();

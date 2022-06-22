@@ -169,6 +169,11 @@ const ProfileIcon = styled.img`
   margin-left: 6px;
   margin-left: 8px;
   position: relative;
+  &:hover {
+    box-sizing: border-box;
+    border: 2px solid #35c5f0;
+    border-radius: 100%;
+  }
 `;
 
 const ModalContainer = styled.div`

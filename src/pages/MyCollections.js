@@ -1,20 +1,28 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getUserPostDB } from "../redux/modules/post";
+import { getUserPostsDB } from "../redux/modules/post";
+
 // 이미지
 import Profile from "../image/Profile.png";
 import BookMark from "../image/Bookmark.png";
 import Heart from "../image/HeartB.png";
 import coupon from "../image/coupon.png";
 
-const Mypage = () => {
+const MyCollections = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const post = useSelector((state) => state.post.userPosts);
+  console.log(post);
+
   const isLogin = localStorage.getItem("jwtToken");
+  // const Email = localStorage.getItem("username");
+  // console.log(isLogin);
+  // console.log(Email);
 
   const loginCheck = () => {
     if (!isLogin) {
@@ -22,19 +30,16 @@ const Mypage = () => {
     }
   };
 
-  const post = useSelector((state) => state.post.userPost);
-  console.log(post);
-
-  //   const Email = localStorage.getItem("nickname");
-  //   console.log(Email);
+  const Email = localStorage.getItem("nickname");
+  console.log(Email);
 
   React.useEffect(() => {
-    dispatch(getUserPostDB());
+    dispatch(getUserPostsDB());
     loginCheck();
   }, [dispatch]);
 
   return (
-    <React.Fragment key={post.imageUrl}>
+    <React.Fragment>
       <Header />
       <Wrap>
         <ProfileWrap>
@@ -89,16 +94,6 @@ const Mypage = () => {
               );
             })}
           </PhotoBoxs>
-          <TextBoxs>
-            <Plus>+</Plus>
-            <PlusText
-              onClick={() => {
-                navigate("/contents/new");
-              }}
-            >
-              사진 올리기
-            </PlusText>
-          </TextBoxs>
         </PhotoWrap>
       </Wrap>
     </React.Fragment>
@@ -333,4 +328,4 @@ const PlusText = styled.span`
   margin-left: 4px;
 `;
 
-export default Mypage;
+export default MyCollections;

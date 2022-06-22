@@ -25,6 +25,9 @@ const Detail = () => {
   // 수정&삭제 모달창 띄우기
   const [showModal, setShowModal] = useState(false);
 
+  const Email = localStorage.getItem("username");
+  console.log(Email);
+
   const openModal = () => {
     if (!showModal) setShowModal(true);
     else setShowModal(false);
@@ -51,11 +54,7 @@ const Detail = () => {
       <Header />
       <Background>
         <Wrap>
-          <TopWrap
-            onClick={() => {
-              openModal();
-            }}
-          >
+          <TopWrap>
             <CategoryWrap>
               {post !== undefined && post.size && (
                 <>
@@ -72,7 +71,11 @@ const Detail = () => {
               )}
             </CategoryWrap>
 
-            <SettingWrap>
+            <SettingWrap
+              onClick={() => {
+                openModal();
+              }}
+            >
               <Setting />
               <Setting />
               <Setting />

@@ -38,6 +38,10 @@ export const apis = {
   editPost: (id, post) => formApi.put(`api/post/${id}`, post),
   deletePost: (id) => api.delete(`/api/post/${id}`),
 
+  //마이페이지
+  loadUserPost: () => api.get("/api/post/mypage/picture"),
+  loadUserPostList: () => api.get("/api/post/mypage/pictures"),
+
   // 게시글 좋아요
   addHeart: (postId) => api.post(`/api/postHeart/${postId}`),
   //댓글 좋아요

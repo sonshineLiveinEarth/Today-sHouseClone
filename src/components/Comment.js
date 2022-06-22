@@ -25,12 +25,7 @@ const Comment = () => {
   const [limit, setLimit] = useState(5);
   const offset = (page - 1) * limit;
 
-  // 좋아요
-
-  const isLogin = localStorage.getItem("jwtToken");
-
   const comment_list = useSelector((state) => state.comment.commentList);
-  // const comment_like = useSelector((state) => state.comment.commentLike);
   console.log(comment_list);
 
   const dispatch = useDispatch();
@@ -38,8 +33,17 @@ const Comment = () => {
   console.log(params.id);
   const commentText = React.useRef("");
 
+  const isLogin = localStorage.getItem("jwtToken");
+
+  const loginCheck = () => {
+    if (!isLogin) {
+      return navigate("/login");
+    }
+  };
+
   React.useEffect(() => {
     dispatch(getCommentListDB(params.id));
+    loginCheck();
   }, [dispatch]);
 
   // 댓글 추가
@@ -97,12 +101,23 @@ const Comment = () => {
         {comment_list !== undefined
           ? comment_list.slice(offset, offset + limit).map((list, index) => {
               // 받아온 시간 데이터 가공
-              // console.log(list);
+              console.log(list);
               const One = list?.createdAt?.toString();
               console.log(One);
               const Two = One.split("T");
               const Four = Two[1]?.split(".");
-              const Three = Two[0] + " " + Four[0];
+
+              const time = Number(Four[0].split(":")[0]);
+              const realTime = time + 9;
+              if (realTime >= 24) return realTime - 24;
+              const minnsecond = Four[0].substring(2, 8);
+              console.log(Four, typeof Four);
+              console.log(time, typeof time);
+              console.log(realTime, typeof realTime);
+
+              const Three = Two[0] + " " + realTime + minnsecond;
+              console.log(Three, typeof Three);
+
               // // 댓글 달린 시간표시
               const today = new Date();
               console.log(today);
@@ -141,9 +156,21 @@ const Comment = () => {
                         </Time>
                         <Point />
                         {list.commentHeartCheck ? (
-                          <HeartIcon src={HeartFull} alt="좋아요아이콘" />
+                          <HeartIcon
+                            onClick={() => {
+                              LikeComment(list.id);
+                            }}
+                            src={HeartFull}
+                            alt="좋아요아이콘"
+                          />
                         ) : (
-                          <HeartIcon src={Heart} alt="좋아요아이콘" />
+                          <HeartIcon
+                            onClick={() => {
+                              LikeComment(list.id);
+                            }}
+                            src={Heart}
+                            alt="좋아요아이콘"
+                          />
                         )}
 
                         <Like
@@ -320,6 +347,7 @@ const Point = styled.hr`
 const HeartIcon = styled.img`
   width: 16px;
   height: auto;
+  cursor: pointer;
 `;
 
 const Like = styled.span`
