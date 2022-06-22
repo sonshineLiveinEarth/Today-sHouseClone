@@ -391,6 +391,7 @@ const DoneBtn = styled.button`
   cursor: pointer;
   border: none;
   margin-left: 100px;
+  font-weight: bold;
   @media only screen and (max-width: 760px) {
     width: 90%;
     margin: auto;

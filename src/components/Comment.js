@@ -22,10 +22,10 @@ const Comment = () => {
   const navigate = useNavigate();
   // 페이지네이션
   const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5);
+  const offset = (page - 1) * limit;
+
   // 좋아요
-  const postLike = useSelector((state) => state.post.postlike);
-  const [LikeCo, setLikeCo] = useState(false);
-  console.log(postLike);
 
   const isLogin = localStorage.getItem("jwtToken");
 
@@ -62,8 +62,17 @@ const Comment = () => {
   console.log(commentText.current.value);
 
   const LikeComment = async (id) => {
-    await dispatch(modifiCommentDB(id)).then();
+    await dispatch(modifiCommentDB(id));
   };
+
+  // const LikeIconChange = () => {
+  //   comment_list.map((comment) => {
+  //     if (comment.commentHeartCheck) setLikeCo(true);
+  //     else {
+  //       return LikeCo;
+  //     }
+  //   });
+  // };
 
   return (
     <React.Fragment>
@@ -85,8 +94,8 @@ const Comment = () => {
             value="입력"
           />
         </InputWrap>
-        {/* {comment_list !== undefined
-          ? comment_list.map((list, index) => {
+        {comment_list !== undefined
+          ? comment_list.slice(offset, offset + limit).map((list, index) => {
               // 받아온 시간 데이터 가공
               // console.log(list);
               const One = list?.createdAt?.toString();
@@ -105,6 +114,7 @@ const Comment = () => {
               const betweenTimeHour = Math.floor(betweenTime / 60);
               const betweenTimeDay = Math.floor(betweenTime / 60 / 24);
               const betweenTimeYear = Math.floor(betweenTime / 60 / 24 / 365);
+              console.log(list.commentHeartCheck);
 
               return (
                 <>
@@ -130,7 +140,7 @@ const Comment = () => {
                             : null}
                         </Time>
                         <Point />
-                        {postLike || list.commentHeartCheck ? (
+                        {list.commentHeartCheck ? (
                           <HeartIcon src={HeartFull} alt="좋아요아이콘" />
                         ) : (
                           <HeartIcon src={Heart} alt="좋아요아이콘" />
@@ -139,13 +149,12 @@ const Comment = () => {
                         <Like
                           onClick={() => {
                             LikeComment(list.id);
-                          
                           }}
                         >
                           좋아요
                         </Like>
-                        <Point />
-                        <Re>답글 달기</Re>
+                        {/* <Point />
+                        <Re>답글 달기</Re> */}
                         <Point />
                         <Re
                           onClick={() => {
@@ -165,12 +174,12 @@ const Comment = () => {
                 </>
               );
             })
-          : null} */}
+          : null}
         <Pagination
           page={page}
           setPage={setPage}
           total={comment_list?.length}
-          limit={5}
+          limit={limit}
         />
       </Wrap>
     </React.Fragment>

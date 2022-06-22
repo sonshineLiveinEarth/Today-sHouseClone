@@ -8,7 +8,6 @@ import { addHeartDB, bookmarkDB } from "../redux/modules/post";
 //이미지
 import HeartFull from "../image/HeartFull.png";
 import Heart from "../image/HeartB.png";
-
 import Profile from "../image/Profile.png";
 import Bookmark from "../image/Bookmark.png";
 import BookmarkFull from "../image/BookmarkFull.png";
@@ -41,12 +40,10 @@ const MainCard = ({ postObj }) => {
         <IconCnt>
           <Icon
             onClick={() => {
-              // dispatch(addHeartDB(id));
-              if (!Like) setLike(true);
-              else setLike(false);
+              dispatch(addHeartDB(id));
             }}
             src={Like ? HeartFull : Heart}
-            alt="heart"
+            alt="좋아요"
           />
           <span>{postObj?.heartCnt === 0 ? "" : postObj?.heartCnt}</span>
         </IconCnt>
@@ -77,6 +74,7 @@ const MainCard = ({ postObj }) => {
       >
         {postObj?.content}
       </Text>
+
       {postObj?.commentOne && (
         <CommentWrap
           onClick={() => {
