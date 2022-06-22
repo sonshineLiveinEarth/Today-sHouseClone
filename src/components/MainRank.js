@@ -66,15 +66,16 @@ const Rank = styled.div`
   left: 10px;
 `;
 const RankIcon = styled.img`
-  opacity: 0.8;
-  height: 36px;
+  opacity: 0.6;
+  height: 34px;
+  width: 34px;
 `;
 const RankNum = styled.span`
   color: #fff;
   font-weight: bold;
   position: absolute;
-  top: 5px;
-  left: 10px;
+  top: 0px;
+  left: 12px;
 `;
 const Nickname = styled.div`
   position: absolute;

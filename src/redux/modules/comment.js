@@ -1,6 +1,7 @@
 import { createAction, handleActions } from "redux-actions";
 import { produce } from "immer";
 import { apis } from "../../shared/api";
+import post from "./post";
 // Action
 const GET_COMMENT_LIST = "comment/LOAD";
 const ADD_COMMENT = "comment/ADD";
@@ -28,8 +29,8 @@ export const getCommentListDB = (postId) => {
     apis
       .loadCommentList(postId)
       .then((response) => {
-        console.log("전체 코멘트를 받았어!", response);
-        dispatch(getCommentList(response));
+        console.log("전체 코멘트를 받았어!", response.data);
+        dispatch(getCommentList(response.data));
       })
       .catch((error) => {
         window.alert("댓글을 불러오는 중에 오류가 발생했습니다.");
@@ -85,35 +86,56 @@ export default handleActions(
   {
     [GET_COMMENT_LIST]: (state, { payload }) =>
       produce(state, (draft) => {
-        draft.commentList = payload.commentList.data;
+        console.log(payload.commentList);
+        draft.commentList = payload.commentList;
       }),
 
     [ADD_COMMENT]: (state, { payload }) =>
       produce(state, (draft) => {
         console.log(draft);
+        console.log(state);
         draft.commentList.unshift(payload.comment);
       }),
 
+    // [LIKE_COMMENT]: (state, { payload }) =>
+    //   produce(state, (draft) => {
+    //     console.log(payload.like);
+    //     console.log(state.commentList.content);
+    //     const new_comment_list = draft.commentList.conetent.map((l, idx) => {
+    //       if (payload.id === idx && payload.like) {
+    //         return l.commentHeartCheck;
+    //       } else if (payload.id === idx && !payload.like) {
+    //         return !l.commentHeartCheck;
+    //       } else {
+    //         return l;
+    //       }
+    //     });
+    //     console.log({ commentList: new_comment_list });
+    //     return { ...state, commentList: new_comment_list };
+    //     // draft.commentList[payload.id] = payload.like;
+    //   }),
+
     [LIKE_COMMENT]: (state, { payload }) =>
       produce(state, (draft) => {
-        console.log(payload);
-        // console.log(state.commentList.commentHeartCheck);
-        // draft.commentList.findIndex((m) => {
-        //   return (m.commentHeartCheck = payload.like);
-        // });
-        console.log(draft.commentList);
-        const new_comment_list = draft.commentList.map((l, idx) => {
-          if (payload.id === idx && payload.like) {
-            return l.commentHeartCheck;
-          } else if (payload.id === idx && !payload.like) {
-            return !l.commentHeartCheck;
+        console.log(payload.like);
+        console.log(state.commentList);
+        draft.commentList = draft.commentList.map((comment) => {
+          if (Number(comment.id) === Number(payload.id)) {
+            if (payload.like) {
+              return {
+                ...comment,
+                commentHeartCheck: true,
+              };
+            } else if (!payload.like) {
+              return {
+                ...comment,
+                commentHeartCheck: false,
+              };
+            }
           } else {
-            return l;
+            return comment;
           }
         });
-        console.log({ commentList: new_comment_list });
-        return { ...state, commentList: new_comment_list };
-        // draft.commentList[payload.id] = payload.like;
       }),
 
     [DELETE_COMMENT]: (state, { payload }) =>

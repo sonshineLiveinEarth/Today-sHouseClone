@@ -18,10 +18,10 @@ const getPostList = createAction(GET_POST_LIST, (postList) => ({ postList }));
 const getPost = createAction(GET_POST, (post) => ({ post }));
 const getRanking = createAction(GET_RANKING, (post) => ({ post }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
-const likePost = createAction(LIKE_POST, (id) => ({ id }));
 const editPost = createAction(EDIT_POST, (post) => ({ post }));
 const deletePost = createAction(DELETE_POST, (id) => ({ id }));
 
+const likePost = createAction(LIKE_POST, (postId, data) => ({ postId, data }));
 const bookmark = createAction(BOOKMARK, (postId, data) => ({ postId, data }));
 
 // InitialState
@@ -98,14 +98,14 @@ export const addPostDB = (id, formData) => {
     }
   };
 };
+
 // 좋아요
 export const addHeartDB = (postId) => async (dispatch) => {
   try {
     console.log("게시글에 하트 추가할 준비", postId);
     const { data } = await apis.addHeart(postId);
     console.log(data);
-    dispatch(likePost(postId));
-    // navigate(0);
+    dispatch(likePost(postId, data));
   } catch (error) {
     window.alert("하트 등록 중에 오류가 발생했습니다.");
     console.log(error);
@@ -177,9 +177,13 @@ export default handleActions(
 
     [LIKE_POST]: (state, { payload }) =>
       produce(state, (draft) => {
-        draft.postList = state.postList.map((post) => {
-          console.log(post, post.id, payload.id, draft.postlike);
-          if (post.id === payload.id) return !draft.postlike;
+        draft.postList = draft.postList.map((post) => {
+          if (Number(post.id) === Number(payload.postId)) {
+            if (payload.data) return { ...post, heartCnt: post.heartCnt + 1 };
+            else return { ...post, heartCnt: post.heartCnt - 1 };
+          } else {
+            return post;
+          }
         });
       }),
 

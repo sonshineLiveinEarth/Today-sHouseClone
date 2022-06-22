@@ -9,120 +9,122 @@ const ProfileModifi = () => {
     <>
       <Header />
       <Wrap>
-        <TitleWrap>
-          <Title>회원정보수정</Title>
-          <EBoxWrap>
-            <LabelWrap>
-              <Label>이메일</Label>
-              <Labelsub>*필수항목</Labelsub>
-            </LabelWrap>
-            <EWrap>
-              <EmailWrap>
-                <InputE placeholder="이메일" />
-                <Gol> @ </Gol>
-                <SelectEM>
-                  <option value="">선택해주세요</option>
-                  <option value="naver.com">naver.com</option>
-                  <option value="hanmail.net">hanmail.net</option>
-                  <option value="daum.net">daum.net</option>
-                  <option value="gmail.com">gmail.com</option>
-                  <option value="nate.com">nate.com</option>
-                  <option value="hotmail.com">hotmail.com</option>
-                  <option value="outlook.com">outlook.com</option>
-                  <option value="icloud.com">icloud.com</option>
-                  <option value="직접입력">직접입력</option>
-                </SelectEM>
-              </EmailWrap>
-              <EmailErr>
-                이메일을 변경하시려면 운영자에게 이메일을 보내주세요.
-              </EmailErr>
-            </EWrap>
-          </EBoxWrap>
-        </TitleWrap>
+        <Title>회원정보수정</Title>
+        <InfoWrap>
+          <TitleWrap>
+            <EBoxWrap>
+              <LabelWrap>
+                <Label>이메일</Label>
+                <Labelsub>*필수항목</Labelsub>
+              </LabelWrap>
+              <EWrap>
+                <EmailWrap>
+                  <InputE placeholder="이메일" />
+                  <Gol> @ </Gol>
+                  <SelectEM>
+                    <option value="">선택해주세요</option>
+                    <option value="naver.com">naver.com</option>
+                    <option value="hanmail.net">hanmail.net</option>
+                    <option value="daum.net">daum.net</option>
+                    <option value="gmail.com">gmail.com</option>
+                    <option value="nate.com">nate.com</option>
+                    <option value="hotmail.com">hotmail.com</option>
+                    <option value="outlook.com">outlook.com</option>
+                    <option value="icloud.com">icloud.com</option>
+                    <option value="직접입력">직접입력</option>
+                  </SelectEM>
+                </EmailWrap>
+                <EmailErr>
+                  이메일을 변경하시려면 운영자에게 이메일을 보내주세요.
+                </EmailErr>
+              </EWrap>
+            </EBoxWrap>
+          </TitleWrap>
 
-        <TitleWrap>
-          <EBoxWrap>
-            <LabelWrap>
-              <Label>별명</Label>
-              <Labelsub>*필수항목</Labelsub>
-            </LabelWrap>
-            <EWrap>
-              <EmailWrap>
-                <Input placeholder="별명" />
-              </EmailWrap>
-            </EWrap>
-          </EBoxWrap>
-        </TitleWrap>
+          <TitleWrap>
+            <EBoxWrap>
+              <LabelWrap>
+                <Label>별명</Label>
+                <Labelsub>*필수항목</Labelsub>
+              </LabelWrap>
+              <EWrap>
+                <EmailWrap>
+                  <Input placeholder="별명" />
+                </EmailWrap>
+              </EWrap>
+            </EBoxWrap>
+          </TitleWrap>
 
-        <TitleWrap>
-          <EBoxWrap>
-            <LabelWrap>
-              <Label>홈페이지</Label>
-            </LabelWrap>
-            <EWrap>
-              <EmailWrap>
-                <Input placeholder="http://ohou.se" />
-              </EmailWrap>
-            </EWrap>
-          </EBoxWrap>
-        </TitleWrap>
+          <TitleWrap>
+            <EBoxWrap>
+              <LabelWrap>
+                <Label>홈페이지</Label>
+              </LabelWrap>
+              <EWrap>
+                <EmailWrap>
+                  <Input placeholder="http://ohou.se" />
+                </EmailWrap>
+              </EWrap>
+            </EBoxWrap>
+          </TitleWrap>
 
-        <TitleWrap>
-          <EBoxWrap>
-            <LabelWrap>
-              <Label>성별</Label>
-            </LabelWrap>
-            <EWrap>
-              <RadioWrap>
-                <RInput type="radio" name="gender" value="남성" />
-                <Lab>남성</Lab>
-                <RInput type="radio" name="gender" value="여성" />
-                <Lab>여성</Lab>
-              </RadioWrap>
-            </EWrap>
-          </EBoxWrap>
-        </TitleWrap>
+          <TitleWrap>
+            <EBoxWrap>
+              <LabelWrap>
+                <Label>성별</Label>
+              </LabelWrap>
+              <EWrap>
+                <RadioWrap>
+                  <RInput type="radio" name="gender" value="남성" />
+                  <Lab>남성</Lab>
+                  <RInput type="radio" name="gender" value="여성" />
+                  <Lab>여성</Lab>
+                </RadioWrap>
+              </EWrap>
+            </EBoxWrap>
+          </TitleWrap>
 
-        <TitleWrap>
-          <EBoxWrap>
-            <LabelWrap>
-              <Label>생년월일</Label>
-            </LabelWrap>
-            <EWrap>
-              <EmailWrap>
-                <Input placeholder="YYYY-MM-DD" />
-              </EmailWrap>
-            </EWrap>
-          </EBoxWrap>
-        </TitleWrap>
+          <TitleWrap>
+            <EBoxWrap>
+              <LabelWrap>
+                <Label>생년월일</Label>
+              </LabelWrap>
+              <EWrap>
+                <EmailWrap>
+                  <Input placeholder="YYYY-MM-DD" />
+                </EmailWrap>
+              </EWrap>
+            </EBoxWrap>
+          </TitleWrap>
 
-        <TitleWrap>
-          <EBoxWrap>
-            <LabelWrap>
-              <Label>프로필 이미지</Label>
-            </LabelWrap>
-            <EWrap>
-              <EmailWrap>
-                <ProfileImage src={Profile} alt="프로필 사진" />
-                <DeleteBtn>삭제</DeleteBtn>
-              </EmailWrap>
-            </EWrap>
-          </EBoxWrap>
-        </TitleWrap>
+          <TitleWrap>
+            <EBoxWrap>
+              <LabelWrap>
+                <Label>프로필 이미지</Label>
+              </LabelWrap>
+              <EWrap>
+                <EmailWrap>
+                  <ProfileImage src={Profile} alt="프로필 사진" />
+                  <DeleteBtn>삭제</DeleteBtn>
+                </EmailWrap>
+              </EWrap>
+            </EBoxWrap>
+          </TitleWrap>
 
-        <TitleWrap>
-          <EBoxWrap>
-            <LabelWrap>
-              <Label>한줄 소개</Label>
-            </LabelWrap>
-            <EWrap>
-              <EmailWrap>
-                <Input />
-              </EmailWrap>
-            </EWrap>
-          </EBoxWrap>
-        </TitleWrap>
-        <DoneBtn>회원정보 수정</DoneBtn>
+          <TitleWrap>
+            <EBoxWrap>
+              <LabelWrap>
+                <Label>한줄 소개</Label>
+              </LabelWrap>
+              <EWrap>
+                <EmailWrap>
+                  <Input />
+                </EmailWrap>
+              </EWrap>
+            </EBoxWrap>
+          </TitleWrap>
+          <DoneBtn>회원정보 수정</DoneBtn>
+        </InfoWrap>
       </Wrap>
     </>
   );
@@ -139,16 +141,19 @@ const Wrap = styled.span`
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+  padding: 50px;
   @media only screen and (max-width: 760px) {
     width: 100%;
   }
 `;
 
+const InfoWrap = styled.div``;
+
 const TitleWrap = styled.div`
   max-width: 1256px;
   width: 90%;
   height: auto;
-  margin: auto;
+  /* margin: auto; */
 `;
 
 const Title = styled.div`
@@ -157,12 +162,18 @@ const Title = styled.div`
   font-weight: 700;
   margin-bottom: 60px;
   margin-top: 30px;
+  max-width: 1256px;
+  width: 90%;
 `;
 
 const LabelWrap = styled.div`
+  width: 100px;
   display: flex;
   flex-direction: column;
   text-align: left;
+  @media only screen and (max-width: 760px) {
+    width: 70px;
+  }
 `;
 
 const Label = styled.span`
@@ -208,8 +219,8 @@ const EmailWrap = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  margin-bottom: 10px;
-  margin-left: -10px;
+  margin: 0px 0px 10px -10px;
+  /* margin-left: -10px; */
   @media only screen and (max-width: 760px) {
     width: 100%;
   }
@@ -267,7 +278,7 @@ const InputE = styled.input`
     outline: none;
   }
   @media only screen and (max-width: 760px) {
-    width: 44%;
+    width: 33%;
     margin-left: -8px;
   }
 `;
@@ -317,7 +328,7 @@ const SelectEM = styled.select`
   font-size: 15px;
   line-height: 21px;
   resize: none;
-  padding: 8px 15px 9px;
+  padding: 8px 10px 9px;
   border-width: 1px;
   border-style: solid;
   border-color: rgb(
@@ -339,25 +350,30 @@ const Lab = styled.span`
 const ProfileImage = styled.img`
   width: 198px;
   height: 198px;
-  margin-left: -150px;
+  margin-left: -200px;
   position: relative;
   &:hover {
     opacity: 0.5;
+  }
+  @media only screen and (max-width: 760px) {
+    margin-left: 70px;
   }
 `;
 
 const DeleteBtn = styled.button`
   width: 50px;
   height: 30px;
-  margin-left: -160px;
   position: absolute;
-  margin-left: -40px;
+  margin-left: -80px;
   margin-top: -140px;
   background-color: #35c5f0;
   border: none;
   border-radius: 4px;
   color: white;
   font-weight: bold;
+  @media only screen and (max-width: 760px) {
+    margin-left: 190px;
+  }
 `;
 
 const DoneBtn = styled.button`
@@ -374,7 +390,8 @@ const DoneBtn = styled.button`
   border-radius: 4px;
   cursor: pointer;
   border: none;
-  margin-left: 15%;
+  margin-left: 100px;
+  font-weight: bold;
   @media only screen and (max-width: 760px) {
     width: 90%;
     margin: auto;
