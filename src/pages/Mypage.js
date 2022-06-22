@@ -4,7 +4,7 @@ import Header from "../components/Header";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { getUserPostDB } from "../redux/modules/post";
+import { getUserPostDB, getUserInfoDB } from "../redux/modules/post";
 // 이미지
 import Profile from "../image/Profile.png";
 import BookMark from "../image/Bookmark.png";
@@ -23,13 +23,16 @@ const Mypage = () => {
   };
 
   const post = useSelector((state) => state.post.userPost);
+  const userInfo = useSelector((state) => state.post.userInfo);
   console.log(post);
+  console.log(userInfo);
 
   //   const Email = localStorage.getItem("nickname");
   //   console.log(Email);
 
   React.useEffect(() => {
     dispatch(getUserPostDB());
+    dispatch(getUserInfoDB());
     loginCheck();
   }, [dispatch]);
 
@@ -39,7 +42,7 @@ const Mypage = () => {
       <Wrap>
         <ProfileWrap>
           <ProfileImage src={Profile} alt="프로필 이미지" />
-          <Nickname>yunjooo</Nickname>
+          <Nickname>{userInfo.userNickname}</Nickname>
           <ProfileBtn
             onClick={() => {
               navigate("/users/edit");
@@ -51,12 +54,12 @@ const Mypage = () => {
             <MiniDiv>
               <Book src={BookMark} alt="스크랩북" />
               <Span>스크랩북</Span>
-              <Num>0</Num>
+              <Num>{userInfo.bookmarkCnt}</Num>
             </MiniDiv>
             <MiniDiv>
               <HeartIcon src={Heart} alt="좋아요" />
               <Span>좋아요</Span>
-              <Num>0</Num>
+              <Num>{userInfo.heartCnt}</Num>
             </MiniDiv>
             <MiniDiv>
               <CouponIcon src={coupon} alt="쿠폰" />
@@ -149,6 +152,10 @@ const Nickname = styled.span`
   font-size: 26px;
   color: rgb(41, 41, 41);
   font-weight: bold;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const Div = styled.div`
@@ -286,18 +293,19 @@ const PhotoBoxs = styled.div`
 const Photo = styled.div`
   /* max-width: 200px; */
   width: 23%;
-  min-width: 200px;
-  padding-bottom: 200px;
-  height: 200px;
+  min-width: 190px;
+  height: 190px;
   margin: 10px 10px 0px 0px;
   box-sizing: border-box;
   border-radius: 6px;
   background-color: #aaa;
-  /* background-image: url(https://image.ohou.se/i/bucketplace-v2-development/uploads/cards/snapshots/165571880930102526.jpeg?gif=1&w=1440); */
   background-image: url(${(props) => props.imageUrl});
   background-position: center 30%;
   background-size: cover;
   @media only screen and (max-width: 770px) {
+    min-width: 204px;
+    height: 204px;
+
     display: flex;
     flex-wrap: wrap;
   }
