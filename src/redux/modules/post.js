@@ -11,6 +11,7 @@ const EDIT_POST = "EDIT_POST";
 const DELETE_POST = "DELETE_POST";
 
 const GET_USER_POST = "GET_USER_POST";
+const GET_USER_INFO = "GET_USER_INFO";
 const GET_USER_POSTS = "GET_USER_POSTS";
 const LIKE_POST = "LIKE_POST";
 const BOOKMARK = "BOOKMARK";
@@ -25,6 +26,9 @@ const deletePost = createAction(DELETE_POST, (id) => ({ id }));
 const getUserPost = createAction(GET_USER_POST, (post) => ({
   post,
 }));
+const getUserInfo = createAction(GET_USER_INFO, (post) => ({
+  post,
+}));
 const getUserPosts = createAction(GET_USER_POSTS, (post) => ({
   post,
 }));
@@ -37,6 +41,7 @@ const initialState = {
   postOne: {},
   postList: [{}],
   userPost: [],
+  userInfo: [],
   userPosts: [],
   ranking: [{}],
 };
@@ -64,6 +69,21 @@ export const getPostDB = (postId) => {
       .loadPost(postId)
       .then((response) => {
         dispatch(getPost(response.data));
+      })
+      .catch((error) => {
+        window.alert("게시물을 불러오는 중에 오류가 발생했습니다.");
+        console.log(error);
+      });
+  };
+};
+
+// 마이페이지 유저데이터 받아오기
+export const getUserInfoDB = (postId) => {
+  return async function (dispatch) {
+    apis
+      .loadUserInfoList(postId)
+      .then((response) => {
+        dispatch(getUserInfo(response.data));
       })
       .catch((error) => {
         window.alert("게시물을 불러오는 중에 오류가 발생했습니다.");
@@ -195,9 +215,13 @@ export default handleActions(
         console.log(payload);
         draft.userPost = payload.post;
       }),
+    [GET_USER_INFO]: (state, { payload }) =>
+      produce(state, (draft) => {
+        console.log(payload);
+        draft.userInfo = payload.post;
+      }),
     [GET_USER_POSTS]: (state, { payload }) =>
       produce(state, (draft) => {
-        console.log(payload.post);
         draft.userPosts = payload.post;
       }),
     [GET_RANKING]: (state, { payload }) =>

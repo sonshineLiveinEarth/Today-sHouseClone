@@ -41,6 +41,7 @@ export const apis = {
   //마이페이지
   loadUserPost: () => api.get("/api/post/mypage/picture"),
   loadUserPostList: () => api.get("/api/post/mypage/pictures"),
+  loadUserInfoList: () => api.get("/api/post/mypage/information"),
 
   // 게시글 좋아요
   addHeart: (postId) => api.post(`/api/postHeart/${postId}`),
