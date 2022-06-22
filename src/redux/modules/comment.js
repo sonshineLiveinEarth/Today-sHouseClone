@@ -28,8 +28,8 @@ export const getCommentListDB = (postId) => {
     apis
       .loadCommentList(postId)
       .then((response) => {
-        console.log("전체 코멘트를 받았어!", response);
-        dispatch(getCommentList(response));
+        console.log("전체 코멘트를 받았어!", response.data.content);
+        dispatch(getCommentList(response.data.content));
       })
       .catch((error) => {
         window.alert("댓글을 불러오는 중에 오류가 발생했습니다.");
@@ -94,15 +94,15 @@ export default handleActions(
         draft.commentList.unshift(payload.comment);
       }),
 
-    [LIKE_COMMENT]: (state, { payload }) =>
-      produce(state, (draft) => {
+    [LIKE_COMMENT]: async (state, { payload }) =>
+      await produce(state, (draft) => {
         console.log(payload);
         // console.log(state.commentList.commentHeartCheck);
         // draft.commentList.findIndex((m) => {
         //   return (m.commentHeartCheck = payload.like);
         // });
-        console.log(draft.commentList);
-        const new_comment_list = draft.commentList.map((l, idx) => {
+        console.log(state.commentList.content);
+        const new_comment_list = state.commentList.conetent.map((l, idx) => {
           if (payload.id === idx && payload.like) {
             return l.commentHeartCheck;
           } else if (payload.id === idx && !payload.like) {

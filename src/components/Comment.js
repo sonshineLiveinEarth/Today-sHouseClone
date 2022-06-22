@@ -29,9 +29,7 @@ const Comment = () => {
 
   const isLogin = localStorage.getItem("jwtToken");
 
-  const comment_list = useSelector(
-    (state) => state.comment.commentList.content
-  );
+  const comment_list = useSelector((state) => state.comment.commentList);
   // const comment_like = useSelector((state) => state.comment.commentLike);
   console.log(comment_list);
 
@@ -87,7 +85,7 @@ const Comment = () => {
             value="입력"
           />
         </InputWrap>
-        {comment_list !== undefined
+        {/* {comment_list !== undefined
           ? comment_list.map((list, index) => {
               // 받아온 시간 데이터 가공
               // console.log(list);
@@ -141,15 +139,14 @@ const Comment = () => {
                         <Like
                           onClick={() => {
                             LikeComment(list.id);
-                            // if (!list.commentHeartCheck) setLikeCo(true);
-                            // else setLikeCo(false);
+                          
                           }}
                         >
                           좋아요
                         </Like>
                         <Point />
-                        {/* <Re>답글 달기</Re>
-                        <Point /> */}
+                        <Re>답글 달기</Re>
+                        <Point />
                         <Re
                           onClick={() => {
                             const result = window.confirm(
@@ -168,7 +165,7 @@ const Comment = () => {
                 </>
               );
             })
-          : null}
+          : null} */}
         <Pagination
           page={page}
           setPage={setPage}
