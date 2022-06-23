@@ -143,7 +143,6 @@ const NextBtn = styled.button`
   width: 32px;
   padding: 0px;
   vertical-align: middle;
-  margin-left: 4px;
   &:hover {
     background: #eee;
     cursor: pointer;

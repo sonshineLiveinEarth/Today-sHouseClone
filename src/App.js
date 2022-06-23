@@ -11,6 +11,7 @@ import Signup from "./pages/Signup";
 import NotFound from "./components/NotFound";
 import Mypage from "./pages/Mypage";
 import ProfileModifi from "./pages/ProfileModifi";
+import MyCollections from "./pages/MyCollections";
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/users" element={<Mypage />} />
+        <Route path="/users/collections" element={<MyCollections />} />
         <Route path="/users/edit" element={<ProfileModifi />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>

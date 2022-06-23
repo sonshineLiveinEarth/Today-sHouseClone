@@ -13,10 +13,11 @@ import {
   totalPage,
 } from "../redux/modules/post";
 import MainRank from "../components/MainRank";
+import TopButton from "../components/TopButton";
 
 const Main = () => {
   const dispatch = useDispatch();
-  const postList = useSelector((state) => state.post.postList);
+  const postList = useSelector((state) => state.post.postList.content);
   const postRank = useSelector((state) => state.post.ranking);
   const _totalPage = useSelector((state) => state.post.totalPage);
   const _currentPage = useSelector((state) => state.post.currentPage);
@@ -31,6 +32,7 @@ const Main = () => {
     // dispatch(getPostPageDB(0));
     dispatch(getRankingDB());
   }, [dispatch]);
+
 
   useEffect(() => {
     setIsLoading(true);
@@ -49,6 +51,7 @@ const Main = () => {
     }
   }, [inView, isLoading]);
   // console.log("page:", page, "inview:", inView, "loading:", isLoading);
+
   return (
     <Wrap>
       <Header />
@@ -69,8 +72,8 @@ const Main = () => {
             })
           : null}
       </MainGrid>
-
       <div ref={inViewRef}>🐱</div>
+      <TopButton />
     </Wrap>
   );
 };

@@ -73,7 +73,7 @@ const PostNewEdit = () => {
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form  onSubmit={onSubmit}>
       <Header>
         <div>
           <img

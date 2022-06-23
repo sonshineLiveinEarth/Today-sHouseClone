@@ -5,13 +5,19 @@ import { Link } from "react-scroll";
 // 이미지
 import HeartB from "../image/HeartB.png";
 import CommentIcon from "../image/CommentIcon.png";
+import BookMark from "../image/Bookmark.png";
 
 const Banner = (props) => {
+    
   return (
     <Wrap>
       <Div>
-        <HeartIcon src={HeartB} alt="좋아요 버튼" />
+        <HeartIcon src={HeartB} alt="좋아요 누르기" />
         <Count>{props.heartCnt}</Count>
+      </Div>
+      <Div>
+        <BookMarkIcon src={BookMark} alt="북마크하기" />
+        <Count>{props.bookmarkCnt}</Count>
       </Div>
       <Div>
         <Link to="1" spy={true} smooth={true}>
@@ -61,6 +67,15 @@ const HeartIcon = styled.img`
   @media only screen and (max-width: 768px) {
     display: block;
     width: 24px;
+    height: auto;
+  }
+`;
+
+const BookMarkIcon = styled.img`
+  display: none;
+  @media only screen and (max-width: 768px) {
+    display: block;
+    width: 22px;
     height: auto;
   }
 `;

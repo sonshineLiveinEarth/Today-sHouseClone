@@ -10,12 +10,13 @@ import { localStorageGet, localStorageSet } from "../../shared/localStorage";
 const GET_USER = "GET_USER";
 const GET_NICKNAME = "GET_NICKNAME";
 const SET_USER = "SET_USER";
-const LOAD = "user/LOAD";
+const LOAD_NICKNAME = "LOAD_NICKNAME";
 const LOG_OUT = "LOG_OUT";
 
 // action creators
 const getUser = createAction(GET_USER, (user) => ({ user }));
 const setUser = createAction(SET_USER, (user) => ({ user }));
+const loadNickname = createAction(LOAD_NICKNAME, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
 
 export const getNickname = (data) => {
@@ -26,10 +27,8 @@ export const getNickname = (data) => {
 const initialState = {
   message: null,
   user: null,
+  nickname: null,
 };
-
-// //navigate
-const navigate = useNavigate;
 
 //미들웨어
 // Signup
@@ -72,6 +71,8 @@ export const loginDB = (username, password) => {
             nickname: DecodedToken.nickname,
           })
         );
+        localStorage.setItem("username", username);
+        localStorage.setItem("nickname", DecodedToken.nickname);
       })
 
       .catch((err) => {
@@ -79,20 +80,6 @@ export const loginDB = (username, password) => {
         // window.alert("잘못된 회원정보입니다.");
       });
     dispatch(setUser({ username: username }));
-  };
-};
-
-const loginCheck = () => {
-  return function (dispatch, getState) {
-    const username = localStorageGet("username");
-    const tokenCheck = document.cookie;
-    if (tokenCheck) {
-      dispatch(
-        setUser({
-          username: username,
-        })
-      );
-    }
   };
 };
 
@@ -110,10 +97,25 @@ export const NicknameDB = (nickname) => {
   };
 };
 
+export const LoadNicknameDB = () => {
+  return async function (dispatch) {
+    try {
+      console.log("닉네임 전송");
+      const data = await apis.loadnickname();
+      console.log(data.data);
+      dispatch(loadNickname(data.data));
+    } catch (e) {
+      console.log(`닉네임 전달 오류 발생!${e}`);
+      dispatch(getNickname(e));
+    }
+  };
+};
+
 export const logoutDB = () => {
   return function (dispatch, getState) {
     dispatch(logOut());
-    localStorage.removeItem("email");
+    localStorage.removeItem("username");
+    localStorage.removeItem("nickname");
     localStorage.removeItem("jwtToken");
     window.location.assign("/");
   };
@@ -134,6 +136,11 @@ export default handleActions(
       produce(state, (draft) => {
         return { message: action.data };
       }),
+    [LOAD_NICKNAME]: (state, action) =>
+      produce(state, (draft) => {
+        console.log(action.payload.user);
+        return { nickname: action.payload.user };
+      }),
     [GET_NICKNAME]: (state, action) =>
       produce(state, (draft) => {
         return { user: action.data };
@@ -145,7 +152,6 @@ const actionCreators = {
   SignupDB,
   loginDB,
   logoutDB,
-  loginCheck,
   getNickname,
   getUser,
 };
