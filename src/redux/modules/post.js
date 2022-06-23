@@ -115,7 +115,6 @@ export const addPostDB = (id, formData) => {
       } else {
         await apis.addPost(formData);
       }
-      // window.location.assign("/");
       dispatch(currentPage(1));
       dispatch(reset());
       dispatch(getPostPageDB(0));
@@ -145,6 +144,10 @@ export const deletePostDB = (id) => {
     try {
       await apis.deletePost(id);
       dispatch(deletePost(id));
+
+      dispatch(currentPage(1));
+      dispatch(reset());
+      dispatch(getPostPageDB(0));
     } catch (error) {
       alert("게시물 삭제 중에 오류가 발생했습니다.");
       console.log(error);
