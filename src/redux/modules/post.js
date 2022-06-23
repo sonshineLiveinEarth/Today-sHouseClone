@@ -53,7 +53,7 @@ export const getPostListDB = () => {
   return async function (dispatch) {
     try {
       const response = await apis.loadPostList();
-      dispatch(getPostList(response.data));
+      dispatch(getPostList(response.data.content));
       // console.log(response.data);
     } catch (error) {
       alert("게시물을 불러오는 중에 오류가 발생했습니다.");
