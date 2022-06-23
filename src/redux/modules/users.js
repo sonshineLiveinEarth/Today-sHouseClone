@@ -39,8 +39,8 @@ export const SignupDB = (username, password, userNickname) => {
       .signup(username, password, userNickname)
       .then((res) => {
         console.log(res);
-        window.alert("환영합니다!");
-        window.location.assign("/");
+        window.alert("회원가입이 완료되었습니다!");
+        window.location.assign("/login");
       })
       .catch((err) => {
         console.log("회원가입 실패", err);
@@ -63,7 +63,7 @@ export const loginDB = (username, password) => {
         console.log(DecodedToken);
         localStorage.setItem("jwtToken", token);
         window.alert("환영합니다!");
-        // window.location.assign("/");
+        window.location.assign("/");
         dispatch(
           setUser({
             username: username,

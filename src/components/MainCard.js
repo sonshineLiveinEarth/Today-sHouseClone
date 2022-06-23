@@ -84,7 +84,7 @@ const MainCard = ({ postObj }) => {
             navigate("/detail/" + id);
           }}
         >
-          <CommentProfile src="/images/Avatar.png" alt="profile" height="24" />
+          <CommentProfile src={Profile} alt="profile" height="24" />
 
           <Text>
             <span>{postObj?.commentOne.user.userNickname}</span>
