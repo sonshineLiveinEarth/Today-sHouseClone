@@ -10,7 +10,7 @@ import TopButton from "../components/TopButton";
 
 const Main = () => {
   const dispatch = useDispatch();
-  const postList = useSelector((state) => state.post.postList);
+  const postList = useSelector((state) => state.post.postList.content);
   const postRank = useSelector((state) => state.post.ranking);
   console.log(postList);
 

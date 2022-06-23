@@ -7,10 +7,13 @@ const GET_POST_LIST = "GET_POST_LIST";
 const GET_POST = "GET_POST";
 const GET_RANKING = "GET_RANKING";
 const ADD_POST = "ADD_POST";
-const LIKE_POST = "LIKE_POST";
 const EDIT_POST = "EDIT_POST";
 const DELETE_POST = "DELETE_POST";
 
+const GET_USER_POST = "GET_USER_POST";
+const GET_USER_INFO = "GET_USER_INFO";
+const GET_USER_POSTS = "GET_USER_POSTS";
+const LIKE_POST = "LIKE_POST";
 const BOOKMARK = "BOOKMARK";
 
 // Action Creator
@@ -18,9 +21,17 @@ const getPostList = createAction(GET_POST_LIST, (postList) => ({ postList }));
 const getPost = createAction(GET_POST, (post) => ({ post }));
 const getRanking = createAction(GET_RANKING, (post) => ({ post }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
-const editPost = createAction(EDIT_POST, (post) => ({ post }));
+const editPost = createAction(EDIT_POST, (postList) => ({ postList }));
 const deletePost = createAction(DELETE_POST, (id) => ({ id }));
-
+const getUserPost = createAction(GET_USER_POST, (post) => ({
+  post,
+}));
+const getUserInfo = createAction(GET_USER_INFO, (post) => ({
+  post,
+}));
+const getUserPosts = createAction(GET_USER_POSTS, (post) => ({
+  post,
+}));
 const likePost = createAction(LIKE_POST, (postId, data) => ({ postId, data }));
 const bookmark = createAction(BOOKMARK, (postId, data) => ({ postId, data }));
 
@@ -29,6 +40,9 @@ const initialState = {
   postlike: false,
   postOne: {},
   postList: [{}],
+  userPost: [],
+  userInfo: [],
+  userPosts: [],
   ranking: [{}],
 };
 
@@ -55,6 +69,53 @@ export const getPostDB = (postId) => {
       .loadPost(postId)
       .then((response) => {
         dispatch(getPost(response.data));
+      })
+      .catch((error) => {
+        window.alert("게시물을 불러오는 중에 오류가 발생했습니다.");
+        console.log(error);
+      });
+  };
+};
+
+// 마이페이지 유저데이터 받아오기
+export const getUserInfoDB = (postId) => {
+  return async function (dispatch) {
+    apis
+      .loadUserInfoList(postId)
+      .then((response) => {
+        dispatch(getUserInfo(response.data));
+      })
+      .catch((error) => {
+        window.alert("게시물을 불러오는 중에 오류가 발생했습니다.");
+        console.log(error);
+      });
+  };
+};
+
+// 마이페이지 내 게시물 4개 받아오기
+export const getUserPostDB = () => {
+  return async function (dispatch) {
+    apis
+      .loadUserPost()
+      .then((response) => {
+        console.log(response);
+        dispatch(getUserPost(response.data));
+      })
+      .catch((error) => {
+        window.alert("게시물을 불러오는 중에 오류가 발생했습니다.");
+        console.log(error);
+      });
+  };
+};
+
+// 마이페이지 내 게시물 전체 받아오기
+export const getUserPostsDB = () => {
+  return async function (dispatch) {
+    apis
+      .loadUserPostList()
+      .then((response) => {
+        console.log(response);
+        dispatch(getUserPosts(response.data));
       })
       .catch((error) => {
         window.alert("게시물을 불러오는 중에 오류가 발생했습니다.");
@@ -148,6 +209,20 @@ export default handleActions(
     [GET_POST]: (state, { payload }) =>
       produce(state, (draft) => {
         draft.postOne = payload.post;
+      }),
+    [GET_USER_POST]: (state, { payload }) =>
+      produce(state, (draft) => {
+        console.log(payload);
+        draft.userPost = payload.post;
+      }),
+    [GET_USER_INFO]: (state, { payload }) =>
+      produce(state, (draft) => {
+        console.log(payload);
+        draft.userInfo = payload.post;
+      }),
+    [GET_USER_POSTS]: (state, { payload }) =>
+      produce(state, (draft) => {
+        draft.userPosts = payload.post;
       }),
     [GET_RANKING]: (state, { payload }) =>
       produce(state, (draft) => {

@@ -4,10 +4,10 @@ import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { getPostDB } from "../redux/modules/post";
+import { LoadNicknameDB } from "../redux/modules/users";
+import { getPostDB, deletePostDB } from "../redux/modules/post";
 
 // js
-import { deletePostDB } from "../redux/modules/post";
 import Header from "../components/Header";
 import Comment from "../components/Comment";
 import Banner from "../components/Banner";
@@ -15,7 +15,10 @@ import Footer from "../components/Footer";
 
 const Detail = () => {
   const post = useSelector((state) => state.post.postOne);
+  const comment_list = useSelector((state) => state.comment.commentList);
+  const user_nickname = useSelector((state) => state.users.nickname);
   // const post = post_list?.post?.data?.body;
+  console.log(user_nickname);
   console.log(post);
 
   // console.log(post_list);
@@ -44,18 +47,15 @@ const Detail = () => {
 
   React.useEffect(() => {
     dispatch(getPostDB(params.id));
-  }, []);
+    dispatch(LoadNicknameDB());
+  }, [dispatch]);
 
   return (
     <>
       <Header />
       <Background>
         <Wrap>
-          <TopWrap
-            onClick={() => {
-              openModal();
-            }}
-          >
+          <TopWrap>
             <CategoryWrap>
               {post !== undefined && post.size && (
                 <>
@@ -71,12 +71,17 @@ const Detail = () => {
                 <Category>{post.type}</Category>
               )}
             </CategoryWrap>
-
-            <SettingWrap>
-              <Setting />
-              <Setting />
-              <Setting />
-            </SettingWrap>
+            {post?.userNickname === user_nickname ? (
+              <SettingWrap
+                onClick={() => {
+                  openModal();
+                }}
+              >
+                <Setting />
+                <Setting />
+                <Setting />
+              </SettingWrap>
+            ) : null}
           </TopWrap>
           {showModal && (
             <ModalContainer showModal={showModal}>
@@ -94,19 +99,19 @@ const Detail = () => {
             </CoWrap>
             <CoWrap>
               <Label>댓글</Label>
-              <CommentNum>{post?.commentCnt}</CommentNum>
+              <CommentNum>{comment_list?.length}</CommentNum>
             </CoWrap>
           </CoWrap>
         </Wrap>
         <Comment />
         <Banner
-          commentCnt={post?.commentCnt}
+          commentCnt={comment_list?.length}
           bookmarkCnt={post?.bookmarkCnt}
           heartCnt={post?.bookmarkCnt}
         />
       </Background>
       <Footer
-        commentCnt={post?.commentCnt}
+        commentCnt={comment_list?.length}
         bookmarkCnt={post?.bookmarkCnt}
         heartCnt={post?.bookmarkCnt}
       />

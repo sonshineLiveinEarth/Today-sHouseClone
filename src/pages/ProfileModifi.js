@@ -1,8 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
+
 // 이미지
 import Profile from "../image/ProfileNemo.png";
+
+const isLogin = localStorage.getItem("jwtToken");
+// const Email = localStorage.getItem("username");
+// console.log(isLogin);
+// console.log(Email);
 
 const ProfileModifi = () => {
   return (
@@ -242,7 +248,7 @@ const RadioWrap = styled.div`
 
 const EmailErr = styled.span`
   display: block;
-  margin: 10px 0px 20px 10px;
+  margin: 8px 0px 20px 10px;
   font-size: 13px;
   color: #9e9e9e;
   font-weight: 500;
@@ -250,6 +256,8 @@ const EmailErr = styled.span`
   word-break: keep-all;
   @media only screen and (max-width: 760px) {
     margin-left: -12px;
+    font-size: 11px;
+    font-weight: 400;
   }
 `;
 
@@ -392,6 +400,9 @@ const DoneBtn = styled.button`
   border: none;
   margin-left: 100px;
   font-weight: bold;
+  &:hover {
+    background-color: #10afea;
+  }
   @media only screen and (max-width: 760px) {
     width: 90%;
     margin: auto;

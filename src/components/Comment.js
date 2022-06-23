@@ -9,6 +9,7 @@ import {
   deleteCommentDB,
   modifiCommentDB,
 } from "../redux/modules/comment";
+import { LoadNicknameDB } from "../redux/modules/users";
 
 //이미지
 import Profile from "../image/Profile.png";
@@ -25,21 +26,29 @@ const Comment = () => {
   const [limit, setLimit] = useState(5);
   const offset = (page - 1) * limit;
 
-  // 좋아요
-
-  const isLogin = localStorage.getItem("jwtToken");
-
   const comment_list = useSelector((state) => state.comment.commentList);
-  // const comment_like = useSelector((state) => state.comment.commentLike);
+  const user_nickname = useSelector((state) => state.users.nickname);
+
   console.log(comment_list);
+  console.log(user_nickname);
 
   const dispatch = useDispatch();
   const params = useParams();
   console.log(params.id);
   const commentText = React.useRef("");
 
+  const isLogin = localStorage.getItem("jwtToken");
+
+  const loginCheck = () => {
+    if (!isLogin) {
+      return navigate("/login");
+    }
+  };
+
   React.useEffect(() => {
     dispatch(getCommentListDB(params.id));
+    dispatch(LoadNicknameDB());
+    loginCheck();
   }, [dispatch]);
 
   // 댓글 추가
@@ -65,15 +74,6 @@ const Comment = () => {
     await dispatch(modifiCommentDB(id));
   };
 
-  // const LikeIconChange = () => {
-  //   comment_list.map((comment) => {
-  //     if (comment.commentHeartCheck) setLikeCo(true);
-  //     else {
-  //       return LikeCo;
-  //     }
-  //   });
-  // };
-
   return (
     <React.Fragment>
       <Wrap id="1">
@@ -97,16 +97,37 @@ const Comment = () => {
         {comment_list !== undefined
           ? comment_list.slice(offset, offset + limit).map((list, index) => {
               // 받아온 시간 데이터 가공
-              // console.log(list);
+              console.log(list);
               const One = list?.createdAt?.toString();
-              console.log(One);
+
               const Two = One.split("T");
               const Four = Two[1]?.split(".");
-              const Three = Two[0] + " " + Four[0];
+              console.log(Two[0]);
+              const YYMMDD = Two[0].split("-");
+              const YY = Two[0].split("-")[0];
+              const MM = Two[0].split("-")[1];
+              let DD = Number(Two[0].split("-")[2]);
+              const time = Number(Four[0].split(":")[0]);
+              let realTime = time + 9;
+
+              if (realTime >= 24) {
+                realTime = "0" + (realTime - 24);
+                DD = DD + 1;
+              }
+              const minnsecond = Four[0].substring(2, 8);
+              console.log(Four, typeof Four);
+              console.log(time, typeof time);
+              console.log(realTime, typeof realTime);
+
+              const Three =
+                YY + "-" + MM + "-" + DD + " " + realTime + minnsecond;
+              console.log(Three, typeof Three);
+
               // // 댓글 달린 시간표시
               const today = new Date();
               console.log(today);
               const timeValue = new Date(Three);
+              console.log(timeValue);
 
               const betweenTime = Math.floor(
                 (today.getTime() - timeValue.getTime()) / 1000 / 60
@@ -141,9 +162,21 @@ const Comment = () => {
                         </Time>
                         <Point />
                         {list.commentHeartCheck ? (
-                          <HeartIcon src={HeartFull} alt="좋아요아이콘" />
+                          <HeartIcon
+                            onClick={() => {
+                              LikeComment(list.id);
+                            }}
+                            src={HeartFull}
+                            alt="좋아요아이콘"
+                          />
                         ) : (
-                          <HeartIcon src={Heart} alt="좋아요아이콘" />
+                          <HeartIcon
+                            onClick={() => {
+                              LikeComment(list.id);
+                            }}
+                            src={Heart}
+                            alt="좋아요아이콘"
+                          />
                         )}
 
                         <Like
@@ -155,19 +188,23 @@ const Comment = () => {
                         </Like>
                         {/* <Point />
                         <Re>답글 달기</Re> */}
-                        <Point />
-                        <Re
-                          onClick={() => {
-                            const result = window.confirm(
-                              "댓글을 삭제하시겠습니까? 삭제한 댓글은 되돌릴 수 없습니다."
-                            );
-                            if (result) {
-                              dispatch(deleteCommentDB(list.id));
-                            }
-                          }}
-                        >
-                          삭제
-                        </Re>
+                        {list.userNickname === user_nickname ? (
+                          <>
+                            <Point />
+                            <Re
+                              onClick={() => {
+                                const result = window.confirm(
+                                  "댓글을 삭제하시겠습니까? 삭제한 댓글은 되돌릴 수 없습니다."
+                                );
+                                if (result) {
+                                  dispatch(deleteCommentDB(list.id));
+                                }
+                              }}
+                            >
+                              삭제
+                            </Re>
+                          </>
+                        ) : null}
                       </Info>
                     </CommentInfo>
                   </CommentBox>
@@ -175,12 +212,14 @@ const Comment = () => {
               );
             })
           : null}
-        <Pagination
-          page={page}
-          setPage={setPage}
-          total={comment_list?.length}
-          limit={limit}
-        />
+        {comment_list?.length > 5 ? (
+          <Pagination
+            page={page}
+            setPage={setPage}
+            total={comment_list?.length}
+            limit={limit}
+          />
+        ) : null}
       </Wrap>
     </React.Fragment>
   );
@@ -320,6 +359,7 @@ const Point = styled.hr`
 const HeartIcon = styled.img`
   width: 16px;
   height: auto;
+  cursor: pointer;
 `;
 
 const Like = styled.span`

@@ -23,7 +23,7 @@ const initialState = {
 };
 
 // Middleware
-// 전체 게시물 받아오기
+// 전체 댓글 조회
 export const getCommentListDB = (postId) => {
   return async function (dispatch) {
     apis
@@ -39,7 +39,7 @@ export const getCommentListDB = (postId) => {
   };
 };
 
-// 게시물 업로드
+// 새로운 댓글 post 요청
 export const addCommentDB = (comment) => async (dispatch) => {
   try {
     console.log("댓글 만들 준비", comment);
@@ -52,7 +52,7 @@ export const addCommentDB = (comment) => async (dispatch) => {
     console.log(error);
   }
 };
-
+// 좋아요 post 요청
 export const modifiCommentDB = (postId) => async (dispatch) => {
   try {
     console.log("댓글에 좋아요 추가할 준비", postId);
@@ -66,7 +66,7 @@ export const modifiCommentDB = (postId) => async (dispatch) => {
   }
 };
 
-// 게시물 삭제
+// 댓글 삭제
 export const deleteCommentDB = (id) => {
   console.log(id);
   return async function (dispatch) {
@@ -84,37 +84,37 @@ export const deleteCommentDB = (id) => {
 // Reducer
 export default handleActions(
   {
+    // 댓글 조회
     [GET_COMMENT_LIST]: (state, { payload }) =>
       produce(state, (draft) => {
         console.log(payload.commentList);
         draft.commentList = payload.commentList;
       }),
-
+    // 댓글 추가
     [ADD_COMMENT]: (state, { payload }) =>
       produce(state, (draft) => {
         console.log(draft);
         console.log(state);
+        console.log(payload);
         draft.commentList.unshift(payload.comment);
+        draft.commentList = draft.commentList.map((comment) => {
+          if (Number(comment.commentId) === Number(payload.comment.id)) {
+            return {
+              ...comment,
+              createdAt: payload.comment.createdAt,
+              comment: payload.comment.comment,
+              id: payload.comment.id,
+              commentHeartCheck: payload.comment.commentHeartCheck,
+              modifiedAt: payload.comment.modifiedAt,
+              postId: payload.comment.postId,
+              userNickname: payload.comment.userNickname,
+            };
+          } else {
+            return comment;
+          }
+        });
       }),
-
-    // [LIKE_COMMENT]: (state, { payload }) =>
-    //   produce(state, (draft) => {
-    //     console.log(payload.like);
-    //     console.log(state.commentList.content);
-    //     const new_comment_list = draft.commentList.conetent.map((l, idx) => {
-    //       if (payload.id === idx && payload.like) {
-    //         return l.commentHeartCheck;
-    //       } else if (payload.id === idx && !payload.like) {
-    //         return !l.commentHeartCheck;
-    //       } else {
-    //         return l;
-    //       }
-    //     });
-    //     console.log({ commentList: new_comment_list });
-    //     return { ...state, commentList: new_comment_list };
-    //     // draft.commentList[payload.id] = payload.like;
-    //   }),
-
+    // 좋아요 업데이트
     [LIKE_COMMENT]: (state, { payload }) =>
       produce(state, (draft) => {
         console.log(payload.like);
@@ -137,7 +137,7 @@ export default handleActions(
           }
         });
       }),
-
+    // 댓글 삭제
     [DELETE_COMMENT]: (state, { payload }) =>
       produce(state, (draft) => {
         draft.commentList = draft.commentList.filter(
