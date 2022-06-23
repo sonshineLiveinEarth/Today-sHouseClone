@@ -8,6 +8,7 @@ import CommentIcon from "../image/CommentIcon.png";
 import BookMark from "../image/Bookmark.png";
 
 const Banner = (props) => {
+    
   return (
     <Wrap>
       <Div>

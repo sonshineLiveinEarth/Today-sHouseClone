@@ -87,7 +87,13 @@ const Mypage = () => {
             {post.map((list, index) => {
               return (
                 <>
-                  <Photo key={index} imageUrl={list.imageUrl} />
+                  <Photo
+                    onClick={() => {
+                      navigate("/users/collections");
+                    }}
+                    key={index}
+                    imageUrl={list.imageUrl}
+                  />
                 </>
               );
             })}
@@ -302,6 +308,7 @@ const Photo = styled.div`
   background-image: url(${(props) => props.imageUrl});
   background-position: center 30%;
   background-size: cover;
+  cursor: pointer;
   @media only screen and (max-width: 770px) {
     min-width: 204px;
     height: 204px;

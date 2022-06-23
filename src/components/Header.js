@@ -29,7 +29,7 @@ const Header = () => {
   };
 
   const isLogin = localStorage.getItem("jwtToken");
-  // const Email = localStorage.getItem("username");
+  const Email = localStorage.getItem("username");
   // console.log(isLogin);
   // console.log(Email);
 

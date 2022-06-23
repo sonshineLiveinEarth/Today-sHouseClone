@@ -1,8 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
+
 // 이미지
 import Profile from "../image/ProfileNemo.png";
+
+const isLogin = localStorage.getItem("jwtToken");
+// const Email = localStorage.getItem("username");
+// console.log(isLogin);
+// console.log(Email);
 
 const ProfileModifi = () => {
   return (

@@ -82,7 +82,7 @@ const MyCollections = () => {
                 <PhotoBox>
                   <PhotoTitle>
                     <Propfile src={Profile} alt="프로필 사진" />
-                    <MiniNickname>yunjoooo</MiniNickname>
+                    <MiniNickname>{list.userNickname}</MiniNickname>
                   </PhotoTitle>
                   <Photo
                     onClick={() => {
