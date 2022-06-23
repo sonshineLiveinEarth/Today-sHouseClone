@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
+import FooterWrap from "../components/FooterWrap";
 
 import MainCard from "../components/MainCard";
 import Header from "../components/Header";
@@ -26,13 +27,12 @@ const Main = () => {
   const _currentPage = useSelector((state) => state.post.currentPage);
 
   // console.log(postList);
+  const [inViewRef, inView] = useInView();
   const [page, setPage] = useState(_currentPage);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     dispatch(getPostListDB());
-    // dispatch(getPostListDB());
-    // dispatch(getPostPageDB(0));
     dispatch(getRankingDB());
   }, [dispatch]);
 
@@ -77,7 +77,8 @@ const Main = () => {
 
       <TopButton />
 
-      <div ref={inViewRef}>🐱</div>
+      <div ref={inViewRef}></div>
+      <FooterWrap />
     </Wrap>
   );
 };

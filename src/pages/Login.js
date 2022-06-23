@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { loginDB } from "../redux/modules/users";
+import { useSelector } from "react-redux";
 
 // import "../App.css";
 
@@ -11,6 +12,9 @@ import TextLogo from "../image/TextLogo.png";
 import { useDispatch } from "react-redux";
 
 const Login = () => {
+  const logIn = useSelector((state) => state.users.user);
+  console.log(logIn);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

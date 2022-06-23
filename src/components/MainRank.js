@@ -75,7 +75,7 @@ const RankNum = styled.span`
   color: #fff;
   font-weight: bold;
   position: absolute;
-  top: 3px;
+  top: 0px;
   left: 12px;
 `;
 const Nickname = styled.div`
