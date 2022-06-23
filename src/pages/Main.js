@@ -1,36 +1,26 @@
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
-import { useInView } from "react-intersection-observer";
 
 import MainCard from "../components/MainCard";
 import Header from "../components/Header";
 import { getPostListDB, getRankingDB } from "../redux/modules/post";
 import MainRank from "../components/MainRank";
+import TopButton from "../components/TopButton";
 
 const Main = () => {
   const dispatch = useDispatch();
   const postList = useSelector((state) => state.post.postList);
   const postRank = useSelector((state) => state.post.ranking);
   console.log(postList);
-  const [inViewRef, inView] = useInView();
-  const [page, setPage] = useState(1);
 
   useEffect(() => {
     dispatch(getPostListDB());
     dispatch(getRankingDB());
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   if (inView && !isLoading) {
-  //     setPage((prev) => prev + 1);
-  //   }
-  // }, [inView, isLoading]);
-
-  useEffect(() => {}, []);
-
   return (
-    <>
+    <Wrap>
       <Header />
       <Blank />
       <TitleWrap>
@@ -49,11 +39,13 @@ const Main = () => {
             })
           : null}
       </MainGrid>
-      {/* <div ref={inViewRef} /> */}
-    </>
+      <TopButton />
+    </Wrap>
   );
 };
-
+const Wrap = styled.div`
+  position: relative;
+`;
 const TitleWrap = styled.div`
   max-width: 1256px;
   width: 90%;
