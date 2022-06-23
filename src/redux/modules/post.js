@@ -14,7 +14,13 @@ const GET_USER_POST = "GET_USER_POST";
 const GET_USER_INFO = "GET_USER_INFO";
 const GET_USER_POSTS = "GET_USER_POSTS";
 const LIKE_POST = "LIKE_POST";
+
 const BOOKMARK = "BOOKMARK";
+
+const CURRENT_PAGE = "CURRENT_PAGE";
+const TOTAL_PAGE = "TOTAL_PAGE";
+
+const RESET = "RESET";
 
 // Action Creator
 const getPostList = createAction(GET_POST_LIST, (postList) => ({ postList }));
@@ -35,6 +41,11 @@ const getUserPosts = createAction(GET_USER_POSTS, (post) => ({
 const likePost = createAction(LIKE_POST, (postId, data) => ({ postId, data }));
 const bookmark = createAction(BOOKMARK, (postId, data) => ({ postId, data }));
 
+export const currentPage = createAction(CURRENT_PAGE, (page) => ({ page }));
+export const totalPage = createAction(TOTAL_PAGE, (page) => ({ page }));
+
+const reset = createAction(RESET, () => ({}));
+
 // InitialState
 const initialState = {
   postlike: false,
@@ -44,9 +55,24 @@ const initialState = {
   userInfo: [],
   userPosts: [],
   ranking: [{}],
+  currentPage: 0,
+  totalPage: 0,
 };
 
 // Middleware
+export const getPostPageDB = (page) => {
+  return async function (dispatch) {
+    try {
+      const response = await apis.loadPage(page);
+      dispatch(totalPage(response.data.totalPages));
+      dispatch(getPostList(response.data.content));
+      console.log(response);
+    } catch (error) {
+      alert("게시물을 불러오는 중에 오류가 발생했습니다.");
+      console.log(error);
+    }
+  };
+};
 
 // 전체 게시물 받아오기
 export const getPostListDB = () => {
@@ -142,6 +168,7 @@ export const addPostDB = (id, formData) => {
   const post = {};
   for (let key of formData.keys()) {
     console.log("request :", { [key]: formData.get(key) });
+    // console.log("request :", { [key]: formData.get(key) });
     post[key] = formData.get(key);
   }
   return async function (dispatch) {
@@ -153,6 +180,10 @@ export const addPostDB = (id, formData) => {
       }
 
       dispatch(getPostListDB());
+      // window.location.assign("/");
+      dispatch(currentPage(1));
+      dispatch(reset());
+      dispatch(getPostPageDB(0));
     } catch (error) {
       window.alert("게시물 등록 중에 오류가 발생했습니다.");
       console.log(error);
@@ -205,6 +236,9 @@ export default handleActions(
     [GET_POST_LIST]: (state, { payload }) =>
       produce(state, (draft) => {
         draft.postList = payload.postList;
+        // console.log(state.postList, payload.postList);
+        if (state.postList.length === 1) draft.postList = payload.postList;
+        else draft.postList = [...draft.postList, ...payload.postList];
       }),
     [GET_POST]: (state, { payload }) =>
       produce(state, (draft) => {
@@ -279,6 +313,19 @@ export default handleActions(
             return post;
           }
         });
+      }),
+    [CURRENT_PAGE]: (state, { payload }) =>
+      produce(state, (draft) => {
+        draft.currentPage = payload.page;
+        console.log("현재페이지:", payload.page);
+      }),
+    [TOTAL_PAGE]: (state, { payload }) =>
+      produce(state, (draft) => {
+        draft.totalPage = payload.page - 1;
+      }),
+    [RESET]: (state) =>
+      produce(state, (draft) => {
+        draft.postList = initialState.postList;
       }),
   },
   initialState
