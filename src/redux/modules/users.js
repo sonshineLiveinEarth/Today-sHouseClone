@@ -39,7 +39,7 @@ export const SignupDB = (username, password, userNickname) => {
       .signup(username, password, userNickname)
       .then((res) => {
         console.log(res);
-        window.alert("환영합니다!");
+        window.alert("회원가입이 완료되었습니다!");
         window.location.assign("/login");
       })
       .catch((err) => {

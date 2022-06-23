@@ -107,6 +107,7 @@ const Detail = () => {
           commentCnt={comment_list?.length}
           bookmarkCnt={post?.bookmarkCnt}
           heartCnt={post?.bookmarkCnt}
+          id={post?.id}
         />
       </Background>
       <Footer

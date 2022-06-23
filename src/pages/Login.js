@@ -33,7 +33,11 @@ const Login = () => {
 
   return (
     <Background>
-      <ImgWrap>
+      <ImgWrap
+        onClick={() => {
+          navigate("/");
+        }}
+      >
         <LogoImg src={Logo} />
         <TLogoImg src={TextLogo} />
       </ImgWrap>

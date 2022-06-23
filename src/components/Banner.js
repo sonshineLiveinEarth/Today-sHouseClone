@@ -1,6 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-scroll";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { addHeartDB, bookmarkDB } from "../redux/modules/post";
 
 // 이미지
 import HeartB from "../image/HeartB.png";
@@ -9,16 +12,25 @@ import BookMark from "../image/Bookmark.png";
 
 const Banner = (props) => {
   console.log(props);
+  const dispatch = useDispatch();
+  const post = useSelector((state) => state.post.postOne);
+  console.log(post.heartCnt);
   return (
     <Wrap>
       <Box>
-        <HeartIcon src={HeartB} alt="좋아요 버튼" />
+        <HeartIcon
+          onClick={() => {
+            dispatch(addHeartDB(props.id));
+          }}
+          src={HeartB}
+          alt="좋아요 버튼"
+        />
       </Box>
-      <Count>{props.heartCnt}</Count>
+      <Count>{post?.heartCnt}</Count>
       <Box>
         <MarkIcon src={BookMark} alt="포스팅 저장하기" />
       </Box>
-      <Count>{props.bookmarkCnt}</Count>
+      <Count>{post?.bookmarkCnt}</Count>
       <Hr />
       <Link to="1" spy={true} smooth={true}>
         <Box2>
