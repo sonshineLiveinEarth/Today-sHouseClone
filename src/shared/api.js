@@ -30,6 +30,7 @@ formApi.interceptors.request.use(function (config) {
 
 export const apis = {
   // post
+  loadPage: (page) => api.get(`api/posts?page=${page}`),
   loadPostList: () => api.get("/api/posts"),
   loadPost: (postId) => api.get(`/api/post/${postId}`),
   loadRanking: () => api.get("/api/post/ranking"),
