@@ -63,7 +63,7 @@ export const loginDB = (username, password) => {
         console.log(DecodedToken);
         localStorage.setItem("jwtToken", token);
         window.alert("환영합니다!");
-        window.location.assign("/");
+        // window.location.assign("/");
         dispatch(
           setUser({
             username: username,
