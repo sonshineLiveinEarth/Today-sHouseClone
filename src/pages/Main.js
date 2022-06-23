@@ -5,7 +5,6 @@ import { useInView } from "react-intersection-observer";
 
 import MainCard from "../components/MainCard";
 import Header from "../components/Header";
-import { getPostListDB, getRankingDB } from "../redux/modules/post";
 import {
   getPostListDB,
   getPostPageDB,
@@ -18,7 +17,6 @@ import TopButton from "../components/TopButton";
 
 const Main = () => {
   const dispatch = useDispatch();
-  const postList = useSelector((state) => state.post.postList.content);
   const postList = useSelector((state) => state.post.postList);
   const postRank = useSelector((state) => state.post.ranking);
 
