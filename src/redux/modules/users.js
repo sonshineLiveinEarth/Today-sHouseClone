@@ -64,7 +64,6 @@ export const loginDB = (username, password) => {
         localStorage.setItem("jwtToken", token);
         window.alert("환영합니다!");
         window.location.assign("/");
-
         dispatch(
           setUser({
             username: username,
@@ -77,7 +76,7 @@ export const loginDB = (username, password) => {
 
       .catch((err) => {
         console.log(err);
-        // window.alert("잘못된 회원정보입니다.");
+        window.alert("잘못된 회원정보입니다.");
       });
     dispatch(setUser({ username: username }));
   };

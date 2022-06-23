@@ -213,12 +213,14 @@ const Comment = () => {
             })
           : null}
         {comment_list?.length > 5 ? (
-          <Pagination
-            page={page}
-            setPage={setPage}
-            total={comment_list?.length}
-            limit={limit}
-          />
+          <>
+            <Pagination
+              page={page}
+              setPage={setPage}
+              total={comment_list?.length}
+              limit={limit}
+            />
+          </>
         ) : null}
       </Wrap>
     </React.Fragment>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
+import FooterWrap from "../components/FooterWrap";
 
 import {
   getPostPageDB,
@@ -19,6 +20,9 @@ const Main = () => {
 
   const postList = useSelector((state) => state.post.postList);
   const postRank = useSelector((state) => state.post.ranking);
+
+  console.log(postList);
+
   const _totalPage = useSelector((state) => state.post.totalPage);
   const _currentPage = useSelector((state) => state.post.currentPage);
 
@@ -63,8 +67,11 @@ const Main = () => {
             })
           : null}
       </MainGrid>
-      <div ref={inViewRef}>🐱</div>
+
       <TopButton />
+
+      <div ref={inViewRef}></div>
+      <FooterWrap />
     </Wrap>
   );
 };
