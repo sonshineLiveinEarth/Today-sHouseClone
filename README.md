@@ -1,5 +1,7 @@
 # 오늘의집 클론 코딩
 
+![썸네일](https://user-images.githubusercontent.com/102412614/175282488-30ea1c50-ac4f-4c76-a3f8-64ae0cda17f4.png)
+
 # 1. 프로젝트 개요
 
 프로젝트 기간 22.06.17-22.06.23 (7일)
@@ -24,6 +26,9 @@
 # 2. 와이어프레임
 
 https://xd.adobe.com/view/3054b167-a084-47b1-88c3-2189edaabae9-6507/screen/aba91a45-6650-4794-bdfd-6063aba69074/
+
+
+
 
 
 
