@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import Header from "../components/Header";
+
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -179,6 +180,7 @@ const PhotoWrap = styled.div`
   display: flex;
   flex-direction: column;
   margin: auto;
+  /* margin-bottom: 1000px; */
   @media only screen and (max-width: 1024px) {
     width: 90%;
   }
@@ -330,6 +332,7 @@ const TextBoxs = styled.button`
   margin-top: 30px;
   border: 1px solid #dbdbdb;
   background-color: white;
+
   &:hover {
     background-color: #f2f2f2;
   }

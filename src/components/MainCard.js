@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { addHeartDB, bookmarkDB } from "../redux/modules/post";
+import { Link } from "react-scroll";
 
 //이미지
 import HeartFull from "../image/HeartFull.png";
@@ -63,7 +64,9 @@ const MainCard = ({ postObj }) => {
             navigate("/detail/" + id);
           }}
         >
-          <Icon src={CommentIcon} alt="CommentIcon" />
+          <Link to="1" spy={true} smooth={true}>
+            <Icon src={CommentIcon} alt="CommentIcon" />
+          </Link>
           <span>{postObj?.commentCnt === 0 ? "" : postObj?.commentCnt}</span>
         </IconCnt>
       </IconWrap>

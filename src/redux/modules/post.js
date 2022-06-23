@@ -27,7 +27,7 @@ const getPostList = createAction(GET_POST_LIST, (postList) => ({ postList }));
 const getPost = createAction(GET_POST, (post) => ({ post }));
 const getRanking = createAction(GET_RANKING, (post) => ({ post }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
-const editPost = createAction(EDIT_POST, (id, post) => ({ id, post }));
+const editPost = createAction(EDIT_POST, (postList) => ({ postList }));
 const deletePost = createAction(DELETE_POST, (id) => ({ id }));
 const getUserPost = createAction(GET_USER_POST, (post) => ({
   post,
@@ -65,7 +65,7 @@ export const getPostPageDB = (page) => {
     try {
       const response = await apis.loadPage(page);
       dispatch(totalPage(response.data.totalPages));
-      dispatch(getPostList(response.data.content));
+      dispatch(getPostList(response.data));
       console.log(response);
     } catch (error) {
       alert("게시물을 불러오는 중에 오류가 발생했습니다.");
@@ -79,10 +79,8 @@ export const getPostListDB = () => {
   return async function (dispatch) {
     try {
       const response = await apis.loadPostList();
-
-      dispatch(getPostList(response.data.content));
-      // console.log(response.data);
-
+      dispatch(getPostList(response.data));
+      console.log(response.data);
     } catch (error) {
       alert("게시물을 불러오는 중에 오류가 발생했습니다.");
       console.log(error);
@@ -169,6 +167,7 @@ export const getRankingDB = () => {
 export const addPostDB = (id, formData) => {
   const post = {};
   for (let key of formData.keys()) {
+    console.log("request :", { [key]: formData.get(key) });
     // console.log("request :", { [key]: formData.get(key) });
     post[key] = formData.get(key);
   }
@@ -179,6 +178,9 @@ export const addPostDB = (id, formData) => {
       } else {
         await apis.addPost(formData);
       }
+
+      dispatch(getPostListDB());
+      // window.location.assign("/");
       dispatch(currentPage(1));
       dispatch(reset());
       dispatch(getPostPageDB(0));
@@ -237,6 +239,7 @@ export default handleActions(
   {
     [GET_POST_LIST]: (state, { payload }) =>
       produce(state, (draft) => {
+        draft.postList = payload.postList;
         // console.log(state.postList, payload.postList);
         if (state.postList.length === 1) draft.postList = payload.postList;
         else draft.postList = [...draft.postList, ...payload.postList];
@@ -268,6 +271,7 @@ export default handleActions(
         console.log(payload);
         draft.postList.unshift(payload.post);
       }),
+
     [EDIT_POST]: (state, { payload }) =>
       produce(state, (draft) => {
         draft.postList = draft.postList.map((post) => {

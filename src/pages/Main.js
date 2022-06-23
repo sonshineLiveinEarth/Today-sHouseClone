@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
+import FooterWrap from "../components/FooterWrap";
 
 import MainCard from "../components/MainCard";
 import Header from "../components/Header";
@@ -19,6 +20,9 @@ const Main = () => {
   const dispatch = useDispatch();
   const postList = useSelector((state) => state.post.postList);
   const postRank = useSelector((state) => state.post.ranking);
+
+  console.log(postList);
+
   const _totalPage = useSelector((state) => state.post.totalPage);
   const _currentPage = useSelector((state) => state.post.currentPage);
 
@@ -28,8 +32,7 @@ const Main = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // dispatch(getPostListDB());
-    // dispatch(getPostPageDB(0));
+    dispatch(getPostListDB());
     dispatch(getRankingDB());
   }, [dispatch]);
 
@@ -71,8 +74,11 @@ const Main = () => {
             })
           : null}
       </MainGrid>
-      <div ref={inViewRef}>🐱</div>
+
       <TopButton />
+
+      <div ref={inViewRef}></div>
+      <FooterWrap />
     </Wrap>
   );
 };
