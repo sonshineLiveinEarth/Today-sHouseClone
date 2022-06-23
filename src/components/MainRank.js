@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Profile from "../image/Profile.png";
 
+// 메인 페이지 상단 랭킹
 const MainRank = ({ postObj, rank }) => {
   const navigate = useNavigate();
   return (
