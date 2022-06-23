@@ -4,10 +4,10 @@ import styled from "styled-components";
 import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { getPostDB } from "../redux/modules/post";
+import { LoadNicknameDB } from "../redux/modules/users";
+import { getPostDB, deletePostDB } from "../redux/modules/post";
 
 // js
-import { deletePostDB } from "../redux/modules/post";
 import Header from "../components/Header";
 import Comment from "../components/Comment";
 import Banner from "../components/Banner";
@@ -16,7 +16,9 @@ import Footer from "../components/Footer";
 const Detail = () => {
   const post = useSelector((state) => state.post.postOne);
   const comment_list = useSelector((state) => state.comment.commentList);
+  const user_nickname = useSelector((state) => state.users.nickname);
   // const post = post_list?.post?.data?.body;
+  console.log(user_nickname);
   console.log(post);
 
   // console.log(post_list);
@@ -25,9 +27,6 @@ const Detail = () => {
   const params = useParams();
   // 수정&삭제 모달창 띄우기
   const [showModal, setShowModal] = useState(false);
-
-  const Email = localStorage.getItem("username");
-  console.log(Email);
 
   const openModal = () => {
     if (!showModal) setShowModal(true);
@@ -48,7 +47,8 @@ const Detail = () => {
 
   React.useEffect(() => {
     dispatch(getPostDB(params.id));
-  }, []);
+    dispatch(LoadNicknameDB());
+  }, [dispatch]);
 
   return (
     <>
@@ -71,16 +71,17 @@ const Detail = () => {
                 <Category>{post.type}</Category>
               )}
             </CategoryWrap>
-
-            <SettingWrap
-              onClick={() => {
-                openModal();
-              }}
-            >
-              <Setting />
-              <Setting />
-              <Setting />
-            </SettingWrap>
+            {post?.userNickname === user_nickname ? (
+              <SettingWrap
+                onClick={() => {
+                  openModal();
+                }}
+              >
+                <Setting />
+                <Setting />
+                <Setting />
+              </SettingWrap>
+            ) : null}
           </TopWrap>
           {showModal && (
             <ModalContainer showModal={showModal}>

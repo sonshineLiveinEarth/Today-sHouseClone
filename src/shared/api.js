@@ -70,6 +70,6 @@ export const apis = {
     }),
 
   logout: () => api.post("/"),
-
+  loadnickname: () => api.get("/user/nickname"),
   userInfo: () => api.get(`/api/userData`),
 };

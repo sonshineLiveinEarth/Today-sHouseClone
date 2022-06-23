@@ -10,12 +10,13 @@ import { localStorageGet, localStorageSet } from "../../shared/localStorage";
 const GET_USER = "GET_USER";
 const GET_NICKNAME = "GET_NICKNAME";
 const SET_USER = "SET_USER";
-const LOAD = "user/LOAD";
+const LOAD_NICKNAME = "LOAD_NICKNAME";
 const LOG_OUT = "LOG_OUT";
 
 // action creators
 const getUser = createAction(GET_USER, (user) => ({ user }));
 const setUser = createAction(SET_USER, (user) => ({ user }));
+const loadNickname = createAction(LOAD_NICKNAME, (user) => ({ user }));
 const logOut = createAction(LOG_OUT, (user) => ({ user }));
 
 export const getNickname = (data) => {
@@ -26,10 +27,8 @@ export const getNickname = (data) => {
 const initialState = {
   message: null,
   user: null,
+  nickname: null,
 };
-
-// //navigate
-const navigate = useNavigate;
 
 //미들웨어
 // Signup
@@ -84,20 +83,6 @@ export const loginDB = (username, password) => {
   };
 };
 
-const loginCheck = () => {
-  return function (dispatch, getState) {
-    const username = localStorageGet(" ");
-    const tokenCheck = document.cookie;
-    if (tokenCheck) {
-      dispatch(
-        setUser({
-          username: username,
-        })
-      );
-    }
-  };
-};
-
 export const NicknameDB = (nickname) => {
   return async function (dispatch) {
     try {
@@ -105,6 +90,20 @@ export const NicknameDB = (nickname) => {
       const data = await apis.nicknameCheck(nickname);
       console.log(data);
       dispatch(getNickname(data));
+    } catch (e) {
+      console.log(`닉네임 전달 오류 발생!${e}`);
+      dispatch(getNickname(e));
+    }
+  };
+};
+
+export const LoadNicknameDB = () => {
+  return async function (dispatch) {
+    try {
+      console.log("닉네임 전송");
+      const data = await apis.loadnickname();
+      console.log(data.data);
+      dispatch(loadNickname(data.data));
     } catch (e) {
       console.log(`닉네임 전달 오류 발생!${e}`);
       dispatch(getNickname(e));
@@ -137,6 +136,11 @@ export default handleActions(
       produce(state, (draft) => {
         return { message: action.data };
       }),
+    [LOAD_NICKNAME]: (state, action) =>
+      produce(state, (draft) => {
+        console.log(action.payload.user);
+        return { nickname: action.payload.user };
+      }),
     [GET_NICKNAME]: (state, action) =>
       produce(state, (draft) => {
         return { user: action.data };
@@ -148,7 +152,6 @@ const actionCreators = {
   SignupDB,
   loginDB,
   logoutDB,
-  loginCheck,
   getNickname,
   getUser,
 };

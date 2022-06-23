@@ -9,6 +9,7 @@ import {
   deleteCommentDB,
   modifiCommentDB,
 } from "../redux/modules/comment";
+import { LoadNicknameDB } from "../redux/modules/users";
 
 //이미지
 import Profile from "../image/Profile.png";
@@ -26,7 +27,10 @@ const Comment = () => {
   const offset = (page - 1) * limit;
 
   const comment_list = useSelector((state) => state.comment.commentList);
+  const user_nickname = useSelector((state) => state.users.nickname);
+
   console.log(comment_list);
+  console.log(user_nickname);
 
   const dispatch = useDispatch();
   const params = useParams();
@@ -43,6 +47,7 @@ const Comment = () => {
 
   React.useEffect(() => {
     dispatch(getCommentListDB(params.id));
+    dispatch(LoadNicknameDB());
     loginCheck();
   }, [dispatch]);
 
@@ -183,19 +188,23 @@ const Comment = () => {
                         </Like>
                         {/* <Point />
                         <Re>답글 달기</Re> */}
-                        <Point />
-                        <Re
-                          onClick={() => {
-                            const result = window.confirm(
-                              "댓글을 삭제하시겠습니까? 삭제한 댓글은 되돌릴 수 없습니다."
-                            );
-                            if (result) {
-                              dispatch(deleteCommentDB(list.id));
-                            }
-                          }}
-                        >
-                          삭제
-                        </Re>
+                        {list.userNickname === user_nickname ? (
+                          <>
+                            <Point />
+                            <Re
+                              onClick={() => {
+                                const result = window.confirm(
+                                  "댓글을 삭제하시겠습니까? 삭제한 댓글은 되돌릴 수 없습니다."
+                                );
+                                if (result) {
+                                  dispatch(deleteCommentDB(list.id));
+                                }
+                              }}
+                            >
+                              삭제
+                            </Re>
+                          </>
+                        ) : null}
                       </Info>
                     </CommentInfo>
                   </CommentBox>
