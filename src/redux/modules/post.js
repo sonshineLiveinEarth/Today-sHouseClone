@@ -68,7 +68,6 @@ export const getPostPageDB = (page) => {
       const response = await apis.loadPage(page);
       dispatch(totalPage(response.data.totalPages));
       dispatch(getPostList(response.data));
-      console.log(response);
     } catch (error) {
       alert("게시물을 불러오는 중에 오류가 발생했습니다.");
       console.log(error);
