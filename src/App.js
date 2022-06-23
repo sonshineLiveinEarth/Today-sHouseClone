@@ -12,8 +12,10 @@ import NotFound from "./components/NotFound";
 import Mypage from "./pages/Mypage";
 import ProfileModifi from "./pages/ProfileModifi";
 import MyCollections from "./pages/MyCollections";
+import { cute } from "./shared/cute";
 
 function App() {
+  console.log(cute);
   return (
     <>
       <GlobalStyle />

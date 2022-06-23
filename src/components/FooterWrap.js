@@ -44,7 +44,7 @@ const Footer = () => {
 
 const Div = styled.div`
   background-color: #fafafa;
-  width: 100vw;
+  width: 100%;
 `;
 
 const Wrap = styled.div`
