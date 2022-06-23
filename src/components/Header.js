@@ -144,7 +144,7 @@ export const HeaderContainer = styled.header`
     flex-direction: row;
     justify-content: space-between;
     @media only screen and (max-width: 800px) {
-      padding: 0 40px;
+      /* padding: 0 40px; */
     }
   }
   nav {

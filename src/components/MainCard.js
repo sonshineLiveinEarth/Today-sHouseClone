@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { addHeartDB, bookmarkDB } from "../redux/modules/post";
 import { Link } from "react-scroll";
 
@@ -14,6 +13,7 @@ import Bookmark from "../image/Bookmark.png";
 import BookmarkFull from "../image/BookmarkFull.png";
 import CommentIcon from "../image/CommentIcon.png";
 
+// 메인 페이지 카드
 const MainCard = ({ postObj }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -23,7 +23,7 @@ const MainCard = ({ postObj }) => {
   const [bookmark, setBookmark] = useState(false);
 
   const id = postObj?.id;
-  // console.log(postObj);
+
   return (
     <CardWrap>
       <CardHeader>

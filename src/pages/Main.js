@@ -4,20 +4,20 @@ import { useDispatch, useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
 import FooterWrap from "../components/FooterWrap";
 
-import MainCard from "../components/MainCard";
-import Header from "../components/Header";
 import {
-  getPostListDB,
   getPostPageDB,
   getRankingDB,
   currentPage,
-  totalPage,
 } from "../redux/modules/post";
+
+import Header from "../components/Header";
+import MainCard from "../components/MainCard";
 import MainRank from "../components/MainRank";
 import TopButton from "../components/TopButton";
 
 const Main = () => {
   const dispatch = useDispatch();
+
   const postList = useSelector((state) => state.post.postList);
   const postRank = useSelector((state) => state.post.ranking);
 
@@ -26,33 +26,26 @@ const Main = () => {
   const _totalPage = useSelector((state) => state.post.totalPage);
   const _currentPage = useSelector((state) => state.post.currentPage);
 
-  // console.log(postList);
   const [inViewRef, inView] = useInView();
   const [page, setPage] = useState(_currentPage);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    dispatch(getPostListDB());
     dispatch(getRankingDB());
   }, [dispatch]);
 
   useEffect(() => {
     setIsLoading(true);
     if (page <= _totalPage) dispatch(getPostPageDB(page));
-    // console.log("r c:", _currentPage, "r t:", _totalPage, "c:", page);
     dispatch(currentPage(page + 1));
     setIsLoading(false);
   }, [page]);
 
-  // console.log(inView, isLoading);
   useEffect(() => {
-    // if (inView) {
     if (inView && !isLoading) {
       setPage((prev) => prev + 1);
-      console.log(page);
     }
   }, [inView, isLoading]);
-  // console.log("page:", page, "inview:", inView, "loading:", isLoading);
 
   return (
     <Wrap>
