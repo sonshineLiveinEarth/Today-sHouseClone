@@ -64,9 +64,7 @@ const MainCard = ({ postObj }) => {
             navigate("/detail/" + id);
           }}
         >
-          <Link to="1" spy={true} smooth={true}>
-            <Icon src={CommentIcon} alt="CommentIcon" />
-          </Link>
+          <Icon src={CommentIcon} alt="CommentIcon" />
           <span>{postObj?.commentCnt === 0 ? "" : postObj?.commentCnt}</span>
         </IconCnt>
       </IconWrap>

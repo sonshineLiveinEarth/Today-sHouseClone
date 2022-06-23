@@ -21,8 +21,6 @@ const Main = () => {
   const postList = useSelector((state) => state.post.postList);
   const postRank = useSelector((state) => state.post.ranking);
 
-  console.log(postList);
-
   const _totalPage = useSelector((state) => state.post.totalPage);
   const _currentPage = useSelector((state) => state.post.currentPage);
 
@@ -36,7 +34,8 @@ const Main = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    if (page <= _totalPage) dispatch(getPostPageDB(page));
+    // if (page <= _totalPage)
+    dispatch(getPostPageDB(page));
     dispatch(currentPage(page + 1));
     setIsLoading(false);
   }, [page]);

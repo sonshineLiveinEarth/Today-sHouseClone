@@ -68,7 +68,6 @@ export const getPostPageDB = (page) => {
       const response = await apis.loadPage(page);
       dispatch(totalPage(response.data.totalPages));
       dispatch(getPostList(response.data));
-      console.log(response);
     } catch (error) {
       alert("게시물을 불러오는 중에 오류가 발생했습니다.");
       console.log(error);
@@ -173,6 +172,10 @@ export const addPostDB = (id, formData) => {
 // 좋아요
 export const addHeartDB = (postId) => async (dispatch) => {
   try {
+    if (!localStorage.getItem("jwtToken")) {
+      window.alert("로그인한 사용자만 가능합니다.");
+      return false;
+    }
     // console.log("게시글에 하트 추가할 준비", postId);
     const { data } = await apis.addHeart(postId);
     console.log(data);
@@ -204,6 +207,11 @@ export const deletePostDB = (id) => {
 export const bookmarkDB = (postId) => {
   return async function (dispatch) {
     try {
+      if (!localStorage.getItem("jwtToken")) {
+        window.alert("로그인한 사용자만 가능합니다.");
+        return false;
+      }
+
       const { data } = await apis.bookmark(postId);
       dispatch(bookmark(postId, data));
     } catch (error) {
