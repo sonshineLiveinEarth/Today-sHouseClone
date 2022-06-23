@@ -69,8 +69,7 @@ const PostNewEdit = () => {
       formData.append("type", "주거형태");
     if (styleRef.current.value === "스타일") formData.append("style", "스타일");
 
-    dispatch(addPostDB(id, formData));
-    navigate("/");
+    dispatch(addPostDB(id, formData)).then(() => navigate("/"));
   };
 
   return (

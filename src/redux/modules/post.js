@@ -13,8 +13,12 @@ const DELETE_POST = "DELETE_POST";
 const GET_USER_POST = "GET_USER_POST";
 const GET_USER_INFO = "GET_USER_INFO";
 const GET_USER_POSTS = "GET_USER_POSTS";
-const LIKE_POST = "LIKE_POST";
 
+const LIKE_POST = "LIKE_POST";
+<<<<<<< HEAD
+
+=======
+>>>>>>> bdb9068f7bb44aee7fc871fcbd848bf37de1dedd
 const BOOKMARK = "BOOKMARK";
 
 const CURRENT_PAGE = "CURRENT_PAGE";
@@ -27,7 +31,11 @@ const getPostList = createAction(GET_POST_LIST, (postList) => ({ postList }));
 const getPost = createAction(GET_POST, (post) => ({ post }));
 const getRanking = createAction(GET_RANKING, (post) => ({ post }));
 const addPost = createAction(ADD_POST, (post) => ({ post }));
+<<<<<<< HEAD
 const editPost = createAction(EDIT_POST, (postList) => ({ postList }));
+=======
+const editPost = createAction(EDIT_POST, (id, post) => ({ id, post }));
+>>>>>>> bdb9068f7bb44aee7fc871fcbd848bf37de1dedd
 const deletePost = createAction(DELETE_POST, (id) => ({ id }));
 const getUserPost = createAction(GET_USER_POST, (post) => ({
   post,
@@ -79,8 +87,15 @@ export const getPostListDB = () => {
   return async function (dispatch) {
     try {
       const response = await apis.loadPostList();
+<<<<<<< HEAD
       dispatch(getPostList(response.data.content));
       // console.log(response.data);
+=======
+
+      dispatch(getPostList(response.data.content));
+      // console.log(response.data);
+
+>>>>>>> bdb9068f7bb44aee7fc871fcbd848bf37de1dedd
     } catch (error) {
       alert("게시물을 불러오는 중에 오류가 발생했습니다.");
       console.log(error);
@@ -178,9 +193,12 @@ export const addPostDB = (id, formData) => {
       } else {
         await apis.addPost(formData);
       }
+<<<<<<< HEAD
 
       dispatch(getPostListDB());
       // window.location.assign("/");
+=======
+>>>>>>> bdb9068f7bb44aee7fc871fcbd848bf37de1dedd
       dispatch(currentPage(1));
       dispatch(reset());
       dispatch(getPostPageDB(0));
@@ -210,6 +228,10 @@ export const deletePostDB = (id) => {
     try {
       await apis.deletePost(id);
       dispatch(deletePost(id));
+
+      dispatch(currentPage(1));
+      dispatch(reset());
+      dispatch(getPostPageDB(0));
     } catch (error) {
       alert("게시물 삭제 중에 오류가 발생했습니다.");
       console.log(error);

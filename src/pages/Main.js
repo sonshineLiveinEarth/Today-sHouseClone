@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { useDispatch, useSelector } from "react-redux";
+import { useInView } from "react-intersection-observer";
 
 import MainCard from "../components/MainCard";
 import Header from "../components/Header";
@@ -18,6 +19,7 @@ import TopButton from "../components/TopButton";
 const Main = () => {
   const dispatch = useDispatch();
   const postList = useSelector((state) => state.post.postList.content);
+  const postList = useSelector((state) => state.post.postList);
   const postRank = useSelector((state) => state.post.ranking);
 
   console.log(postList);
