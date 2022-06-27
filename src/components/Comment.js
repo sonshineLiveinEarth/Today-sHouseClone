@@ -39,16 +39,16 @@ const Comment = () => {
 
   const isLogin = localStorage.getItem("jwtToken");
 
-  const loginCheck = () => {
-    if (!isLogin) {
-      return navigate("/login");
-    }
-  };
+  // const loginCheck = () => {
+  //   if (!isLogin) {
+  //     return navigate("/login");
+  //   }
+  // };
 
   React.useEffect(() => {
     dispatch(getCommentListDB(params.id));
     dispatch(LoadNicknameDB());
-    loginCheck();
+    // loginCheck();
   }, [dispatch]);
 
   // 댓글 추가

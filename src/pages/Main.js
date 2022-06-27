@@ -39,6 +39,7 @@ const Main = () => {
     dispatch(currentPage(page + 1));
     setIsLoading(false);
   }, [page]);
+  
 
   useEffect(() => {
     if (inView && !isLoading) {
@@ -46,7 +47,7 @@ const Main = () => {
     }
   }, [inView, isLoading]);
 
-  return (
+  return ( 
     <Wrap>
       <Header />
       <Blank />

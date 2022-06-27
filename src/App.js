@@ -16,6 +16,7 @@ import { cute } from "./shared/cute";
 
 function App() {
   console.log(cute);
+
   return (
     <>
       <GlobalStyle />
@@ -29,7 +30,7 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/users" element={<Mypage />} />
-        <Route path="/users/collections" element={<MyCollections />} />
+        <Route path="/users/collections"  element={<MyCollections />} />
         <Route path="/users/edit" element={<ProfileModifi />} />
         <Route path="/*" element={<NotFound />} />
       </Routes>

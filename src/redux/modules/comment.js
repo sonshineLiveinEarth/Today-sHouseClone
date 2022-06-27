@@ -93,9 +93,6 @@ export default handleActions(
     // 댓글 추가
     [ADD_COMMENT]: (state, { payload }) =>
       produce(state, (draft) => {
-        console.log(draft);
-        console.log(state);
-        console.log(payload);
         draft.commentList.unshift(payload.comment);
         draft.commentList = draft.commentList.map((comment) => {
           if (Number(comment.commentId) === Number(payload.comment.id)) {

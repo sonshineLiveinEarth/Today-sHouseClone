@@ -6,7 +6,8 @@ import { apis } from "../../shared/api";
 const GET_POST_LIST = "GET_POST_LIST";
 const GET_POST = "GET_POST";
 const GET_RANKING = "GET_RANKING";
-
+const ADD_POST = "ADD_POST";
+const EDIT_POST = "EDIT_POST";
 const DELETE_POST = "DELETE_POST";
 
 const GET_USER_POST = "GET_USER_POST";
