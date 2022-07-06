@@ -51,7 +51,6 @@ export const SignupDB = (username, password, userNickname) => {
 
 //Login
 export const loginDB = (username, password) => {
-  console.log(username, password);
   return function (dispatch, getState, history) {
     console.log(username, password);
     apis

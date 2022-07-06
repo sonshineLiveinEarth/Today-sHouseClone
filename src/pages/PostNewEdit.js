@@ -68,12 +68,12 @@ const PostNewEdit = () => {
     if (typeRef.current.value === "주거형태")
       formData.append("type", "주거형태");
     if (styleRef.current.value === "스타일") formData.append("style", "스타일");
-
+    console.log(formData);
     dispatch(addPostDB(id, formData)).then(() => navigate("/"));
   };
 
   return (
-    <form  onSubmit={onSubmit}>
+    <form onSubmit={onSubmit}>
       <Header>
         <div>
           <img
