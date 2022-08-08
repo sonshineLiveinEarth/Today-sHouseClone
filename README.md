@@ -5,6 +5,8 @@
 ## 1. 프로젝트 개요
 
 프로젝트 기간 22.06.17-22.06.23 (7일)
+팀원: React 손윤주, 차혜준 / Spring 전성영, 박성렬
+사용 기술: redux, react actions, axios, styled component, AWS S3
 
      주요 기능
 
